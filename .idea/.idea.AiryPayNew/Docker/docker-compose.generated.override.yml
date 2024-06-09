@@ -1,0 +1,21 @@
+# This is a generated file. Not intended for manual editing.
+services:
+  airypaynew:
+    build:
+      context: "C:\\Users\\oqo0\\RiderProjects\\AiryPayNew"
+      dockerfile: "AiryPayNew.Discord/Dockerfile"
+      target: "base"
+    command: []
+    entrypoint:
+    - "dotnet"
+    - "/app/bin/Debug/net8.0/AiryPayNew.Discord.dll"
+    environment:
+      DOTNET_ENVIRONMENT: "Development"
+      DOTNET_USE_POLLING_FILE_WATCHER: "true"
+    image: "airypaynew:dev"
+    ports: []
+    volumes:
+    - "C:\\Users\\oqo0\\.nuget\\packages:/home/app/.nuget/packages"
+    - "C:\\Users\\oqo0\\RiderProjects\\AiryPayNew\\AiryPayNew.Discord:/app:rw"
+    - "C:\\Users\\oqo0\\RiderProjects\\AiryPayNew:/src:rw"
+    working_dir: "/app"

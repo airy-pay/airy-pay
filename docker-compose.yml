@@ -1,0 +1,8 @@
+﻿services:
+  airypaynew:
+    image: airypaynew
+    environment:
+      - DISCORD_TOKEN=${DISCORD_TOKEN}
+    build:
+      context: .
+      dockerfile: AiryPayNew.Discord/Dockerfile
