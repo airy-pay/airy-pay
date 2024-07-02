@@ -2,4 +2,7 @@
 
 namespace AiryPayNew.Domain.Entities.Shops;
 
-public record struct ShopId(long Value) : IIdBase<long>;
+public record struct ShopId(long Value) : IIdBase<long>
+{
+    public static IId Default() => new ShopId(1);
+}
