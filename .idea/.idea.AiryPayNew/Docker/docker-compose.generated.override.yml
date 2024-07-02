@@ -3,7 +3,7 @@ services:
   airypaynew:
     build:
       context: "C:\\Users\\oqo0\\RiderProjects\\AiryPayNew"
-      dockerfile: "AiryPayNew.Discord/Dockerfile"
+      dockerfile: "src/AiryPayNew.Discord/Dockerfile"
       target: "base"
     command: []
     entrypoint:
@@ -16,6 +16,6 @@ services:
     ports: []
     volumes:
     - "C:\\Users\\oqo0\\.nuget\\packages:/home/app/.nuget/packages"
-    - "C:\\Users\\oqo0\\RiderProjects\\AiryPayNew\\AiryPayNew.Discord:/app:rw"
+    - "C:\\Users\\oqo0\\RiderProjects\\AiryPayNew\\src\\AiryPayNew.Discord:/app:rw"
     - "C:\\Users\\oqo0\\RiderProjects\\AiryPayNew:/src:rw"
     working_dir: "/app"

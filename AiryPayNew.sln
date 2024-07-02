@@ -1,6 +1,6 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AiryPayNew.Discord", "AiryPayNew.Discord\AiryPayNew.Discord.csproj", "{3F9D0E18-4C26-4638-AA0C-086F00B59CE4}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "src\AiryPayNew.Discord", "src\AiryPayNew.Discord\AiryPayNew.Discord.csproj", "{3F9D0E18-4C26-4638-AA0C-086F00B59CE4}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{6CC792F1-641B-402F-BADB-13CF5C73C3C6}"
 	ProjectSection(SolutionItems) = preProject

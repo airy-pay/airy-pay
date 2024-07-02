@@ -5,4 +5,4 @@
       - DISCORD_TOKEN=${DISCORD_TOKEN}
     build:
       context: .
-      dockerfile: AiryPayNew.Discord/Dockerfile
+      dockerfile: src/AiryPayNew.Discord/Dockerfile
