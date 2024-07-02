@@ -1,4 +1,4 @@
-﻿namespace AiryPayNew.Utils;
+﻿namespace AiryPayNew.Discord.Utils;
 
 public static class DiscordTokenReader
 {

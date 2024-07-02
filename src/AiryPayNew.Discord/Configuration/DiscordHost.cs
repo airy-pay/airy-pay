@@ -1,4 +1,4 @@
-﻿using AiryPayNew.Utils;
+﻿using AiryPayNew.Discord.Utils;
 using Discord;
 using Discord.Addons.Hosting;
 using Discord.Commands;
@@ -6,7 +6,7 @@ using Discord.WebSocket;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace AiryPayNew.Configuration;
+namespace AiryPayNew.Discord.Configuration;
 
 public static class DiscordHost
 {
