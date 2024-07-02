@@ -1,0 +1,17 @@
+﻿using AiryPayNew.Domain.Common;
+using AiryPayNew.Domain.Entities.Bills;
+using AiryPayNew.Domain.Entities.Products;
+using AiryPayNew.Domain.Entities.Purchases;
+
+namespace AiryPayNew.Domain.Entities.Shops;
+
+public class Shop : IEntity<ShopId>
+{
+    public ShopId Id { get; set; }
+    public decimal Balance { get; set; }
+    public bool Blocked { get; set; } = false;
+    
+    public IList<Bill> Bills { get; set; } = new List<Bill>();
+    public IList<Product> Products { get; set; } = new List<Product>();
+    public IList<Purchase> Purchases { get; set; } = new List<Purchase>();
+}

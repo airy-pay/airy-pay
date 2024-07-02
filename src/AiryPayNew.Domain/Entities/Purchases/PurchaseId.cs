@@ -1,0 +1,5 @@
+﻿using AiryPayNew.Domain.Common;
+
+namespace AiryPayNew.Domain.Entities.Purchases;
+
+public record struct PurchaseId(int Value) : IIdBase<int>;
