@@ -25,4 +25,8 @@
       </None>
     </ItemGroup>
 
+    <ItemGroup>
+      <ProjectReference Include="..\AiryPayNew.Application\AiryPayNew.Application.csproj" />
+    </ItemGroup>
+
 </Project>
