@@ -39,6 +39,7 @@ public static class DiscordHost
         });
 
         serviceCollection.AddInteractionHandler();
+        serviceCollection.AddServices();
         
         return serviceCollection;
     }
