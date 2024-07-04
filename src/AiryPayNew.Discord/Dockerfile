@@ -1,21 +1,28 @@
-﻿FROM mcr.microsoft.com/dotnet/runtime:8.0 AS base
-USER $APP_UID
-WORKDIR /app
-
-FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build
-ARG BUILD_CONFIGURATION=Release
+﻿FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build
 WORKDIR /src
-COPY ["AiryPayNew/AiryPayNew.csproj", "AiryPayNew/"]
-RUN dotnet restore "AiryPayNew/AiryPayNew.csproj"
+
+COPY ["src/AiryPayNew.Discord/AiryPayNew.Discord.csproj", "src/AiryPayNew.Discord/"]
+COPY ["src/AiryPayNew.Application/AiryPayNew.Application.csproj", "src/AiryPayNew.Application/"]
+COPY ["src/AiryPayNew.Domain/AiryPayNew.Domain.csproj", "src/AiryPayNew.Domain/"]
+COPY ["src/AiryPayNew.Infrastructure/AiryPayNew.Infrastructure.csproj", "src/AiryPayNew.Infrastructure/"]
+RUN dotnet restore "src/AiryPayNew.Discord/AiryPayNew.Discord.csproj"
 COPY . .
-WORKDIR "/src/AiryPayNew"
-RUN dotnet build "AiryPayNew.csproj" -c $BUILD_CONFIGURATION -o /app/build
+WORKDIR "/src/src/AiryPayNew.Discord"
+RUN dotnet build "AiryPayNew.Discord.csproj" -c Release -o /app/build
+RUN dotnet tool install --global dotnet-ef
+ENV PATH="$PATH:/root/.dotnet/tools"
 
-FROM build AS publish
-ARG BUILD_CONFIGURATION=Release
-RUN dotnet publish "AiryPayNew.csproj" -c $BUILD_CONFIGURATION -o /app/publish /p:UseAppHost=false
-
-FROM base AS final
+FROM mcr.microsoft.com/dotnet/runtime:8.0 AS final
 WORKDIR /app
-COPY --from=publish /app/publish .
-ENTRYPOINT ["dotnet", "AiryPayNew.dll"]
+COPY --from=build /app/build .
+RUN apt-get update \
+    && apt-get install -y wget apt-transport-https \
+    && wget https://packages.microsoft.com/config/debian/11/packages-microsoft-prod.deb \
+    && dpkg -i packages-microsoft-prod.deb \
+    && apt-get update \
+    && apt-get install -y dotnet-sdk-8.0 \
+    && apt-get clean \
+    && rm -rf /var/lib/apt/lists/*
+RUN dotnet tool install --global dotnet-ef
+ENV PATH="$PATH:/root/.dotnet/tools"
+ENTRYPOINT ["dotnet", "AiryPayNew.Discord.dll"]
