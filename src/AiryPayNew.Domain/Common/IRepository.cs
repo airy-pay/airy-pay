@@ -5,5 +5,5 @@ public interface IRepository<TId, TEntity>
     where TEntity : IEntity<TId>
 {
     public Task<TEntity?> GetByIdAsync(TId id);
-    public TId Create(TEntity data);
+    public Task<TId> Create(TEntity data);
 }
