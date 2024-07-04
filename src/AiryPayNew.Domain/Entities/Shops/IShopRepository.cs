@@ -6,5 +6,5 @@ public interface IShopRepository : IRepository<ShopId, Shop>
 {
     public Task Block(ShopId shopId);
     public Task Unblock(ShopId shopId);
-    public Task<OperationResult<string>> UpdateBalance(ShopId shopId, decimal change);
+    public Task<OperationResult<ShopId>> UpdateBalance(ShopId shopId, decimal change);
 }
