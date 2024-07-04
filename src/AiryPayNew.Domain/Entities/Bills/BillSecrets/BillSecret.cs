@@ -2,10 +2,15 @@
 
 public class BillSecret
 {
-    public string Key;
+    public readonly string Key;
 
     public BillSecret(IBillSecretGenerator billSecretGenerator)
     {
         Key = billSecretGenerator.Generate();
+    }
+    
+    public BillSecret(string key)
+    {
+        Key = key;
     }
 }
