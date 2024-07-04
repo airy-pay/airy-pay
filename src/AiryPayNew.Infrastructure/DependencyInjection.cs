@@ -4,6 +4,7 @@ using AiryPayNew.Domain.Entities.Purchases;
 using AiryPayNew.Domain.Entities.Shops;
 using AiryPayNew.Domain.Entities.Withdrawals;
 using AiryPayNew.Infrastructure.Data;
+using AiryPayNew.Infrastructure.Data.Repositories;
 using AiryPayNew.Infrastructure.Utils;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
@@ -25,11 +26,11 @@ public static class DependencyInjection
 
         #region Add repositories
 
-        serviceCollection.AddScoped<IBillRepository, IBillRepository>();
-        serviceCollection.AddScoped<IProductRepository, IProductRepository>();
-        serviceCollection.AddScoped<IPurchaseRepository, IPurchaseRepository>();
-        serviceCollection.AddScoped<IShopRepository, IShopRepository>();
-        serviceCollection.AddScoped<IWithdrawalRepository, IWithdrawalRepository>();
+        serviceCollection.AddScoped<IBillRepository, BillRepository>();
+        serviceCollection.AddScoped<IProductRepository, ProductRepository>();
+        serviceCollection.AddScoped<IPurchaseRepository, PurchaseRepository>();
+        serviceCollection.AddScoped<IShopRepository, ShopRepository>();
+        serviceCollection.AddScoped<IWithdrawalRepository, WithdrawalRepository>();
 
         #endregion
         
