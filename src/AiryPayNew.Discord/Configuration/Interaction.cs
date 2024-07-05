@@ -1,14 +1,19 @@
-﻿using Discord;
+﻿using AiryPayNew.Discord.ChainHandlers;
+using AiryPayNew.Discord.Utils;
+using Discord;
 using Discord.Addons.ChainHandlers;
 using Discord.Addons.ChainHandlers.Default;
 using Discord.Interactions;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace AiryPayNew.Discord.Configuration;
 
 public static class Interaction
 {
-    public static IServiceCollection AddInteractionHandler(this IServiceCollection serviceCollection)
+    public static IServiceCollection AddInteractionHandler(
+        this IServiceCollection serviceCollection,
+        IConfiguration configuration)
     {
         serviceCollection.AddInteractionHandler(options =>
         {
@@ -16,7 +21,8 @@ public static class Interaction
             {
                 handlerOptions
                     .Add<ErrorChainHandler>()
-                    .Add<ProblemChainHandler>();
+                    .Add<ProblemChainHandler>()
+                    .Add<RateLimitChainHandler>();
             });
 
             options.UseFinalHandler(ConfigureFinalHandler);
@@ -31,9 +37,19 @@ public static class Interaction
         await interactionContext.Interaction.RespondAsync(":x: Что-то пошло не так", ephemeral: true);
     }
 
-    private static async void ConfigureCommands(InteractionService interactionService)
+    private static async void ConfigureCommands(InteractionService interactionService, IConfiguration configuration)
     {
-        await interactionService.AddModulesGloballyAsync(true, []);
-        await interactionService.RegisterCommandsGloballyAsync();
+        var appSettings = AppSettingsReader.GetSettings(configuration);
+
+        if (appSettings.Discord.UseStagingServer)
+        {
+            await interactionService.AddModulesToGuildAsync(appSettings.Discord.StagingServerId, true, []);
+            await interactionService.RegisterCommandsToGuildAsync(appSettings.Discord.StagingServerId);
+        }
+        else
+        {
+            await interactionService.AddModulesGloballyAsync(true, []);
+            await interactionService.RegisterCommandsGloballyAsync();
+        }
     }
 }

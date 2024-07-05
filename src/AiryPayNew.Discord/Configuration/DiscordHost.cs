@@ -38,8 +38,8 @@ public static class DiscordHost
             config.UseCompiledLambda = true;
         });
 
-        serviceCollection.AddInteractionHandler();
-        serviceCollection.AddServices();
+        serviceCollection.AddInteractionHandler(configuration);
+        serviceCollection.AddServices(configuration);
         
         return serviceCollection;
     }
