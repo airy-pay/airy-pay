@@ -1,4 +1,5 @@
-﻿using AiryPayNew.Discord.Utils;
+﻿using AiryPayNew.Application;
+using AiryPayNew.Discord.Utils;
 using AiryPayNew.Infrastructure;
 using GenericRateLimiter.Configuration;
 using Microsoft.Extensions.Configuration;
@@ -13,7 +14,8 @@ public static class Services
         IConfiguration configuration)
     {
         var appSettings = configuration.GetAppSettings();
-        
+
+        serviceCollection.AddApplication();
         serviceCollection.AddInfrastructure();
 
         serviceCollection.AddRateLimiter<ulong>(options =>
