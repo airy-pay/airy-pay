@@ -39,7 +39,7 @@ public static class Interaction
 
     private static async void ConfigureCommands(InteractionService interactionService, IConfiguration configuration)
     {
-        var appSettings = AppSettingsReader.GetSettings(configuration);
+        var appSettings = configuration.GetAppSettings();
 
         if (appSettings.Discord.UseStagingServer)
         {

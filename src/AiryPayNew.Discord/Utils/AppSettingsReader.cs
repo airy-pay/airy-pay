@@ -5,7 +5,7 @@ namespace AiryPayNew.Discord.Utils;
 
 public static class AppSettingsReader
 {
-    public static AppSettings GetSettings(IConfiguration configuration)
+    public static AppSettings GetAppSettings(this IConfiguration configuration)
     {
         var appSettings = configuration.Get<AppSettings>();
         if (appSettings is null)

@@ -21,7 +21,7 @@ public static class Services
             options.AddRateLimiter(1200, TimeSpan.FromHours(2));
         });
 
-        serviceCollection.AddSingleton(AppSettingsReader.GetSettings(configuration));
+        serviceCollection.AddSingleton(configuration.GetAppSettings());
         
         return serviceCollection;
     }
