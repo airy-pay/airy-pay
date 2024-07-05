@@ -12,13 +12,16 @@ public static class Services
         this IServiceCollection serviceCollection,
         IConfiguration configuration)
     {
+        var appSettings = configuration.GetAppSettings();
+        
         serviceCollection.AddInfrastructure();
 
         serviceCollection.AddRateLimiter<ulong>(options =>
         {
-            options.AddRateLimiter(3, TimeSpan.FromSeconds(1));
-            options.AddRateLimiter(200, TimeSpan.FromMinutes(10));
-            options.AddRateLimiter(1200, TimeSpan.FromHours(2));
+            foreach (var rateLimit in appSettings.Discord.RateLimiters)
+            {
+                options.AddRateLimiter(rateLimit.Limit, rateLimit.Period);
+            }
         });
 
         serviceCollection.AddSingleton(configuration.GetAppSettings());
