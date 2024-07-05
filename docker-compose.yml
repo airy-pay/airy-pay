@@ -15,8 +15,10 @@ services:
       dockerfile: src/AiryPayNew.Discord/Dockerfile
     volumes:
       - ./src:/app/src
+      - ./appsettings.json:/app/appsettings.json:ro
     depends_on:
       - postgres
+      
 
   postgres:
     image: postgres:latest

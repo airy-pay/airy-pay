@@ -6,32 +6,17 @@ services:
       context: "C:\\Users\\oqo0\\RiderProjects\\AiryPayNew"
       dockerfile: "src/AiryPayNew.Discord/Dockerfile"
       target: "build"
-      args:
-        BUILD_CONFIGURATION: "Debug"
     command: []
     entrypoint:
-    - "/opt/rider-debugger/linux-x64/JetBrains.Debugger.Worker"
-    - "--runtimeconfig"
-    - "/opt/rider-debugger/JetBrains.Debugger.Worker.runtimeconfig.json"
-    - "--mode=server"
-    - "--frontend-port=57100"
-    - "--backend-port=57300"
-    - "--timeout=60"
+    - "dotnet"
+    - "/app/bin/Debug/net8.0/AiryPayNew.Discord.dll"
     environment:
       DOTNET_ENVIRONMENT: "Development"
       DOTNET_USE_POLLING_FILE_WATCHER: "true"
-      RIDER_DEBUGGER_LOG_DIR: "/var/opt/rider-debugger"
-      RESHARPER_LOG_CONF: "/etc/opt/rider-debugger/backend-log.xml"
     image: "airypaynew:dev"
-    ports:
-    - "127.0.0.1:57008:57100"
-    - "127.0.0.1:57208:57300"
+    ports: []
     volumes:
     - "C:\\Users\\oqo0\\.nuget\\packages:/root/.nuget/packages"
     - "C:\\Users\\oqo0\\RiderProjects\\AiryPayNew\\src\\AiryPayNew.Discord:/app:rw"
     - "C:\\Users\\oqo0\\RiderProjects\\AiryPayNew:/src:rw"
-    - "C:\\Users\\oqo0\\AppData\\Local\\JetBrains\\RiderRemoteDebugger\\2024.1\\Linux64:/opt/rider-debugger"
-    - "C:\\Users\\oqo0\\AppData\\Local\\Programs\\Rider\\bin:/etc/opt/rider-debugger/backend-log.xml"
-    - "C:\\Users\\oqo0\\AppData\\Local\\JetBrains\\Rider2024.1\\log\\DebuggerWorker\\\
-      JetBrains.Debugger.Worker.2024_7_04_08_20_35:/var/opt/rider-debugger:rw"
     working_dir: "/app"
