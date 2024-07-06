@@ -1,9 +1,8 @@
 ﻿using AiryPayNew.Application;
 using AiryPayNew.Discord.Services;
-using AiryPayNew.Discord.Utils;
+using AiryPayNew.Discord.Settings;
 using AiryPayNew.Infrastructure;
 using GenericRateLimiter.Configuration;
-using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace AiryPayNew.Discord.Configuration;
@@ -12,10 +11,8 @@ public static class Services
 {
     public static IServiceCollection AddServices(
         this IServiceCollection serviceCollection,
-        IConfiguration configuration)
+        AppSettings appSettings)
     {
-        var appSettings = configuration.GetAppSettings();
-
         serviceCollection.AddApplication();
         serviceCollection.AddInfrastructure();
 
@@ -27,7 +24,7 @@ public static class Services
             }
         });
 
-        serviceCollection.AddSingleton(configuration.GetAppSettings());
+        serviceCollection.AddSingleton(appSettings);
         serviceCollection.AddHostedService<RunHealthCheckService>();
         
         return serviceCollection;

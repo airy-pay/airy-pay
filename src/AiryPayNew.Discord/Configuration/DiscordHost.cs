@@ -1,9 +1,9 @@
-﻿using AiryPayNew.Discord.Utils;
+﻿using AiryPayNew.Discord.Settings;
+using AiryPayNew.Discord.Utils;
 using Discord;
 using Discord.Addons.Hosting;
 using Discord.Commands;
 using Discord.WebSocket;
-using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace AiryPayNew.Discord.Configuration;
@@ -11,7 +11,8 @@ namespace AiryPayNew.Discord.Configuration;
 public static class DiscordHost
 {
     public static IServiceCollection AddDiscordHost(
-        this IServiceCollection serviceCollection, IConfiguration configuration)
+        this IServiceCollection serviceCollection,
+        AppSettings appSettings)
     {
         serviceCollection.AddDiscordHost((config, _) =>
         {
@@ -38,8 +39,7 @@ public static class DiscordHost
             config.UseCompiledLambda = true;
         });
 
-        serviceCollection.AddInteractionHandler(configuration);
-        serviceCollection.AddServices(configuration);
+        serviceCollection.AddInteractionHandler(appSettings);
         
         return serviceCollection;
     }

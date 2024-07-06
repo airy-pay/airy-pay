@@ -1,10 +1,9 @@
 ﻿using AiryPayNew.Discord.ChainHandlers;
-using AiryPayNew.Discord.Utils;
+using AiryPayNew.Discord.Settings;
 using Discord;
 using Discord.Addons.ChainHandlers;
 using Discord.Addons.ChainHandlers.Default;
 using Discord.Interactions;
-using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace AiryPayNew.Discord.Configuration;
@@ -13,7 +12,7 @@ public static class Interaction
 {
     public static IServiceCollection AddInteractionHandler(
         this IServiceCollection serviceCollection,
-        IConfiguration configuration)
+        AppSettings appSettings)
     {
         serviceCollection.AddInteractionHandler(options =>
         {
@@ -24,10 +23,9 @@ public static class Interaction
                     .Add<ProblemChainHandler>()
                     .Add<RateLimitChainHandler>()
                     .Add<ShopRegisterChainHandler>();
-            });
-
-            options.UseFinalHandler(ConfigureFinalHandler);
-            options.ConfigureInteractionService(ConfigureCommands);
+            })
+                .UseFinalHandler(ConfigureFinalHandler)
+                .ConfigureInteractionService(ConfigureCommands, appSettings);
         });
 
         return serviceCollection;
@@ -38,10 +36,8 @@ public static class Interaction
         await interactionContext.Interaction.RespondAsync(":x: Что-то пошло не так", ephemeral: true);
     }
 
-    private static async void ConfigureCommands(InteractionService interactionService, IConfiguration configuration)
+    private static async void ConfigureCommands(InteractionService interactionService, AppSettings appSettings)
     {
-        var appSettings = configuration.GetAppSettings();
-
         if (appSettings.Discord.UseStagingServer)
         {
             await interactionService.AddModulesToGuildAsync(appSettings.Discord.StagingServerId, true, []);

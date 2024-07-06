@@ -4,9 +4,13 @@ using Microsoft.Extensions.Hosting;
 
 var builder = Host.CreateApplicationBuilder(args);
 
-LanguageChanger.Update(builder.Configuration.GetAppSettings().Language);
+var appSettings = builder.Configuration.GetAppSettings();
 
-builder.Services.AddDiscordHost(builder.Configuration);
+LanguageChanger.Update(appSettings.Language);
+
+builder.Services
+    .AddDiscordHost(appSettings)
+    .AddServices(appSettings);
 
 var host = builder.Build();
 
