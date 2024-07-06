@@ -11,6 +11,7 @@ public class Product : IEntity<ProductId>
     public string Name { get; set; } = "Product";
     public decimal Price { get; set; }
     
+    public virtual ShopId ShopId { get; set; }
     public virtual Shop? Shop { get; set; }
     public IList<Bill> Bills { get; set; } = new List<Bill>();
 }

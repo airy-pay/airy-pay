@@ -20,6 +20,7 @@ internal class ProductEntityTypeConfiguration : IEntityTypeConfiguration<Product
             .ValueGeneratedOnAdd();
 
         builder.HasOne(x => x.Shop)
-            .WithMany(x => x.Products);
+            .WithMany(x => x.Products)
+            .HasForeignKey(x => x.ShopId);
     }
 }
