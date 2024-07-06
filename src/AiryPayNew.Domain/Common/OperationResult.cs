@@ -1,15 +1,15 @@
 ﻿namespace AiryPayNew.Domain.Common;
 
-public class OperationResult<T> : OperationResult
+public class OperationResult<T>
 {
     public T Entity { get; set; }
     
-    public OperationResult(bool successful, T entity) : base(successful)
+    public OperationResult(bool successful, T entity)
     {
         Entity = entity;
     }
     
-    public OperationResult(bool successful, string errorMessage, T entity) : base(successful, errorMessage)
+    public OperationResult(bool successful, string errorMessage, T entity)
     {
         Entity = entity;
     }
