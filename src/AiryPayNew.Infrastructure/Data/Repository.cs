@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace AiryPayNew.Infrastructure.Data;
 
-public abstract class Repository<TId, TEntity>(ApplicationDbContext dbContext) : IRepository<TId, TEntity>
+internal abstract class Repository<TId, TEntity>(ApplicationDbContext dbContext) : IRepository<TId, TEntity>
     where TId : IId
     where TEntity : class, IEntity<TId>
 {

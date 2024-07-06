@@ -2,7 +2,7 @@
 
 namespace AiryPayNew.Infrastructure.Data.Repositories;
 
-public class WithdrawalRepository(ApplicationDbContext dbContext)
+internal class WithdrawalRepository(ApplicationDbContext dbContext)
     : Repository<WithdrawalId, Withdrawal>(dbContext), IWithdrawalRepository
 {
     private readonly ApplicationDbContext _dbContext = dbContext;

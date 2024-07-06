@@ -3,7 +3,7 @@ using AiryPayNew.Domain.Entities.Shops;
 
 namespace AiryPayNew.Infrastructure.Data.Repositories;
 
-public class ShopRepository(ApplicationDbContext dbContext)
+internal class ShopRepository(ApplicationDbContext dbContext)
     : Repository<ShopId, Shop>(dbContext), IShopRepository
 {
     private readonly ApplicationDbContext _dbContext = dbContext;

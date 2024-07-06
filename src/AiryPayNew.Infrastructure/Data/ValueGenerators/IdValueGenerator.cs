@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore.ValueGeneration;
 
 namespace AiryPayNew.Infrastructure.Data.ValueGenerators;
 
-public class IdValueGenerator<TId> : ValueGenerator<TId>
+internal class IdValueGenerator<TId> : ValueGenerator<TId>
     where TId : IId
 {
     public override TId Next(EntityEntry entry)

@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace AiryPayNew.Infrastructure.Data.EntityTypeConfigurations;
 
-public class ProductEntityTypeConfiguration : IEntityTypeConfiguration<Product>
+internal class ProductEntityTypeConfiguration : IEntityTypeConfiguration<Product>
 {
     public void Configure(EntityTypeBuilder<Product> builder)
     {

@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace AiryPayNew.Infrastructure.Data.EntityTypeConfigurations;
 
-public class BillEntityTypeConfiguration : IEntityTypeConfiguration<Bill>
+internal class BillEntityTypeConfiguration : IEntityTypeConfiguration<Bill>
 {
     public void Configure(EntityTypeBuilder<Bill> builder)
     {

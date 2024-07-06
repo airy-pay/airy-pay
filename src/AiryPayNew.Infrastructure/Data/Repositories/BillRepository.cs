@@ -2,7 +2,7 @@
 
 namespace AiryPayNew.Infrastructure.Data.Repositories;
 
-public class BillRepository(ApplicationDbContext dbContext)
+internal class BillRepository(ApplicationDbContext dbContext)
     : Repository<BillId, Bill>(dbContext), IBillRepository
 {
     private readonly ApplicationDbContext _dbContext1 = dbContext;

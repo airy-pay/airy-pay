@@ -8,7 +8,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace AiryPayNew.Infrastructure.Data;
 
-public class ApplicationDbContext(DbContextOptions<ApplicationDbContext> contextOptions) : DbContext(contextOptions)
+internal class ApplicationDbContext(DbContextOptions<ApplicationDbContext> contextOptions) : DbContext(contextOptions)
 {
     public DbSet<Bill> Bills { get; set; }
     public DbSet<Product> Products { get; set; }

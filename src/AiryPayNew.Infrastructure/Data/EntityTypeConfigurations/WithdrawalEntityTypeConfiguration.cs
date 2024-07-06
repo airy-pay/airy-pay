@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace AiryPayNew.Infrastructure.Data.EntityTypeConfigurations;
 
-public class WithdrawalEntityTypeConfiguration : IEntityTypeConfiguration<Withdrawal>
+internal class WithdrawalEntityTypeConfiguration : IEntityTypeConfiguration<Withdrawal>
 {
     public void Configure(EntityTypeBuilder<Withdrawal> builder)
     {

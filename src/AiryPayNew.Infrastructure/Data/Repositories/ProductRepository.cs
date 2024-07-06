@@ -2,7 +2,7 @@
 
 namespace AiryPayNew.Infrastructure.Data.Repositories;
 
-public class ProductRepository(ApplicationDbContext dbContext) 
+internal class ProductRepository(ApplicationDbContext dbContext) 
     : Repository<ProductId, Product>(dbContext), IProductRepository
 {
     private readonly ApplicationDbContext _dbContext = dbContext;
