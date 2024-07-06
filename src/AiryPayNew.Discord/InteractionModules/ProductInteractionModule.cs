@@ -3,17 +3,21 @@ using AiryPayNew.Discord.Utils;
 using Discord;
 using Discord.Interactions;
 using MediatR;
+using DiscordCommands = Discord.Commands;
 
 namespace AiryPayNew.Discord.InteractionModules;
 
-/*[RequireContext(ContextType.Guild)]
+[RequireContext(ContextType.Guild)]
 [CommandContextType(InteractionContextType.Guild)]
-[RequireUserPermission(GuildPermission.Administrator)]*/
+[DiscordCommands.RequireUserPermission(GuildPermission.Administrator)]
 [Group("product", "Работа с товарами")]
 public class ProductInteractionModule(IMediator mediator) : InteractionModuleBase<SocketInteractionContext>
 {
     [SlashCommand("create", "Создание нового товара")]
-    public async Task Create(string emojiText, string name, decimal price)
+    public async Task Create(
+        [Summary("Эмодзи", "Будет отображаться возле товара")] string emojiText,
+        [Summary("Название", "Название товара")] string name,
+        [Summary("Цена", "Цена товара")] decimal price)
     {
         var validEmojiText = await EmojiParser.GetEmojiText(emojiText);
         if (validEmojiText is null)
@@ -32,6 +36,4 @@ public class ProductInteractionModule(IMediator mediator) : InteractionModuleBas
         
         await RespondAsync(":no_entry_sign: " + operationResult.ErrorMessage, ephemeral: true);
     }
-
-
 }
