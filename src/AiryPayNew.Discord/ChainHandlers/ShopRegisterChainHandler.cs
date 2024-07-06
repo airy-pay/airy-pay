@@ -1,4 +1,4 @@
-﻿using AiryPayNew.Application.Shops.Commands;
+﻿using AiryPayNew.Application.Requests.Shops;
 using Discord.Addons.ChainHandlers.ChainHandlers;
 using Discord.Interactions;
 using Discord.WebSocket;

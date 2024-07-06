@@ -15,7 +15,7 @@
     </ItemGroup>
 
     <ItemGroup>
-      <Folder Include="Shops\Queries\" />
+      <Folder Include="Requests\" />
     </ItemGroup>
 
 </Project>

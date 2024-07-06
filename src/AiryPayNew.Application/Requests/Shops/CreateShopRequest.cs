@@ -1,7 +1,7 @@
 ﻿using AiryPayNew.Domain.Entities.Shops;
 using MediatR;
 
-namespace AiryPayNew.Application.Shops.Commands;
+namespace AiryPayNew.Application.Requests.Shops;
 
 public record CreateShopRequest(ulong ServerId) : IRequest;
 
