@@ -8,11 +8,11 @@ internal static class ConnectionStringReader
 {
     private static readonly IList<DatabaseCredential> DatabaseCredentials =
     [
-        new DatabaseCredential("Host", "POSTGRES_DB"),
-        new DatabaseCredential("Port", "POSTGRES_USER"),
-        new DatabaseCredential("Database", "POSTGRES_PASSWORD"),
-        new DatabaseCredential("Userid", "POSTGRES_HOST"),
-        new DatabaseCredential("Pwd", "POSTGRES_PORT"),
+        new DatabaseCredential("Host", "POSTGRES_HOST"),
+        new DatabaseCredential("Port", "POSTGRES_PORT"),
+        new DatabaseCredential("Database", "POSTGRES_DB"),
+        new DatabaseCredential("Userid", "POSTGRES_USER"),
+        new DatabaseCredential("Pwd", "POSTGRES_PASSWORD"),
     ];
     
     public static string GetString()
