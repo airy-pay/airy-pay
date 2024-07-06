@@ -22,6 +22,6 @@ public class RateLimitChainHandler(
             return await base.Handle(interaction);
         
         await interaction.RespondAsync(":no_entry_sign: Вы отправляете запросы слишком быстро", ephemeral: true);
-        return InteractionResult.UnhandledException;
+        return InteractionResult.Success;
     }
 }
