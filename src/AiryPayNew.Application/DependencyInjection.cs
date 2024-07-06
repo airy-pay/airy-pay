@@ -1,4 +1,5 @@
 ﻿using System.Reflection;
+using FluentValidation;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace AiryPayNew.Application;
@@ -9,6 +10,8 @@ public static class DependencyInjection
     {
         serviceCollection.AddMediatR(c =>
             c.RegisterServicesFromAssembly(Assembly.GetExecutingAssembly()));
+        
+        serviceCollection.AddValidatorsFromAssembly(Assembly.GetExecutingAssembly());
         
         return serviceCollection;
     }
