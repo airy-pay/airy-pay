@@ -22,7 +22,8 @@ public static class Interaction
                 handlerOptions
                     .Add<ErrorChainHandler>()
                     .Add<ProblemChainHandler>()
-                    .Add<RateLimitChainHandler>();
+                    .Add<RateLimitChainHandler>()
+                    .Add<ShopRegisterChainHandler>();
             });
 
             options.UseFinalHandler(ConfigureFinalHandler);
