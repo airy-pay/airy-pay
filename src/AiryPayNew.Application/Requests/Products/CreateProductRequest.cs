@@ -38,6 +38,7 @@ public class CreateProductRequestValidator : AbstractValidator<CreateProductRequ
 
 public class CreateProductRequestHandler(
     IProductRepository productRepository,
+    IShopRepository shopRepository,
     IValidator<CreateProductRequest> requestValidator) : IRequestHandler<CreateProductRequest, OperationResult>
 {
     public async Task<OperationResult> Handle(CreateProductRequest request, CancellationToken cancellationToken)
@@ -45,13 +46,20 @@ public class CreateProductRequestHandler(
         var validationResult = await requestValidator.ValidateAsync(request, cancellationToken);
         if (!validationResult.IsValid)
             return OperationResult.Error(validationResult.Errors.First().ToString());
+
+        var shopId = new ShopId(request.ShopId);
+        var shop = await shopRepository.GetByIdAsync(shopId);
+        if (shop is null)
+            return OperationResult.Error("Магазин не найден.");
+        if (shop.Products.Count > 25)
+            return OperationResult.Error("Количество товаров не может быть больше 25.");
         
         var newProduct = new Product
         {
             Emoji = request.DiscordEmoji,
             Name = request.Name,
             Price = request.Price,
-            ShopId = new ShopId(request.ShopId)
+            ShopId = shopId
         };
 
         await productRepository.Create(newProduct);
