@@ -96,17 +96,25 @@ public class InfoInteractionModule(IMediator mediator) : InteractionModuleBase<S
     [ComponentInteraction("InfoInteractionModule.GetProducts")]
     public async Task GetProducts()
     {
+        var getShopRequest = new GetShopRequest(Context.Guild.Id);
+        var operationResult = await mediator.Send(getShopRequest);
+        if (!operationResult.Successful)
+        {
+            await RespondAsync(":no_entry_sign: " + operationResult.ErrorMessage, ephemeral: true);
+            return;
+        }
+        if (operationResult.Entity is null)
+        {
+            await RespondAsync(":no_entry_sign: " + "Магазин не найден", ephemeral: true);
+            return;
+        }
+
         var productsEmbed = new EmbedBuilder()
             .WithTitle("\ud83d\udce6 Товары")
-            .WithFields([
-                new EmbedFieldBuilder()
-                    .WithName("\ud83d\udc4d Товар 1")
-                    .WithValue("100 \u20bd")
-                    .WithIsInline(true),
-                new EmbedFieldBuilder()
-                    .WithName("\ud83d\udc4d Товар 2")
-                    .WithValue("100 \u20bd")
-                    .WithIsInline(true)])
+            .WithFields(operationResult.Entity.Products.Select(x => new EmbedFieldBuilder()
+                .WithName($"{x.Emoji} {x.Name}")
+                .WithValue($"{x.Price} \u20bd")
+                .WithIsInline(true)))
             .WithFooter("AiryPay \u00a9 2024", Context.Client.CurrentUser.GetAvatarUrl())
             .WithColor(_embedsColor)
             .Build();
