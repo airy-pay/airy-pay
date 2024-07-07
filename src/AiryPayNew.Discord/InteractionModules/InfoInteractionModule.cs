@@ -1,4 +1,5 @@
 ﻿using AiryPayNew.Application.Requests.Shops;
+using AiryPayNew.Domain.Entities.Withdrawals;
 using Discord;
 using Discord.Interactions;
 using MediatR;
@@ -44,7 +45,7 @@ public class InfoInteractionModule(IMediator mediator) : InteractionModuleBase<S
                     .WithName("\ud83d\udecd\ufe0f Товары")
                     .WithValue(operationResult.Entity.Products.Count)
                     .WithIsInline(true)])
-            .WithFooter("AiryPay \u00a9 2024", Context.Client.CurrentUser.GetAvatarUrl())
+            .WithFooter($"AiryPay \u00a9 {DateTime.UtcNow.Year}", Context.Client.CurrentUser.GetAvatarUrl())
             .WithColor(_embedsColor)
             .Build();
         
@@ -115,7 +116,7 @@ public class InfoInteractionModule(IMediator mediator) : InteractionModuleBase<S
                 .WithName($"{x.Emoji} {x.Name}")
                 .WithValue($"{x.Price} \u20bd")
                 .WithIsInline(true)))
-            .WithFooter("AiryPay \u00a9 2024", Context.Client.CurrentUser.GetAvatarUrl())
+            .WithFooter($"AiryPay \u00a9 {DateTime.UtcNow.Year}", Context.Client.CurrentUser.GetAvatarUrl())
             .WithColor(_embedsColor)
             .Build();
         
@@ -127,26 +128,30 @@ public class InfoInteractionModule(IMediator mediator) : InteractionModuleBase<S
     [ComponentInteraction("InfoInteractionModule.GetWithdrawals")]
     public async Task GetWithdrawals()
     {
+        var getShopWithdrawalsRequest = new GetShopWithdrawalsRequest(Context.Guild.Id);
+        var withdrawals = await mediator.Send(getShopWithdrawalsRequest);
+
+        var withdrawalStatusesGetter = new Dictionary<WithdrawalStatus, string>()
+        {
+            { WithdrawalStatus.InProcess, "\ud83d\udfe1 В процессе" },
+            { WithdrawalStatus.Paid, "\ud83d\udfe2 Выплачен" },
+            { WithdrawalStatus.Canceled, "\ud83d\udd34 Отменён" },
+        };
+        
         var withdrawalsEmbed = new EmbedBuilder()
             .WithTitle("\ud83d\udcb8 Выводы средств")
-            .WithFields([
-                new EmbedFieldBuilder()
-                    .WithName("\ud83d\udcb3 12.05.2024 MasterCard ")
-                    .WithValue($"""
-                                Номер счёта: ||1234123412341234||
-                                Сумма: **2000 ₽**
-                                Статус: **🔴 В процессе**
-                                """)
-                    .WithIsInline(false),
-                new EmbedFieldBuilder()
-                    .WithName("\ud83d\udcb3 10.05.2024 MasterCard ")
-                    .WithValue($"""
-                                Номер счёта: ||1234123412341234||
-                                Сумма: **2000 ₽**
-                                Статус: **🟢 Выплачено**
-                                """)
-                    .WithIsInline(false)])
-            .WithFooter("AiryPay \u00a9 2024", Context.Client.CurrentUser.GetAvatarUrl())
+            .WithDescription(
+                withdrawals.Count == 0 ? "Тут пока пусто.\n" +
+                                         "Создайте вывод средств при помощи команды `/withdrawal`" : null)
+            .WithFields(withdrawals.Select(x => new EmbedFieldBuilder()
+                .WithName($"\ud83d\udcb3 {x.DateTime:0:dd/MM/yy H:mm:ss} MasterCard")
+                .WithValue($"""
+                            Номер счёта: ||{x.ReceivingAccountNumber}||
+                            Сумма: **{x.Amount} ₽**
+                            Статус: **{withdrawalStatusesGetter[x.WithdrawalStatus]}**
+                            """)
+                .WithIsInline(false)))
+            .WithFooter($"AiryPay \u00a9 {DateTime.UtcNow.Year}", Context.Client.CurrentUser.GetAvatarUrl())
             .WithColor(_embedsColor)
             .Build();
         
@@ -179,7 +184,7 @@ public class InfoInteractionModule(IMediator mediator) : InteractionModuleBase<S
                                 Дата: `12.03.2024 18:20`
                                 """)
                     .WithIsInline(true)])
-            .WithFooter("AiryPay \u00a9 2024", Context.Client.CurrentUser.GetAvatarUrl())
+            .WithFooter($"AiryPay \u00a9 {DateTime.UtcNow.Year}", Context.Client.CurrentUser.GetAvatarUrl())
             .WithColor(_embedsColor)
             .Build();
         
