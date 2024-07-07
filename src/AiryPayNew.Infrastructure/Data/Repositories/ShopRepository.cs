@@ -20,20 +20,18 @@ internal class ShopRepository(ApplicationDbContext dbContext)
 
     public async Task<IList<Purchase>> GetShopPurchases(ShopId id, int amount)
     {
-        var shop = await _dbContext.Shops
-            .Include(x => x.Purchases)
-            .FirstOrDefaultAsync(x => x.Id == id);
-
-        return shop is not null ? shop.Purchases.Take(amount).ToList() : [];
+        return await _dbContext.Purchases
+            .OrderByDescending(x => x.DateTime)
+            .Take(amount)
+            .ToListAsync(); 
     }
 
     public async Task<IList<Withdrawal>> GetShopWithdrawals(ShopId id, int amount)
     {
-        var shop = await _dbContext.Shops
-            .Include(x => x.Withdrawals)
-            .FirstOrDefaultAsync(x => x.Id == id);
-
-        return shop is not null ? shop.Withdrawals.Take(amount).ToList() : [];
+        return await _dbContext.Withdrawals
+            .OrderByDescending(x => x.DateTime)
+            .Take(amount)
+            .ToListAsync(); 
     }
 
     public async Task Block(ShopId shopId)
