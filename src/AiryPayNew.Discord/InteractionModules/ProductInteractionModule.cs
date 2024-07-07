@@ -19,7 +19,7 @@ public class ProductInteractionModule(
     IMediator mediator,
     SqidsEncoder<long> sqidsEncoder) : InteractionModuleBase<SocketInteractionContext>
 {
-    [SlashCommand("create", "\u270f\ufe0f Создание нового товара")]
+    [SlashCommand("create", "\ud83d\udd27 Создание нового товара")]
     public async Task Create(
         [Summary("Эмодзи", "Будет отображаться возле товара")] string emojiText,
         [Summary("Название", "Название товара")] string name,
@@ -59,7 +59,7 @@ public class ProductInteractionModule(
         await RespondAsync(":wastebasket: Товар был удалён.", ephemeral: true);
     }
     
-    [SlashCommand("edit", "\u270f\ufe0f Изменение товара")]
+    [SlashCommand("edit", "\u267b\ufe0f Изменение товара")]
     public async Task Edit(
         [Summary("Товар", "Товар, который будет изменён"),
          Autocomplete(typeof(ProductAutocompleteHandler))] string productHashId,
