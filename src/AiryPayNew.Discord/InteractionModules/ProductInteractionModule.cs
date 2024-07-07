@@ -32,7 +32,9 @@ public class ProductInteractionModule(
             return;
         }
         
-        var createProductRequest = new CreateProductRequest(Context.Guild.Id, validEmojiText, name, price);
+        var createProductRequest = new CreateProductRequest(
+            Context.Guild.Id,
+            new ProductModel(validEmojiText, name, price));
         var operationResult = await mediator.Send(createProductRequest);
         if (operationResult.Successful)
         {
@@ -54,5 +56,36 @@ public class ProductInteractionModule(
         await mediator.Send(removeProductRequest);
         
         await RespondAsync(":wastebasket: Товар был удалён.", ephemeral: true);
+    }
+    
+    [SlashCommand("edit", "Изменение товара")]
+    public async Task Edit(
+        [Summary("Товар", "Товар, который будет изменён"),
+         Autocomplete(typeof(ProductAutocompleteHandler))] string productHashId,
+        [Summary("Эмодзи", "Будет отображаться возле товара")] string emojiText,
+        [Summary("Название", "Название товара")] string name,
+        [Summary("Цена", "Цена товара")] decimal price)
+    {
+        var validEmojiText = await EmojiParser.GetEmojiText(emojiText);
+        if (validEmojiText is null)
+        {
+            await RespondAsync(":no_entry_sign: Используйте допустимый emoji", ephemeral: true);
+            return;
+        }
+        
+        var productId = new ProductId(sqidsEncoder.Decode(productHashId).Single());
+
+        var editProductRequest = new EditProductRequest(
+            Context.Guild.Id,
+            productId,
+            new ProductModel(validEmojiText, name, price));
+        var operationResult = await mediator.Send(editProductRequest);
+        if (operationResult.Successful)
+        {
+            await RespondAsync(":recycle: Товар был изменён.", ephemeral: true);
+            return;
+        }
+        
+        await RespondAsync(":no_entry_sign: " + operationResult.ErrorMessage, ephemeral: true);
     }
 }
