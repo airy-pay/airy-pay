@@ -112,6 +112,9 @@ public class InfoInteractionModule(IMediator mediator) : InteractionModuleBase<S
 
         var productsEmbed = new EmbedBuilder()
             .WithTitle("\ud83d\udce6 Товары")
+            .WithDescription(
+                operationResult.Entity.Products.Count == 0 ? "Тут пока пусто.\n" +
+                                         "Создайте новый товар при помощи команды `/product create`" : null)
             .WithFields(operationResult.Entity.Products.Select(x => new EmbedFieldBuilder()
                 .WithName($"{x.Emoji} {x.Name}")
                 .WithValue($"{x.Price} \u20bd")
@@ -163,33 +166,29 @@ public class InfoInteractionModule(IMediator mediator) : InteractionModuleBase<S
     [ComponentInteraction("InfoInteractionModule.GetPurchases")]
     public async Task GetPurchases()
     {
-        var withdrawalsEmbed = new EmbedBuilder()
+        var getShopPurchasesRequest = new GetShopPurchasesRequest(Context.Guild.Id);
+        var purchases = await mediator.Send(getShopPurchasesRequest);
+        
+        var purchasesEmbed = new EmbedBuilder()
             .WithTitle("\ud83d\udce6 Последние покупки")
-            .WithFields([
-                new EmbedFieldBuilder()
-                    .WithName("\ud83d\udc4d Товар 1")
-                    .WithValue($"""
-                                Попупатель: <@969204467578830929>
-                                Роль: <@&1259503635771953152>
-                                Прибыль: **100 ₽**
-                                Дата: `12.03.2024 18:20`
-                                """)
-                    .WithIsInline(true),
-                new EmbedFieldBuilder()
-                    .WithName("\ud83d\udc4d Товар 1")
-                    .WithValue($"""
-                                Попупатель: <@969204467578830929>
-                                Роль: <@&1259503635771953152>
-                                Прибыль: **100 ₽**
-                                Дата: `12.03.2024 18:20`
-                                """)
-                    .WithIsInline(true)])
+            .WithDescription(
+                purchases.Count == 0 ? "Тут пока пусто.\n" +
+                                       "Пользователи пока не совершали покупки." : null)     
+            .WithFields(purchases.Select(x => new EmbedFieldBuilder()
+                .WithName(x.Product.Name)
+                .WithValue($"""
+                            Попупатель: <@{x.Bill.BuyerDiscordId}>
+                            Роль: <@&{x.Product.DiscordRoleId}>
+                            Прибыль: **{x.Product.Price} ₽**
+                            Дата: `{x.DateTime}`
+                            """)
+                .WithIsInline(true)))
             .WithFooter($"AiryPay \u00a9 {DateTime.UtcNow.Year}", Context.Client.CurrentUser.GetAvatarUrl())
             .WithColor(_embedsColor)
             .Build();
         
         await RespondAsync(
-            embed: withdrawalsEmbed,
+            embed: purchasesEmbed,
             ephemeral: true);
     }
 }
