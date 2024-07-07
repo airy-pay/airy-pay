@@ -25,6 +25,8 @@ public class CreateProductRequestHandler(
             return OperationResult.Error("Магазин не найден.");
         if (shop.Products.Count > 25)
             return OperationResult.Error("Количество товаров не может быть больше 25.");
+        if (shop.Blocked)
+            return OperationResult.Error("Магазин заблокирован.");
         
         var newProduct = new Product
         {

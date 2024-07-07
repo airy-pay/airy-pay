@@ -24,6 +24,8 @@ public class EditProductRequestHandler(
         var shop = await shopRepository.GetByIdAsync(shopId);
         if (shop is null)
             return OperationResult.Error("Магазин не найден.");
+        if (shop.Blocked)
+            return OperationResult.Error("Магазин заблокирован.");
         
         var product = await productRepository.GetByIdAsync(request.ProductId);
         if (product is null)
