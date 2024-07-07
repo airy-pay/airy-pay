@@ -13,4 +13,14 @@ public static class EmojiParser
         
         return parsedAsEmoji ? emoji.ToString() : emote.ToString();
     }
+
+    public static IEmote GetEmoji(string emojiText)
+    {
+        var parsedAsEmoji = Emoji.TryParse(emojiText, out var emoji);
+        var parsedAsEmote = Emote.TryParse(emojiText, out var emote);
+        if (!parsedAsEmoji && !parsedAsEmote)
+            throw new ArgumentException("Both emoji texts are invalid");
+        
+        return parsedAsEmoji ? emoji : emote;
+    }
 }
