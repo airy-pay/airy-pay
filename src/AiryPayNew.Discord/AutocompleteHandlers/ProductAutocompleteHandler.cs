@@ -19,7 +19,7 @@ public class ProductAutocompleteHandler : AutocompleteHandler
         var mediator = scope.ServiceProvider.GetRequiredService<IMediator>();
         var sqidsEncoder = scope.ServiceProvider.GetRequiredService<SqidsEncoder<long>>();
 
-        var getProductsFromShop = new GetProductsFromShop(context.Guild.Id);
+        var getProductsFromShop = new GetProductsFromShopRequest(context.Guild.Id);
         var productsOperationResult = await mediator.Send(getProductsFromShop);
         if (!productsOperationResult.Successful)
         {

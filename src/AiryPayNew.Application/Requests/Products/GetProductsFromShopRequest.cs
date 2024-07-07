@@ -5,12 +5,12 @@ using MediatR;
 
 namespace AiryPayNew.Application.Requests.Products;
 
-public record GetProductsFromShop(ulong ServerId) : IRequest<OperationResult<IList<Product>>>;
+public record GetProductsFromShopRequest(ulong ServerId) : IRequest<OperationResult<IList<Product>>>;
 
-public class GetProductsFromShopHandler(IShopRepository shopRepository)
-    : IRequestHandler<GetProductsFromShop, OperationResult<IList<Product>>>
+public class GetProductsFromShopRequestHandler(IShopRepository shopRepository)
+    : IRequestHandler<GetProductsFromShopRequest, OperationResult<IList<Product>>>
 {
-    public async Task<OperationResult<IList<Product>>> Handle(GetProductsFromShop request, CancellationToken cancellationToken)
+    public async Task<OperationResult<IList<Product>>> Handle(GetProductsFromShopRequest request, CancellationToken cancellationToken)
     {
         var shopId = new ShopId(request.ServerId);
         var shop = await shopRepository.GetByIdAsync(shopId);
