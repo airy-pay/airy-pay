@@ -9,6 +9,7 @@ public class Withdrawal : IEntity<WithdrawalId>
     public decimal Amount { get; set; }
     public WithdrawalStatus WithdrawalStatus { get; set; }
     public string Way { get; set; } = string.Empty;
+    public string ReceivingAccountNumber { get; set; } = string.Empty;
     public DateTime DateTime { get; set; }
     
     public virtual Shop? Shop { get; set; }
