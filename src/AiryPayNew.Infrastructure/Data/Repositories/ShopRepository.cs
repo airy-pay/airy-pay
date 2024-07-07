@@ -1,5 +1,7 @@
 ﻿using AiryPayNew.Domain.Common;
+using AiryPayNew.Domain.Entities.Purchases;
 using AiryPayNew.Domain.Entities.Shops;
+using AiryPayNew.Domain.Entities.Withdrawals;
 using Microsoft.EntityFrameworkCore;
 
 namespace AiryPayNew.Infrastructure.Data.Repositories;
@@ -15,7 +17,25 @@ internal class ShopRepository(ApplicationDbContext dbContext)
             .Include(x => x.Products)
             .FirstOrDefaultAsync(x => x.Id == id);
     }
-    
+
+    public async Task<IList<Purchase>> GetShopPurchases(ShopId id, int amount)
+    {
+        var shop = await _dbContext.Shops
+            .Include(x => x.Purchases)
+            .FirstOrDefaultAsync(x => x.Id == id);
+
+        return shop is not null ? shop.Purchases : new List<Purchase>();
+    }
+
+    public async Task<IList<Withdrawal>> GetShopWithdrawals(ShopId id, int amount)
+    {
+        var shop = await _dbContext.Shops
+            .Include(x => x.Withdrawals)
+            .FirstOrDefaultAsync(x => x.Id == id);
+
+        return shop is not null ? shop.Withdrawals : new List<Withdrawal>();
+    }
+
     public async Task Block(ShopId shopId)
     {
         await ChangeBlockedStatus(shopId, true);
