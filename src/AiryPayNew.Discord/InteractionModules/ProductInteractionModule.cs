@@ -46,7 +46,7 @@ public class ProductInteractionModule(
         await RespondAsync(":no_entry_sign: " + operationResult.ErrorMessage, ephemeral: true);
     }
     
-    [SlashCommand("delete", "\ud83d\uddd1\ufe0f Удаление товара")]
+    [SlashCommand("delete", "\ud83d\udeab Удаление товара")]
     public async Task Delete(
         [Summary("Товар", "Товар, который будет удалён"),
          Autocomplete(typeof(ProductAutocompleteHandler))] string productHashId)
@@ -59,7 +59,7 @@ public class ProductInteractionModule(
         await RespondAsync(":wastebasket: Товар был удалён.", ephemeral: true);
     }
     
-    [SlashCommand("edit", "\u267b\ufe0f Изменение товара")]
+    [SlashCommand("edit", "\ud83d\udd04 Изменение товара")]
     public async Task Edit(
         [Summary("Товар", "Товар, который будет изменён"),
          Autocomplete(typeof(ProductAutocompleteHandler))] string productHashId,
