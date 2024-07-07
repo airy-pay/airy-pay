@@ -19,7 +19,14 @@ internal class PurchaseEntityTypeConfiguration : IEntityTypeConfiguration<Purcha
             .HasValueGenerator<IdValueGenerator<PurchaseId>>()
             .ValueGeneratedOnAdd();
 
-        builder.HasOne(x => x.Shop);
-        builder.HasOne(x => x.Bill);
+        builder.HasOne(x => x.Shop)
+            .WithMany(x => x.Purchases)
+            .HasForeignKey(x => x.ShopId);
+        builder.HasOne(x => x.Product)
+            .WithMany(x => x.Purchases)
+            .HasForeignKey(x => x.ProductId);
+        builder.HasOne(x => x.Bill)
+            .WithOne(x => x.Purchase)
+            .HasForeignKey<Purchase>(x => x.BillId);
     }
 }

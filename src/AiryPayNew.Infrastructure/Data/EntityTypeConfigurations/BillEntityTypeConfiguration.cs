@@ -1,5 +1,7 @@
 ﻿using AiryPayNew.Domain.Entities.Bills;
 using AiryPayNew.Domain.Entities.Bills.BillSecrets;
+using AiryPayNew.Domain.Entities.Products;
+using AiryPayNew.Domain.Entities.Purchases;
 using AiryPayNew.Infrastructure.Data.ValueGenerators;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
@@ -27,6 +29,10 @@ internal class BillEntityTypeConfiguration : IEntityTypeConfiguration<Bill>
             .HasColumnName("bill_secret");
 
         builder.HasOne(x => x.Product)
-            .WithMany(x => x.Bills);
+            .WithMany(x => x.Bills)
+            .HasForeignKey(x => x.ProductId);
+        builder.HasOne(x => x.Purchase)
+            .WithOne(x => x.Bill)
+            .HasForeignKey<Purchase>(x => x.BillId);
     }
 }
