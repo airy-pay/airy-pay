@@ -1,8 +1,12 @@
-﻿using AiryPayNew.Application.Requests.Products;
+﻿using System.Data;
+using AiryPayNew.Application.Requests.Products;
+using AiryPayNew.Discord.AutocompleteHandlers;
 using AiryPayNew.Discord.Utils;
+using AiryPayNew.Domain.Entities.Products;
 using Discord;
 using Discord.Interactions;
 using MediatR;
+using Sqids;
 using DiscordCommands = Discord.Commands;
 
 namespace AiryPayNew.Discord.InteractionModules;
@@ -11,7 +15,9 @@ namespace AiryPayNew.Discord.InteractionModules;
 [CommandContextType(InteractionContextType.Guild)]
 [DiscordCommands.RequireUserPermission(GuildPermission.Administrator)]
 [Group("product", "Работа с товарами")]
-public class ProductInteractionModule(IMediator mediator) : InteractionModuleBase<SocketInteractionContext>
+public class ProductInteractionModule(
+    IMediator mediator,
+    SqidsEncoder<long> sqidsEncoder) : InteractionModuleBase<SocketInteractionContext>
 {
     [SlashCommand("create", "Создание нового товара")]
     public async Task Create(
@@ -35,5 +41,18 @@ public class ProductInteractionModule(IMediator mediator) : InteractionModuleBas
         }
         
         await RespondAsync(":no_entry_sign: " + operationResult.ErrorMessage, ephemeral: true);
+    }
+    
+    [SlashCommand("delete", "Удаление товара")]
+    public async Task Delete(
+        [Summary("Товар", "Товар, который будет удалён"),
+         Autocomplete(typeof(ProductAutocompleteHandler))] string productHashId)
+    {
+        var productId = new ProductId(sqidsEncoder.Decode(productHashId).Single());
+        
+        var removeProductRequest = new RemoveProductRequest(Context.Guild.Id, productId);
+        await mediator.Send(removeProductRequest);
+        
+        await RespondAsync(":wastebasket: Товар был удалён.", ephemeral: true);
     }
 }

@@ -4,6 +4,7 @@ using AiryPayNew.Discord.Settings;
 using AiryPayNew.Infrastructure;
 using GenericRateLimiter.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Sqids;
 
 namespace AiryPayNew.Discord.Configuration;
 
@@ -24,6 +25,11 @@ public static class Services
             }
         });
 
+        serviceCollection.AddSingleton(new SqidsEncoder<long>(new()
+        {
+            MinLength = 8
+        }));
+        
         serviceCollection.AddSingleton(appSettings);
         serviceCollection.AddHostedService<RunHealthCheckService>();
         
