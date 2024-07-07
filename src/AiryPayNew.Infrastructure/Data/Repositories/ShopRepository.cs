@@ -24,7 +24,7 @@ internal class ShopRepository(ApplicationDbContext dbContext)
             .Include(x => x.Purchases)
             .FirstOrDefaultAsync(x => x.Id == id);
 
-        return shop is not null ? shop.Purchases : new List<Purchase>();
+        return shop is not null ? shop.Purchases.Take(amount).ToList() : [];
     }
 
     public async Task<IList<Withdrawal>> GetShopWithdrawals(ShopId id, int amount)
@@ -33,7 +33,7 @@ internal class ShopRepository(ApplicationDbContext dbContext)
             .Include(x => x.Withdrawals)
             .FirstOrDefaultAsync(x => x.Id == id);
 
-        return shop is not null ? shop.Withdrawals : new List<Withdrawal>();
+        return shop is not null ? shop.Withdrawals.Take(amount).ToList() : [];
     }
 
     public async Task Block(ShopId shopId)
