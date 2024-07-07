@@ -7,7 +7,7 @@ internal abstract class Repository<TId, TEntity>(ApplicationDbContext dbContext)
     where TId : IId
     where TEntity : class, IEntity<TId>
 {
-    public async Task<TEntity?> GetByIdAsync(TId id)
+    public virtual async Task<TEntity?> GetByIdAsync(TId id)
     {
         return await dbContext.Set<TEntity>().FirstOrDefaultAsync(e => e.Id.Equals(id));
     }

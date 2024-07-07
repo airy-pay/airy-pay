@@ -1,5 +1,6 @@
 ﻿using AiryPayNew.Domain.Common;
 using AiryPayNew.Domain.Entities.Shops;
+using Microsoft.EntityFrameworkCore;
 
 namespace AiryPayNew.Infrastructure.Data.Repositories;
 
@@ -8,6 +9,13 @@ internal class ShopRepository(ApplicationDbContext dbContext)
 {
     private readonly ApplicationDbContext _dbContext = dbContext;
 
+    public override async Task<Shop?> GetByIdAsync(ShopId id)
+    {
+        return await _dbContext.Shops
+            .Include(x => x.Products)
+            .FirstOrDefaultAsync(x => x.Id == id);
+    }
+    
     public async Task Block(ShopId shopId)
     {
         await ChangeBlockedStatus(shopId, true);
