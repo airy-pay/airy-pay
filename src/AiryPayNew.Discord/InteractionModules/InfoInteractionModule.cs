@@ -1,4 +1,5 @@
-﻿using Discord;
+﻿using AiryPayNew.Application.Requests.Shops;
+using Discord;
 using Discord.Interactions;
 using MediatR;
 using DiscordCommands = Discord.Commands;
@@ -15,24 +16,33 @@ public class InfoInteractionModule(IMediator mediator) : InteractionModuleBase<S
     [SlashCommand("info", "\ud83c\udf10 Информация и магазине")]
     public async Task Info()
     {
+        var getShopRequest = new GetShopRequest(Context.Guild.Id);
+        var operationResult = await mediator.Send(getShopRequest);
+        if (!operationResult.Successful)
+        {
+            await RespondAsync(":no_entry_sign: " + operationResult.ErrorMessage, ephemeral: true);
+            return;
+        }
+        if (operationResult.Entity is null)
+        {
+            await RespondAsync(":no_entry_sign: " + "Магазин не найден", ephemeral: true);
+            return;
+        }
+        
         var shopInfoEmbed = new EmbedBuilder()
             .WithTitle("\ud83c\udf10 Информация о магазине")
             .WithFields([
                 new EmbedFieldBuilder()
                     .WithName("\ud83d\udcb0 Баланс")
-                    .WithValue("2499 \u20bd")
+                    .WithValue($"{operationResult.Entity.Balance} \u20bd")
                     .WithIsInline(true),
                 new EmbedFieldBuilder()
                     .WithName("\ud83d\udd04 Статус")
-                    .WithValue("Активен")
+                    .WithValue(operationResult.Entity.Blocked ? "Заблокирован" : "Активен")
                     .WithIsInline(true),
                 new EmbedFieldBuilder()
                     .WithName("\ud83d\udecd\ufe0f Товары")
-                    .WithValue("2")
-                    .WithIsInline(true),
-                new EmbedFieldBuilder()
-                    .WithName("\ud83d\udcb8 Выводы средств")
-                    .WithValue("2")
+                    .WithValue(operationResult.Entity.Products.Count)
                     .WithIsInline(true)])
             .WithFooter("AiryPay \u00a9 2024", Context.Client.CurrentUser.GetAvatarUrl())
             .WithColor(_embedsColor)
