@@ -117,7 +117,10 @@ public class InfoInteractionModule(IMediator mediator) : InteractionModuleBase<S
                                          "Создайте новый товар при помощи команды `/product create`" : null)
             .WithFields(operationResult.Entity.Products.Select(x => new EmbedFieldBuilder()
                 .WithName($"{x.Emoji} {x.Name}")
-                .WithValue($"{x.Price} \u20bd")
+                .WithValue($"""
+                             Стоимость: **{x.Price} ₽**
+                             Роль: <@&{x.DiscordRoleId}>
+                             """)
                 .WithIsInline(true)))
             .WithFooter($"AiryPay \u00a9 {DateTime.UtcNow.Year}", Context.Client.CurrentUser.GetAvatarUrl())
             .WithColor(_embedsColor)
