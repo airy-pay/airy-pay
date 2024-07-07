@@ -35,7 +35,8 @@ public class EditProductRequestHandler(
             request.ProductId,
             request.ProductModel.DiscordEmoji,
             request.ProductModel.Name,
-            request.ProductModel.Price);
+            request.ProductModel.Price,
+            request.ProductModel.DiscordRoleId);
         return OperationResult.Success();
     }
 }

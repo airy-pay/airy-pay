@@ -7,7 +7,8 @@ internal class ProductRepository(ApplicationDbContext dbContext)
 {
     private readonly ApplicationDbContext _dbContext = dbContext;
 
-    public async Task Update(ProductId productId, string newEmoji, string newName, decimal newPrice)
+    public async Task Update(
+        ProductId productId, string newEmoji, string newName, decimal newPrice, ulong newDiscordRole)
     {
         var product = await GetByIdAsync(productId);
         if (product is null || newPrice <= 0)
@@ -16,6 +17,7 @@ internal class ProductRepository(ApplicationDbContext dbContext)
         product.Emoji = newEmoji;
         product.Name = newName;
         product.Price = newPrice;
+        product.DiscordRoleId = newDiscordRole;
 
         await _dbContext.SaveChangesAsync();
     }

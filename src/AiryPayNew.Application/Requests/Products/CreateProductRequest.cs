@@ -31,6 +31,7 @@ public class CreateProductRequestHandler(
             Emoji = request.ProductModel.DiscordEmoji,
             Name = request.ProductModel.Name,
             Price = request.ProductModel.Price,
+            DiscordRoleId = request.ProductModel.DiscordRoleId,
             ShopId = shopId
         };
 

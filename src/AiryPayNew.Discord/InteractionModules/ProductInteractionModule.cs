@@ -23,7 +23,8 @@ public class ProductInteractionModule(
     public async Task Create(
         [Summary("Эмодзи", "Будет отображаться возле товара")] string emojiText,
         [Summary("Название", "Название товара")] string name,
-        [Summary("Цена", "Цена товара")] decimal price)
+        [Summary("Цена", "Цена товара")] decimal price,
+        [Summary("Роль", "Роль, которая будет выдана покупателю товара")] IRole discordRole)
     {
         var validEmojiText = await EmojiParser.GetEmojiText(emojiText);
         if (validEmojiText is null)
@@ -34,7 +35,7 @@ public class ProductInteractionModule(
         
         var createProductRequest = new CreateProductRequest(
             Context.Guild.Id,
-            new ProductModel(validEmojiText, name, price));
+            new ProductModel(validEmojiText, name, price, discordRole.Id));
         var operationResult = await mediator.Send(createProductRequest);
         if (operationResult.Successful)
         {
@@ -64,7 +65,8 @@ public class ProductInteractionModule(
          Autocomplete(typeof(ProductAutocompleteHandler))] string productHashId,
         [Summary("Эмодзи", "Будет отображаться возле товара")] string emojiText,
         [Summary("Название", "Название товара")] string name,
-        [Summary("Цена", "Цена товара")] decimal price)
+        [Summary("Цена", "Цена товара")] decimal price,
+        [Summary("Роль", "Роль, которая будет выдана покупателю товара")] IRole discordRole)
     {
         var validEmojiText = await EmojiParser.GetEmojiText(emojiText);
         if (validEmojiText is null)
@@ -78,7 +80,7 @@ public class ProductInteractionModule(
         var editProductRequest = new EditProductRequest(
             Context.Guild.Id,
             productId,
-            new ProductModel(validEmojiText, name, price));
+            new ProductModel(validEmojiText, name, price, discordRole.Id));
         var operationResult = await mediator.Send(editProductRequest);
         if (operationResult.Successful)
         {
