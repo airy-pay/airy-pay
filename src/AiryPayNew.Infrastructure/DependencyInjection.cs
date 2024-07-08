@@ -7,15 +7,20 @@ using AiryPayNew.Domain.Entities.Withdrawals;
 using AiryPayNew.Infrastructure.Data;
 using AiryPayNew.Infrastructure.Data.Repositories;
 using AiryPayNew.Infrastructure.HealthChecks;
+using AiryPayNew.Infrastructure.Services;
 using AiryPayNew.Infrastructure.Utils;
+using AiryPayNew.Shared.Settings;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
+using Ru.Kassa;
 
 namespace AiryPayNew.Infrastructure;
 
 public static class DependencyInjection
 {
-    public static IServiceCollection AddInfrastructure(this IServiceCollection serviceCollection)
+    public static IServiceCollection AddInfrastructure(
+        this IServiceCollection serviceCollection,
+        AppSettings appSettings)
     {
         #region Add db context
         
@@ -40,6 +45,17 @@ public static class DependencyInjection
 
         serviceCollection.AddScoped<IDatabaseHealthCheckService, DatabaseHealthCheckService>();
 
+        #endregion
+
+        #region Add services
+
+        serviceCollection.AddSingleton(new RuKassaClient(
+            appSettings.RuKassa.MerchantId,
+            appSettings.RuKassa.Token,
+            appSettings.RuKassa.UserEmail,
+            appSettings.RuKassa.UserPassword));
+        serviceCollection.AddScoped<IPaymentService, PaymentService>();
+        
         #endregion
         
         return serviceCollection;

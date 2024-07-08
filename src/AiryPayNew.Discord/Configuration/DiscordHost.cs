@@ -1,5 +1,5 @@
-﻿using AiryPayNew.Discord.Settings;
-using AiryPayNew.Discord.Utils;
+﻿using AiryPayNew.Discord.Utils;
+using AiryPayNew.Shared.Settings;
 using Discord;
 using Discord.Addons.Hosting;
 using Discord.Commands;

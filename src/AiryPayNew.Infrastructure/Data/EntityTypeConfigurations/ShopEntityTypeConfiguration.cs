@@ -24,8 +24,10 @@ internal class ShopEntityTypeConfiguration : IEntityTypeConfiguration<Shop>
         builder.HasMany(x => x.Purchases)
             .WithOne(x => x.Shop);
         builder.HasMany(x => x.Bills)
-            .WithOne(x => x.Shop);
+            .WithOne(x => x.Shop)
+            .HasForeignKey(x => x.ShopId);
         builder.HasMany(x => x.Withdrawals)
-            .WithOne(x => x.Shop);
+            .WithOne(x => x.Shop)
+            .HasForeignKey(x => x.ShopId);
     }
 }

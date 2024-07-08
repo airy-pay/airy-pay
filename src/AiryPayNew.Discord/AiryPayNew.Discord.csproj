@@ -28,6 +28,7 @@
     <ItemGroup>
       <ProjectReference Include="..\AiryPayNew.Application\AiryPayNew.Application.csproj" />
       <ProjectReference Include="..\AiryPayNew.Infrastructure\AiryPayNew.Infrastructure.csproj" />
+      <ProjectReference Include="..\AiryPayNew.Shared\AiryPayNew.Shared.csproj" />
     </ItemGroup>
 
     <ItemGroup>

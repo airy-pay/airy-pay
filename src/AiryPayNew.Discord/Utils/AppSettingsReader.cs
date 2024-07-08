@@ -1,4 +1,4 @@
-﻿using AiryPayNew.Discord.Settings;
+﻿using AiryPayNew.Shared.Settings;
 using Microsoft.Extensions.Configuration;
 
 namespace AiryPayNew.Discord.Utils;

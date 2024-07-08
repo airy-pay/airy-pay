@@ -1,4 +1,4 @@
-﻿namespace AiryPayNew.Discord.Settings;
+﻿namespace AiryPayNew.Shared.Settings;
 
 public class RateLimit
 {
