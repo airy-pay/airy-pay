@@ -32,6 +32,21 @@ public class ProductInteractionModule(
             await RespondAsync(":no_entry_sign: Используйте допустимый emoji", ephemeral: true);
             return;
         }
+
+        bool giveHighRoleWarning = true;
+        var botUser = Context.Guild.GetUser(Context.Client.CurrentUser.Id);
+        var botMaxPositionRole = botUser.Roles.MaxBy(x => x.Position);
+        if (botMaxPositionRole is not null)
+        {
+            giveHighRoleWarning = botMaxPositionRole.Position <= discordRole.Position;
+        }
+
+        var botRoleName = botMaxPositionRole is null ? "AiryPay" : $"<@&{botMaxPositionRole.Id}>";
+        var responseMessage = ":white_check_mark: Новый товар был создан."
+            + (giveHighRoleWarning
+            ? $"\n\n:warning: Роль бота ({botRoleName}) находится ниже роли товара (<@&{discordRole.Id}>).\n" +
+              "Измените позицию роли в настройках сервера, иначе бот не сможет автоматически выдавать её."
+            : "");
         
         var createProductRequest = new CreateProductRequest(
             Context.Guild.Id,
@@ -39,7 +54,7 @@ public class ProductInteractionModule(
         var operationResult = await mediator.Send(createProductRequest);
         if (operationResult.Successful)
         {
-            await RespondAsync(":white_check_mark: Новый товар был создан.", ephemeral: true);
+            await RespondAsync(responseMessage, ephemeral: true);
             return;
         }
         
