@@ -21,7 +21,7 @@ public static class DiscordHost
                 LogLevel = LogSeverity.Verbose,
                 AlwaysDownloadUsers = true,
                 MessageCacheSize = 200,
-                GatewayIntents = GatewayIntents.None
+                GatewayIntents = GatewayIntents.AllUnprivileged
             };
 
             config.Token = DiscordTokenReader.GetToken();;
