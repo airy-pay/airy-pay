@@ -45,17 +45,19 @@ public class SetupInteractionModule(IMediator mediator) : InteractionModuleBase
             await RespondAsync(":no_entry_sign: " + "Магазин не найден.", ephemeral: true);
             return;
         }
+
+        var selectMenuOptionsTasks = operationResult.Entity.Products
+            .Select(async x => new SelectMenuOptionBuilder()
+                .WithLabel(x.Name)
+                .WithDescription(x.Price.ToString(CultureInfo.InvariantCulture))
+                .WithEmote(await EmojiParser.GetExistingEmojiAsync(Context.Guild, x.Emoji))
+                .WithValue(x.Id.Value.ToString()));
+        var selectMenuOptions = await Task.WhenAll(selectMenuOptionsTasks);
         
         var selectMenu = new SelectMenuBuilder()
             .WithCustomId("SetupInteractionModule.ChooseProduct")
             .WithPlaceholder("\ud83d\udecd\ufe0f Выберите товар для покупки")
-            .WithOptions(operationResult.Entity.Products
-                .Select(x => new SelectMenuOptionBuilder()
-                    .WithLabel(x.Name)
-                    .WithDescription(x.Price.ToString(CultureInfo.InvariantCulture))
-                    .WithEmote(EmojiParser.GetEmoji(x.Emoji))
-                    .WithValue(x.Id.Value.ToString()))
-                .ToList());
+            .WithOptions(selectMenuOptions.ToList());
         
         var messageComponents = new ComponentBuilder()
             .WithSelectMenu(selectMenu)
@@ -92,7 +94,7 @@ public class SetupInteractionModule(IMediator mediator) : InteractionModuleBase
         
         var selectMenu = new SelectMenuBuilder()
             .WithCustomId("SetupInteractionModule.ChooseProduct")
-            .WithPlaceholder("\ud83e\ude99 Выберите способ оплаты")
+            .WithPlaceholder("\ud83d\udcb3 Выберите способ оплаты")
             .WithOptions(_paymentSystems.Select(x => new SelectMenuOptionBuilder()
                     .WithLabel(x.Value.Name)
                     .WithDescription(x.Value.Description)

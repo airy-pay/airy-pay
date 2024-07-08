@@ -1,4 +1,5 @@
 ﻿using AiryPayNew.Application.Requests.Shops;
+using AiryPayNew.Discord.Utils;
 using AiryPayNew.Domain.Entities.Withdrawals;
 using Discord;
 using Discord.Interactions;
@@ -110,18 +111,27 @@ public class InfoInteractionModule(IMediator mediator) : InteractionModuleBase<S
             return;
         }
 
+        var fieldsTasks = operationResult.Entity.Products.Select(async x =>
+        {
+            var emoji = await EmojiParser.GetExistingEmojiAsync(Context.Guild, x.Emoji);
+            return new EmbedFieldBuilder()
+                .WithName($"{emoji} {x.Name}")
+                .WithValue($"""
+                            Стоимость: **{x.Price} ₽**
+                            Роль: <@&{x.DiscordRoleId}>
+                            """)
+                .WithIsInline(true);
+        });
+        var fields = await Task.WhenAll(fieldsTasks);
+        
         var productsEmbed = new EmbedBuilder()
             .WithTitle("\ud83d\udce6 Товары")
             .WithDescription(
-                operationResult.Entity.Products.Count == 0 ? "Тут пока пусто.\n" +
-                                         "Создайте новый товар при помощи команды `/product create`" : null)
-            .WithFields(operationResult.Entity.Products.Select(x => new EmbedFieldBuilder()
-                .WithName($"{x.Emoji} {x.Name}")
-                .WithValue($"""
-                             Стоимость: **{x.Price} ₽**
-                             Роль: <@&{x.DiscordRoleId}>
-                             """)
-                .WithIsInline(true)))
+                operationResult.Entity.Products.Count == 0 ? 
+                    "Тут пока пусто.\n" + 
+                    "Создайте новый товар при помощи команды `/product create`"
+                    : null)
+            .WithFields(fields)
             .WithFooter($"AiryPay \u00a9 {DateTime.UtcNow.Year}", Context.Client.CurrentUser.GetAvatarUrl())
             .WithColor(_embedsColor)
             .Build();
@@ -172,20 +182,27 @@ public class InfoInteractionModule(IMediator mediator) : InteractionModuleBase<S
         var getShopPurchasesRequest = new GetShopPurchasesRequest(Context.Guild.Id);
         var purchases = await mediator.Send(getShopPurchasesRequest);
         
-        var purchasesEmbed = new EmbedBuilder()
-            .WithTitle("\ud83d\udce6 Последние покупки")
-            .WithDescription(
-                purchases.Count == 0 ? "Тут пока пусто.\n" +
-                                       "Пользователи пока не совершали покупки." : null)     
-            .WithFields(purchases.Select(x => new EmbedFieldBuilder()
-                .WithName(x.Product.Name)
+        var fieldsTasks = purchases.Select(async x =>
+        {
+            var productEmoji = await EmojiParser.GetExistingEmojiAsync(Context.Guild, x.Product.Emoji);
+            return new EmbedFieldBuilder()
+                .WithName($"{productEmoji} {x.Product.Name}")
                 .WithValue($"""
                             Попупатель: <@{x.Bill.BuyerDiscordId}>
                             Роль: <@&{x.Product.DiscordRoleId}>
                             Прибыль: **{x.Product.Price} ₽**
                             Дата: `{x.DateTime}`
                             """)
-                .WithIsInline(true)))
+                .WithIsInline(true);
+        });
+        var fields = await Task.WhenAll(fieldsTasks);
+        
+        var purchasesEmbed = new EmbedBuilder()
+            .WithTitle("\ud83d\udce6 Последние покупки")
+            .WithDescription(
+                purchases.Count == 0 ? "Тут пока пусто.\n" +
+                                       "Пользователи пока не совершали покупки." : null)     
+            .WithFields(fields)
             .WithFooter($"AiryPay \u00a9 {DateTime.UtcNow.Year}", Context.Client.CurrentUser.GetAvatarUrl())
             .WithColor(_embedsColor)
             .Build();
