@@ -9,7 +9,6 @@ namespace AiryPayNew.Domain.Entities.Shops;
 public class Shop : IEntity<ShopId>
 {
     public ShopId Id { get; set; }
-    public Guid Guid { get; set; }
     public decimal Balance { get; set; }
     public bool Blocked { get; set; } = false;
     

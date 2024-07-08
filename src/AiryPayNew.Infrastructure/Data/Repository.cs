@@ -12,7 +12,7 @@ internal abstract class Repository<TId, TEntity>(ApplicationDbContext dbContext)
         return await dbContext.Set<TEntity>().FirstOrDefaultAsync(e => e.Id.Equals(id));
     }
 
-    public async Task<TId> Create(TEntity data)
+    public virtual async Task<TId> Create(TEntity data)
     {
         dbContext.Set<TEntity>().Add(data);
         await dbContext.SaveChangesAsync();

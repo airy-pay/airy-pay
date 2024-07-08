@@ -45,6 +45,10 @@ public class InfoInteractionModule(IMediator mediator) : InteractionModuleBase<S
                 new EmbedFieldBuilder()
                     .WithName("\ud83d\udecd\ufe0f Товары")
                     .WithValue(operationResult.Entity.Products.Count)
+                    .WithIsInline(true),
+                new EmbedFieldBuilder()
+                    .WithName("\ud83c\udff7\ufe0f Id")
+                    .WithValue($"`{Context.Guild.Id}`")
                     .WithIsInline(true)])
             .WithFooter($"AiryPay \u00a9 {DateTime.UtcNow.Year}", Context.Client.CurrentUser.GetAvatarUrl())
             .WithColor(_embedsColor)
@@ -67,7 +71,7 @@ public class InfoInteractionModule(IMediator mediator) : InteractionModuleBase<S
             .WithStyle(ButtonStyle.Primary);
         var supportButton = new ButtonBuilder()
             .WithLabel("Поддержка")
-            .WithUrl("https://airypay.ru/discord")
+            .WithUrl("https://airypay.ru/support")
             .WithEmote(new Emoji("\ud83d\udcac"))
             .WithStyle(ButtonStyle.Link);
         var termsButton = new ButtonBuilder()
