@@ -134,7 +134,7 @@ public class SetupInteractionModule(IMediator mediator) : InteractionModuleBase
         var paymentMethod = _paymentMethods[paymentMethodKey];
         var payEmbed = new EmbedBuilder()
             .WithTitle($"\ud83d\udcb8 Оплата")
-            .WithDescription($"Оплатите [счёт]({createPaymentOperationResult.Entity}) в течение 30 минут.")
+            .WithDescription($"Оплатите [счёт]({createPaymentOperationResult.Entity}) в течение 10 минут.")
             .WithFields([
                 new EmbedFieldBuilder()
                     .WithName($"{product.Emoji} {product.Name}")
