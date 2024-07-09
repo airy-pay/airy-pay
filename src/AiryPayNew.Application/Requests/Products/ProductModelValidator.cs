@@ -23,7 +23,7 @@ public class ProductModelValidator : AbstractValidator<ProductModel>
             .NotNull()
             .WithName("Название");
         RuleFor(x => x.Price)
-            .GreaterThanOrEqualTo(50)
+            .GreaterThanOrEqualTo(100)
             .LessThanOrEqualTo(10000)
             .WithName("Цена");
     }
