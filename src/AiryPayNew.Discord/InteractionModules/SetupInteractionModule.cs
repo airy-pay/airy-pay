@@ -18,16 +18,66 @@ public class SetupInteractionModule(IMediator mediator) : InteractionModuleBase
 
     private readonly Dictionary<string, PaymentSystem> _paymentMethods = new()
     {
-        { "card", new(":credit_card:", "Карты", "(VISA/Mastercard/MIR)") },
-        { "card_kzt", new(":flag_kz:", "Карты Казахстан", "(VISA/Mastercard)") },
-        { "card_uzs", new(":flag_uz:", "Карты Узбекистан", "(VISA/Mastercard)") },
-        { "card_azn", new(":flag_az:", "Карты Азербайджан", "(VISA/Mastercard)") },
-        { "sbp", new("<:sbp:1259761043312349247>", "СБП", "Оплата QR кодом") },
-        { "yandexmoney", new("<:yandexmoney:1259761039830945855>", "YooMoney", "yoomoney.ru") },
-        { "payeer", new("<:payeer:1259761041685086278>", "Payeer", "payeer.com") },
-        { "skinpay", new("<:skinpay:1259761038161612860>", "SkinPay", "Оплата скинами") },
-        { "crypta", new("<:crypta:1259761036626493471>", "Криптовалюты", "BTC, ETH, USDT, TON") },
-        { "clever", new(":four_leaf_clover:", "Clever Wallet", "klever.io") },
+        { 
+            "card", new(
+                ":credit_card:", 
+                "Карты", 
+                "(VISA/Mastercard/MIR)")
+        },
+        {
+            "card_kzt", new(
+                ":flag_kz:", 
+                "Карты Казахстан", 
+                "(VISA/Mastercard)") 
+        },
+        { 
+            "card_uzs", new(
+                ":flag_uz:", 
+                "Карты Узбекистан", 
+                "(VISA/Mastercard)") 
+        },
+        { 
+            "card_azn", new(
+                ":flag_az:", 
+                "Карты Азербайджан", 
+                "(VISA/Mastercard)") 
+        },
+        { 
+            "sbp", new(
+                "<:sbp:1259761043312349247>", 
+                "СБП", 
+                "Система быстрых платежей") 
+        },
+        { 
+            "yandexmoney", new(
+                "<:yandexmoney:1259761039830945855>", 
+                "YooMoney", 
+                "yoomoney.ru") 
+        },
+        { 
+            "payeer", new(
+                "<:payeer:1259761041685086278>", 
+                "Payeer", 
+                "payeer.com") 
+        },
+        { 
+            "skinpay", new(
+                "<:skinpay:1259761038161612860>", 
+                "SkinPay", 
+                "Оплата скинами") 
+        },
+        { 
+            "crypta", new(
+                "<:crypta:1259761036626493471>", 
+                "Криптовалюты", 
+                "BTC, ETH, USDT, LTC, USDC, TUSD") 
+        },
+        { 
+            "clever", new(
+                ":four_leaf_clover:", 
+                "Clever Wallet", 
+                "klever.io") 
+        },
     };
     private readonly Color _embedsColor = new(40, 117, 233);
     
