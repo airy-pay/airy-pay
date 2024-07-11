@@ -1,4 +1,4 @@
-﻿namespace AiryPayNew.Shared.Settings;
+﻿namespace AiryPayNew.Shared.Settings.AppSettings;
 
 public class RateLimit
 {
