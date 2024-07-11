@@ -16,6 +16,7 @@ services:
     volumes:
       - ./src:/app/src
       - ./appsettings.json:/app/appsettings.json:ro
+      - ./paymentsettings.yaml:/app/paymentsettings.yaml:ro
     depends_on:
       - postgres
       
