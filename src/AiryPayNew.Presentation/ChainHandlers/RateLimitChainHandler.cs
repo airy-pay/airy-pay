@@ -4,6 +4,7 @@ using Discord.Interactions;
 using Discord.WebSocket;
 using GenericRateLimiter;
 using GenericRateLimiter.Core;
+using IResult = Discord.Interactions.IResult;
 
 namespace AiryPayNew.Discord.ChainHandlers;
 

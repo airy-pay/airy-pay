@@ -1,10 +1,8 @@
 ﻿using AiryPayNew.Discord.Configuration;
 using AiryPayNew.Discord.Utils;
 using AiryPayNew.Shared.Utils;
-using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.Hosting;
 
-var builder = Host.CreateApplicationBuilder(args);
+var builder = WebApplication.CreateBuilder(args);
 
 builder.Configuration.AddYamlFile("paymentsettings.yaml");
 var appSettings = builder.Configuration.GetAppSettings();
@@ -15,4 +13,8 @@ builder.Services
     .AddDiscordHost(appSettings)
     .AddServices(appSettings);
 
-await builder.Build().RunAsync();
+var app = builder.Build();
+
+app.MapGet("/weatherforecast", () => "Test");
+
+app.Run();

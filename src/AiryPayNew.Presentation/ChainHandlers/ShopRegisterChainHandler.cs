@@ -3,7 +3,7 @@ using Discord.Addons.ChainHandlers.ChainHandlers;
 using Discord.Interactions;
 using Discord.WebSocket;
 using MediatR;
-using Microsoft.Extensions.DependencyInjection;
+using IResult = Discord.Interactions.IResult;
 
 namespace AiryPayNew.Discord.ChainHandlers;
 
