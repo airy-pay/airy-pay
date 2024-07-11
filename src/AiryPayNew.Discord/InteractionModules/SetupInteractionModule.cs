@@ -91,7 +91,7 @@ public class SetupInteractionModule(
         await RespondAsync(" ", components: messageComponents, ephemeral: true);
     }
 
-    [ComponentInteraction($"SetupInteractionModule.ChoosePaymentMethod:*")]
+    [ComponentInteraction("SetupInteractionModule.ChoosePaymentMethod:*")]
     public async Task ChooseProduct(string selectedProductId, string paymentMethodKey)
     {
         var paymentMethod = appSettings.PaymentSettings.PaymentMethods
