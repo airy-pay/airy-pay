@@ -1,4 +1,5 @@
 ﻿using AiryPayNew.Application.Common;
+using AiryPayNew.Application.Payments;
 using AiryPayNew.Domain.Entities.Bills;
 using AiryPayNew.Domain.Entities.Products;
 using AiryPayNew.Domain.Entities.Purchases;
@@ -6,10 +7,13 @@ using AiryPayNew.Domain.Entities.Shops;
 using AiryPayNew.Domain.Entities.Withdrawals;
 using AiryPayNew.Infrastructure.Data;
 using AiryPayNew.Infrastructure.Data.Repositories;
-using AiryPayNew.Infrastructure.HealthChecks;
 using AiryPayNew.Infrastructure.Services;
+using AiryPayNew.Infrastructure.Services.HealthChecks;
+using AiryPayNew.Infrastructure.Services.Payments;
 using AiryPayNew.Infrastructure.Utils;
 using AiryPayNew.Shared.Settings;
+using AiryPayNew.Shared.Settings.AppSettings;
+using FinPay.API;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using Ru.Kassa;
@@ -47,14 +51,21 @@ public static class DependencyInjection
 
         #endregion
 
-        #region Add services
+        #region Add payment services
 
         serviceCollection.AddSingleton(new RuKassaClient(
-            appSettings.RuKassa.MerchantId,
-            appSettings.RuKassa.Token,
-            appSettings.RuKassa.UserEmail,
-            appSettings.RuKassa.UserPassword));
-        serviceCollection.AddScoped<IPaymentService, PaymentService>();
+            appSettings.PaymentSettings.RuKassa.MerchantId,
+            appSettings.PaymentSettings.RuKassa.Token,
+            appSettings.PaymentSettings.RuKassa.UserEmail,
+            appSettings.PaymentSettings.RuKassa.UserPassword));
+        serviceCollection.AddSingleton(new FinPayApiClient(
+            appSettings.PaymentSettings.FinPay.ShopId,
+            appSettings.PaymentSettings.FinPay.Key1,
+            appSettings.PaymentSettings.FinPay.Key2
+            ));
+
+        serviceCollection.AddTransient<IPaymentService, RuKassaPaymentService>();
+        serviceCollection.AddTransient<IPaymentService, FinPayPaymentService>();
         
         #endregion
         

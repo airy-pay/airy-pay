@@ -2,7 +2,7 @@
 using AiryPayNew.Infrastructure.Data;
 using Microsoft.EntityFrameworkCore;
 
-namespace AiryPayNew.Infrastructure.HealthChecks;
+namespace AiryPayNew.Infrastructure.Services.HealthChecks;
 
 internal class DatabaseHealthCheckService(ApplicationDbContext dbContext) : IDatabaseHealthCheckService
 {

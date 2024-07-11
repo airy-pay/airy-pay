@@ -1,4 +1,4 @@
-﻿using AiryPayNew.Application.Common;
+﻿using AiryPayNew.Application.Payments;
 using AiryPayNew.Domain.Common;
 using AiryPayNew.Domain.Entities.Bills;
 using AiryPayNew.Domain.Entities.Products;
@@ -8,13 +8,14 @@ using MediatR;
 namespace AiryPayNew.Application.Requests.Payments;
 
 public record CreatePaymentRequest(
-    long ProductId, string PaymentMethod, ulong BuyerId, ulong ShopId) : IRequest<OperationResult<string>>;
+    ProductId ProductId, string PaymentServiceName, string PaymentMethodId, ulong BuyerId, ulong ShopId)
+    : IRequest<OperationResult<string>>;
 
 public class CreatePaymentRequestHandler(
-    IPaymentService paymentService,
     IBillRepository billRepository,
     IProductRepository productRepository,
-    IShopRepository shopRepository) : IRequestHandler<CreatePaymentRequest, OperationResult<string>>
+    IShopRepository shopRepository,
+    IEnumerable<IPaymentService> paymentServices) : IRequestHandler<CreatePaymentRequest, OperationResult<string>>
 {
     public async Task<OperationResult<string>> Handle(CreatePaymentRequest request, CancellationToken cancellationToken)
     {
@@ -24,7 +25,7 @@ public class CreatePaymentRequestHandler(
         if (shop.Blocked)
             return Error("Магазин заблокирован.");
         
-        var product = await productRepository.GetByIdAsync(new ProductId(request.ProductId));
+        var product = await productRepository.GetByIdAsync(request.ProductId);
         if (product is null)
             return Error("Товар не найден.");
         if (product.ShopId != shop.Id)
@@ -38,11 +39,16 @@ public class CreatePaymentRequestHandler(
             ShopId = shop.Id,
             Product = product
         };
+
+        var paymentService = paymentServices.FirstOrDefault(x =>
+            x.GetServiceName() == request.PaymentServiceName);
+        if (paymentService is null)
+            return Error("Платёжный сервис не найден.");
         
-        var paymentUrl = await paymentService.CreateAsync(newBill, request.PaymentMethod);
+        var paymentUrl = await paymentService.CreateAsync(newBill, request.PaymentMethodId);
         await billRepository.Create(newBill);
 
-        return OperationResult<string>.Success(paymentUrl);
+        return OperationResult<string>.Success(paymentUrl.Entity);
     }
 
     private static OperationResult<string> Error(string message)

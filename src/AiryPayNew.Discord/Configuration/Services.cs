@@ -2,6 +2,7 @@
 using AiryPayNew.Discord.Services;
 using AiryPayNew.Infrastructure;
 using AiryPayNew.Shared.Settings;
+using AiryPayNew.Shared.Settings.AppSettings;
 using GenericRateLimiter.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Sqids;

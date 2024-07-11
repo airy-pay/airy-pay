@@ -3,6 +3,9 @@ using AiryPayNew.Application.Requests.Payments;
 using AiryPayNew.Application.Requests.Products;
 using AiryPayNew.Application.Requests.Shops;
 using AiryPayNew.Discord.Utils;
+using AiryPayNew.Domain.Common;
+using AiryPayNew.Domain.Entities.Products;
+using AiryPayNew.Shared.Settings.AppSettings;
 using Discord;
 using Discord.Interactions;
 using MediatR;
@@ -12,73 +15,10 @@ namespace AiryPayNew.Discord.InteractionModules;
 
 [RequireContext(ContextType.Guild)]
 [CommandContextType(InteractionContextType.Guild)]
-public class SetupInteractionModule(IMediator mediator) : InteractionModuleBase
+public class SetupInteractionModule(
+    IMediator mediator,
+    AppSettings appSettings) : InteractionModuleBase
 {
-    private record PaymentSystem(string DiscordEmoji, string Name, string Description);
-
-    private readonly Dictionary<string, PaymentSystem> _paymentMethods = new()
-    {
-        { 
-            "card", new(
-                ":credit_card:", 
-                "Карты", 
-                "(VISA/Mastercard/MIR)")
-        },
-        {
-            "card_kzt", new(
-                ":flag_kz:", 
-                "Карты Казахстан", 
-                "(VISA/Mastercard)") 
-        },
-        { 
-            "card_uzs", new(
-                ":flag_uz:", 
-                "Карты Узбекистан", 
-                "(VISA/Mastercard)") 
-        },
-        { 
-            "card_azn", new(
-                ":flag_az:", 
-                "Карты Азербайджан", 
-                "(VISA/Mastercard)") 
-        },
-        { 
-            "sbp", new(
-                "<:sbp:1259761043312349247>", 
-                "СБП", 
-                "Система быстрых платежей") 
-        },
-        { 
-            "yandexmoney", new(
-                "<:yandexmoney:1259761039830945855>", 
-                "YooMoney", 
-                "yoomoney.ru") 
-        },
-        { 
-            "payeer", new(
-                "<:payeer:1259761041685086278>", 
-                "Payeer", 
-                "payeer.com") 
-        },
-        { 
-            "skinpay", new(
-                "<:skinpay:1259761038161612860>", 
-                "SkinPay", 
-                "Оплата скинами") 
-        },
-        { 
-            "crypta", new(
-                "<:crypta:1259761036626493471>", 
-                "Криптовалюты", 
-                "BTC, ETH, USDT, LTC, USDC, TUSD") 
-        },
-        { 
-            "clever", new(
-                ":four_leaf_clover:", 
-                "Clever Wallet", 
-                "klever.io") 
-        },
-    };
     private readonly Color _embedsColor = new(40, 117, 233);
     
     [DiscordCommands.RequireUserPermission(GuildPermission.Administrator)]
@@ -124,14 +64,24 @@ public class SetupInteractionModule(IMediator mediator) : InteractionModuleBase
     [ComponentInteraction("SetupInteractionModule.ChooseProduct")]
     public async Task ChooseProduct(string selectedProductId)
     {
+        var operationResult = await GetProductFromIdAsync(selectedProductId);
+        if (!operationResult.Successful)
+        {
+            await RespondAsync(":no_entry_sign: " + operationResult.ErrorMessage, ephemeral: true);
+            return;
+        }
+
+        var affordablePaymentMethods = appSettings.PaymentSettings.PaymentMethods
+            .Where(x => operationResult.Entity.Price >= x.MinimalSum);
+        
         var selectMenu = new SelectMenuBuilder()
             .WithCustomId($"SetupInteractionModule.ChoosePaymentMethod:{selectedProductId}")
             .WithPlaceholder("\ud83d\udcb3 Выберите способ оплаты")
-            .WithOptions(_paymentMethods.Select(x => new SelectMenuOptionBuilder()
-                    .WithLabel(x.Value.Name)
-                    .WithDescription(x.Value.Description)
-                    .WithEmote(EmojiParser.GetEmoji(x.Value.DiscordEmoji))
-                    .WithValue(x.Key))
+            .WithOptions(affordablePaymentMethods.Select(x => new SelectMenuOptionBuilder()
+                    .WithLabel(x.Name)
+                    .WithDescription(x.Description)
+                    .WithEmote(EmojiParser.GetEmoji(x.DiscordEmoji))
+                    .WithValue(x.MethodId))
                 .ToList());
         
         var messageComponents = new ComponentBuilder()
@@ -144,44 +94,36 @@ public class SetupInteractionModule(IMediator mediator) : InteractionModuleBase
     [ComponentInteraction($"SetupInteractionModule.ChoosePaymentMethod:*")]
     public async Task ChooseProduct(string selectedProductId, string paymentMethodKey)
     {
-        var productParseResult = long.TryParse(selectedProductId, out var productId);
-        if (!productParseResult)
-        {
-            await RespondAsync(":no_entry_sign: Выбран некорректный товар.", ephemeral: true);
-            return;
-        }
-
-        if (!_paymentMethods.ContainsKey(paymentMethodKey))
+        var paymentMethod = appSettings.PaymentSettings.PaymentMethods
+            .FirstOrDefault(x => x.MethodId == paymentMethodKey);
+        if (paymentMethod is null)
         {
             await RespondAsync(":no_entry_sign: Выбран некорректный способ оплаты", ephemeral: true);
             return;
         }
-        
-        var getProductRequest = new GetProductRequest(Context.Guild.Id, productId);
-        var getProductOperationResult = await mediator.Send(getProductRequest);
-        if (!getProductOperationResult.Successful)
+
+        var operationResult = await GetProductFromIdAsync(selectedProductId);
+        if (!operationResult.Successful)
         {
-            await RespondAsync(":no_entry_sign: " + getProductOperationResult.ErrorMessage, ephemeral: true);
-            return;
-        }
-        if (getProductOperationResult.Entity is null)
-        {
-            await RespondAsync(":no_entry_sign: Тован не найден.", ephemeral: true);
+            await RespondAsync(":no_entry_sign: " + operationResult.ErrorMessage, ephemeral: true);
             return;
         }
 
-        var product = getProductOperationResult.Entity;
+        var product = operationResult.Entity;
         
         var createPaymentRequest = new CreatePaymentRequest(
-            productId, paymentMethodKey, Context.Interaction.User.Id, Context.Guild.Id);
+            operationResult.Entity.Id,
+            paymentMethod.ServiceName,
+            paymentMethod.MethodId,
+            Context.Interaction.User.Id,
+            Context.Guild.Id);
         var createPaymentOperationResult = await mediator.Send(createPaymentRequest);
         if (!createPaymentOperationResult.Successful)
         {
             await RespondAsync(":no_entry_sign: " + createPaymentOperationResult.ErrorMessage, ephemeral: true);
             return;
         }
-
-        var paymentMethod = _paymentMethods[paymentMethodKey];
+        
         var payEmbed = new EmbedBuilder()
             .WithTitle($"\ud83d\udcb8 Оплата")
             .WithDescription($"Оплатите [счёт]({createPaymentOperationResult.Entity}) в течение 10 минут.")
@@ -216,5 +158,27 @@ public class SetupInteractionModule(IMediator mediator) : InteractionModuleBase
             embed: payEmbed,
             components: messageComponents,
             ephemeral: true);
+    }
+
+    private async Task<OperationResult<Product>> GetProductFromIdAsync(string id)
+    {
+        var productParseResult = long.TryParse(id, out var productId);
+        if (!productParseResult)
+        {
+            return OperationResult<Product>.Error(new Product(), "Выбран некорректный товар.");
+        }
+        
+        var getProductRequest = new GetProductRequest(Context.Guild.Id, productId);
+        var getProductOperationResult = await mediator.Send(getProductRequest);
+        if (!getProductOperationResult.Successful)
+        {
+            return OperationResult<Product>.Error(new Product(), getProductOperationResult.ErrorMessage);
+        }
+        if (getProductOperationResult.Entity is null)
+        {
+            return OperationResult<Product>.Error(new Product(), "Тован не найден.");
+        }
+
+        return OperationResult<Product>.Success(getProductOperationResult.Entity);
     }
 }

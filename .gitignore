@@ -6,3 +6,4 @@ riderModule.iml
 .env
 appsettings.json
 *.Test.cs
+paymentsettings.yaml

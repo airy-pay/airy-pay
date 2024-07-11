@@ -4,7 +4,7 @@ public class OperationResult<T>
 {
     public T Entity { get; set; }
     public bool Successful { get; set; }
-    public string? ErrorMessage { get; set; }
+    public string ErrorMessage { get; set; } = string.Empty;
     
     public OperationResult(bool successful, T entity)
     {

@@ -1,5 +1,6 @@
 ﻿using AiryPayNew.Discord.ChainHandlers;
 using AiryPayNew.Shared.Settings;
+using AiryPayNew.Shared.Settings.AppSettings;
 using Discord;
 using Discord.Addons.ChainHandlers;
 using Discord.Addons.ChainHandlers.Default;
