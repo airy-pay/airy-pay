@@ -25,6 +25,11 @@ public class CreatePaymentRequestHandler(
         if (shop.Blocked)
             return Error("Магазин заблокирован.");
         
+        var paymentService = paymentServices.FirstOrDefault(x =>
+            x.GetServiceName() == request.PaymentServiceName);
+        if (paymentService is null)
+            return Error("Платёжный сервис не найден.");
+        
         var product = await productRepository.GetByIdAsync(request.ProductId);
         if (product is null)
             return Error("Товар не найден.");
@@ -39,14 +44,9 @@ public class CreatePaymentRequestHandler(
             ShopId = shop.Id,
             Product = product
         };
-
-        var paymentService = paymentServices.FirstOrDefault(x =>
-            x.GetServiceName() == request.PaymentServiceName);
-        if (paymentService is null)
-            return Error("Платёжный сервис не найден.");
         
+        newBill.Id = await billRepository.Create(newBill);
         var paymentUrl = await paymentService.CreateAsync(newBill, request.PaymentMethodId);
-        await billRepository.Create(newBill);
 
         return OperationResult<string>.Success(paymentUrl.Entity);
     }
