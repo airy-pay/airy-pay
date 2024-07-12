@@ -8,20 +8,9 @@
 ## Ef core commands
 Create migration
 ```
-dotnet ef migrations add 
---project src/AiryPayNew.Infrastructure/AiryPayNew.Infrastructure.csproj
---startup-project src/AiryPayNew.Discord/AiryPayNew.Discord.csproj
---context AiryPayNew.Infrastructure.Data.ApplicationDbContext
---configuration Debug
---verbose
-<Migration name>
+dotnet ef migrations add --project src/AiryPayNew.Infrastructure/AiryPayNew.Infrastructure.csproj --startup-project src/AiryPayNew.Presentation/AiryPayNew.Presentation.csproj --context AiryPayNew.Infrastructure.Data.ApplicationDbContext --configuration Debug --verbose AddBillProperty <Migration name>
 ```
 Apply migrations
 ```
-dotnet ef database update 
---project src/AiryPayNew.Infrastructure/AiryPayNew.Infrastructure.csproj 
---startup-project src/AiryPayNew.Discord/AiryPayNew.Discord.csproj 
---context AiryPayNew.Infrastructure.Data.ApplicationDbContext 
---configuration Debug 
---verbose
+dotnet ef database update --project src/AiryPayNew.Infrastructure/AiryPayNew.Infrastructure.csproj --startup-project src/AiryPayNew.Presentation/AiryPayNew.Presentation.csproj --context AiryPayNew.Infrastructure.Data.ApplicationDbContext --configuration Debug --verbose
 ```
