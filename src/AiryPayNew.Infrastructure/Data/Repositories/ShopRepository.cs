@@ -21,6 +21,8 @@ internal class ShopRepository(ApplicationDbContext dbContext)
     public async Task<IList<Purchase>> GetShopPurchases(ShopId id, int amount)
     {
         return await _dbContext.Purchases
+            .Include(x => x.Product)
+            .Include(x => x.Bill)
             .OrderByDescending(x => x.DateTime)
             .Take(amount)
             .ToListAsync(); 
