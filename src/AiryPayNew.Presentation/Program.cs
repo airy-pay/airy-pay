@@ -1,5 +1,5 @@
 ﻿using AiryPayNew.Discord.Configuration;
-using AiryPayNew.Discord.Http.Middlewares;
+using AiryPayNew.Discord.Http;
 using AiryPayNew.Discord.Utils;
 using AiryPayNew.Shared.Utils;
 
@@ -16,6 +16,6 @@ builder.Services
 
 var app = builder.Build();
 
-app.UseMiddleware<IpWhitelistMiddleware>();
+app.AddHttpEndpoints();
 
 app.Run();

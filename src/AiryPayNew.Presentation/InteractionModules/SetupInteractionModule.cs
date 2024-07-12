@@ -2,6 +2,7 @@
 using AiryPayNew.Application.Requests.Payments;
 using AiryPayNew.Application.Requests.Products;
 using AiryPayNew.Application.Requests.Shops;
+using AiryPayNew.Discord.Services;
 using AiryPayNew.Discord.Utils;
 using AiryPayNew.Domain.Common;
 using AiryPayNew.Domain.Entities.Products;
@@ -17,7 +18,8 @@ namespace AiryPayNew.Discord.InteractionModules;
 [CommandContextType(InteractionContextType.Guild)]
 public class SetupInteractionModule(
     IMediator mediator,
-    AppSettings appSettings) : InteractionModuleBase
+    AppSettings appSettings,
+    UserRepositoryService userRepositoryService) : InteractionModuleBase
 {
     private readonly Color _embedsColor = new(40, 117, 233);
     
@@ -123,6 +125,8 @@ public class SetupInteractionModule(
             await RespondAsync(":no_entry_sign: " + createPaymentOperationResult.ErrorMessage, ephemeral: true);
             return;
         }
+        
+        userRepositoryService.SetUser(Context.Interaction.User);
         
         var payEmbed = new EmbedBuilder()
             .WithTitle($"\ud83d\udcb8 Оплата")
