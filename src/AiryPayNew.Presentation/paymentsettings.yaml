@@ -1,7 +1,7 @@
 ﻿ruKassa:
   merchantId: 1
-  token: "token goes here",
-  userEmail: "user@gmail.com",
+  token: "token goes here"
+  userEmail: "user@gmail.com"
   userPassword: "123456"
 
 finPay:
