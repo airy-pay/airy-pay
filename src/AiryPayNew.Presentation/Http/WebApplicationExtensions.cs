@@ -1,18 +1,13 @@
-﻿using FinPay.API.Callbacks.Impl;
-using MediatR;
+﻿using System.Reflection;
+using AiryPayNew.Discord.Http.Middlewares;
 
 namespace AiryPayNew.Discord.Http;
 
 public static class WebApplicationExtensions
 {
-    public static void AddEndpoints(this WebApplication app)
+    public static void AddHttpEndpoints(this WebApplication app)
     {
-        app.MapPost("/payments/callbacks/finpay/", 
-            async (PaymentPaidCallback paymentPaidCallback, IMediator mediator) =>
-        {
-            
-            
-            return Results.Ok();
-        });
+        app.UseMiddleware<IpWhitelistMiddleware>();
+        app.AddEndpointsFromAssembly(Assembly.GetExecutingAssembly());
     }
 }
