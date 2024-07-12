@@ -14,7 +14,7 @@ public class Product : IEntity<ProductId>
     public ulong? DiscordRoleId { get; set; }
     
     public virtual ShopId ShopId { get; set; }
-    public virtual Shop? Shop { get; set; }
+    public virtual Shop Shop { get; set; } = null!;
     public IList<Bill> Bills { get; set; } = new List<Bill>();
     public IList<Purchase> Purchases { get; set; } = new List<Purchase>();
 }

@@ -12,8 +12,8 @@ public class Purchase : IEntity<PurchaseId>
     public ProductId ProductId { get; set; }
     public ShopId ShopId { get; set; }
     public BillId BillId { get; set; }
-    
-    public required Bill Bill { get; set; }
-    public required Product Product { get; set; }
-    public required Shop Shop { get; set; }
+
+    public Bill Bill { get; set; } = null!;
+    public Product Product { get; set; } = null!;
+    public Shop Shop { get; set; } = null!;
 }
