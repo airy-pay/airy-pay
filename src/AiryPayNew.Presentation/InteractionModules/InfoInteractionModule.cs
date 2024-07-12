@@ -195,7 +195,7 @@ public class InfoInteractionModule(IMediator mediator) : InteractionModuleBase<S
                             Попупатель: <@{x.Bill.BuyerDiscordId}>
                             Роль: <@&{x.Product.DiscordRoleId}>
                             Прибыль: **{x.Product.Price} ₽**
-                            Дата: `{x.DateTime}`
+                            Дата: `{x.DateTime} (UTC)`
                             """)
                 .WithIsInline(true);
         });
