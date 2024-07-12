@@ -1,6 +1,8 @@
 ﻿using AiryPayNew.Application.Payments;
 using AiryPayNew.Domain.Common;
 using AiryPayNew.Domain.Entities.Bills;
+using AiryPayNew.Domain.Entities.Bills.BillSecrets;
+using AiryPayNew.Domain.Entities.Bills.BillSecrets.BillSecretGenerators;
 using FinPay.API;
 using FinPay.API.Requests.Impl;
 
@@ -11,7 +13,7 @@ public class FinPayPaymentService(FinPayApiClient finPayApiClient) : IPaymentSer
     private const string Name = "FinPay"; 
 
     public string GetServiceName() => Name;
-
+    
     public async Task<OperationResult<string>> CreateAsync(Bill bill, string paymentMethod)
     {
         var payment = new CreatePaymentRequest
@@ -19,7 +21,7 @@ public class FinPayPaymentService(FinPayApiClient finPayApiClient) : IPaymentSer
             Amount = Convert.ToInt32(bill.Product.Price) * 100,
             CountryCode = "RU",
             Currency = "RUB",
-            Description = "AiryPay",
+            Description = "AiryPay ",
             InvoiceId = bill.Id.Value + 100000,
             PaymentMethod = paymentMethod
         };

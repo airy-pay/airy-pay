@@ -41,10 +41,21 @@ namespace AiryPayNew.Infrastructure.Migrations
                     b.Property<decimal>("BuyerDiscordId")
                         .HasColumnType("numeric(20,0)");
 
+                    b.Property<string>("PaymentMethodId")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<long>("PaymentSystemId")
+                        .HasColumnType("bigint");
+
+                    b.Property<string>("PaymentSystemName")
+                        .IsRequired()
+                        .HasColumnType("text");
+
                     b.Property<long>("ProductId")
                         .HasColumnType("bigint");
 
-                    b.Property<long?>("ShopId")
+                    b.Property<long>("ShopId")
                         .HasColumnType("bigint");
 
                     b.HasKey("Id");
@@ -157,7 +168,7 @@ namespace AiryPayNew.Infrastructure.Migrations
                         .IsRequired()
                         .HasColumnType("text");
 
-                    b.Property<long?>("ShopId")
+                    b.Property<long>("ShopId")
                         .HasColumnType("bigint");
 
                     b.Property<string>("Way")
@@ -184,7 +195,9 @@ namespace AiryPayNew.Infrastructure.Migrations
 
                     b.HasOne("AiryPayNew.Domain.Entities.Shops.Shop", "Shop")
                         .WithMany("Bills")
-                        .HasForeignKey("ShopId");
+                        .HasForeignKey("ShopId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.Navigation("Product");
 
@@ -233,7 +246,9 @@ namespace AiryPayNew.Infrastructure.Migrations
                 {
                     b.HasOne("AiryPayNew.Domain.Entities.Shops.Shop", "Shop")
                         .WithMany("Withdrawals")
-                        .HasForeignKey("ShopId");
+                        .HasForeignKey("ShopId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.Navigation("Shop");
                 });

@@ -1,6 +1,8 @@
 ﻿using AiryPayNew.Application.Payments;
 using AiryPayNew.Domain.Common;
 using AiryPayNew.Domain.Entities.Bills;
+using AiryPayNew.Domain.Entities.Bills.BillSecrets;
+using AiryPayNew.Domain.Entities.Bills.BillSecrets.BillSecretGenerators;
 using Ru.Kassa;
 using Ru.Kassa.Models;
 using Ru.Kassa.Models.Requests.Merchant;
