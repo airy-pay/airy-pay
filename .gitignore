@@ -4,6 +4,6 @@ obj/
 riderModule.iml
 /_ReSharper.Caches/
 .env
-appsettings.json
+/appsettings.json
 *.Test.cs
-paymentsettings.yaml
+/paymentsettings.yaml

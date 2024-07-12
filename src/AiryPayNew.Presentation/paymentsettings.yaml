@@ -1,0 +1,19 @@
+﻿ruKassa:
+  merchantId: 1
+  token: "token goes here",
+  userEmail: "user@gmail.com",
+  userPassword: "123456"
+
+finPay:
+  shopId: 1
+  key1: "key1"
+  key2: "key2"
+
+paymentMethods:
+  -
+    serviceName: "Checkout"
+    methodId: "card"
+    discordEmoji: ":credit_card:"
+    name: "Card"
+    description: "Visa/Mastercard"
+    minimalSum: 999.00
