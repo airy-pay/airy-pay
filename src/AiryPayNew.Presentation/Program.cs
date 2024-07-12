@@ -1,4 +1,5 @@
 ﻿using AiryPayNew.Discord.Configuration;
+using AiryPayNew.Discord.Http.Middlewares;
 using AiryPayNew.Discord.Utils;
 using AiryPayNew.Shared.Utils;
 
@@ -15,6 +16,6 @@ builder.Services
 
 var app = builder.Build();
 
-app.MapGet("/weatherforecast", () => "Test");
+app.UseMiddleware<IpWhitelistMiddleware>();
 
 app.Run();
