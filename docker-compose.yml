@@ -21,6 +21,7 @@ services:
       - postgres
     ports:
       - "80:80"
+    restart: always
   
   postgres:
     image: postgres:latest
