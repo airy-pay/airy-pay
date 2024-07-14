@@ -1,0 +1,14 @@
+POST http://127.0.0.1:80/payments/callbacks/finpay/
+Content-Type: application/json
+
+{
+  "id":207201,
+  "pay_id":"17207153571720715357",
+  "invoice_id":"100006",
+  "card":"*0000",
+  "shop_id":18174,
+  "description":"Test22",
+  "amount":5000,
+  "currency":"RUB",
+  "signature":"5a670481e260332172899c93bcd66afa"
+}
