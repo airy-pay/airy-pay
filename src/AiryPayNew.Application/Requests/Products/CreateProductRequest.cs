@@ -1,8 +1,10 @@
-﻿using AiryPayNew.Domain.Common;
+﻿using AiryPayNew.Application.Requests.Payments;
+using AiryPayNew.Domain.Common;
 using AiryPayNew.Domain.Entities.Products;
 using AiryPayNew.Domain.Entities.Shops;
 using FluentValidation;
 using MediatR;
+using Microsoft.Extensions.Logging;
 
 namespace AiryPayNew.Application.Requests.Products;
 
@@ -11,7 +13,8 @@ public record CreateProductRequest(ulong ShopId, ProductModel ProductModel) : IR
 public class CreateProductRequestHandler(
     IProductRepository productRepository,
     IShopRepository shopRepository,
-    IValidator<ProductModel> productValidator) : IRequestHandler<CreateProductRequest, OperationResult>
+    IValidator<ProductModel> productValidator,
+    ILogger<CreatePaymentRequestHandler> logger) : IRequestHandler<CreateProductRequest, OperationResult>
 {
     public async Task<OperationResult> Handle(CreateProductRequest request, CancellationToken cancellationToken)
     {
@@ -36,8 +39,12 @@ public class CreateProductRequestHandler(
             DiscordRoleId = request.ProductModel.DiscordRoleId,
             ShopId = shopId
         };
-
-        await productRepository.Create(newProduct);
+        
+        newProduct.Id = await productRepository.Create(newProduct);
+        logger.LogInformation(string.Format(
+            "Created a new product with id #{0}",
+            newProduct.Id.Value));
+        
         return OperationResult.Success();
     }
 }

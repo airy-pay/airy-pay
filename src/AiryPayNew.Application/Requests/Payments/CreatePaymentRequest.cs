@@ -4,6 +4,7 @@ using AiryPayNew.Domain.Entities.Bills;
 using AiryPayNew.Domain.Entities.Products;
 using AiryPayNew.Domain.Entities.Shops;
 using MediatR;
+using Microsoft.Extensions.Logging;
 
 namespace AiryPayNew.Application.Requests.Payments;
 
@@ -15,7 +16,8 @@ public class CreatePaymentRequestHandler(
     IBillRepository billRepository,
     IProductRepository productRepository,
     IShopRepository shopRepository,
-    IEnumerable<IPaymentService> paymentServices) : IRequestHandler<CreatePaymentRequest, OperationResult<string>>
+    IEnumerable<IPaymentService> paymentServices,
+    ILogger<CreatePaymentRequestHandler> logger) : IRequestHandler<CreatePaymentRequest, OperationResult<string>>
 {
     public async Task<OperationResult<string>> Handle(CreatePaymentRequest request, CancellationToken cancellationToken)
     {
@@ -48,6 +50,10 @@ public class CreatePaymentRequestHandler(
         newBill.Id = await billRepository.Create(newBill);
         var paymentUrl = await paymentService.CreateAsync(newBill, request.PaymentMethodId);
 
+        logger.LogInformation(string.Format(
+            "Successfully created a new payment for bill #{0}",
+            newBill.Id));
+        
         return OperationResult<string>.Success(paymentUrl.Entity);
     }
 
