@@ -19,6 +19,9 @@ internal class WithdrawalEntityTypeConfiguration : IEntityTypeConfiguration<With
             .HasValueGenerator<IdValueGenerator<WithdrawalId>>()
             .ValueGeneratedOnAdd();
 
+        builder.Property(x => x.ReceivingAccountNumber)
+            .HasMaxLength(128);
+            
         builder.HasOne(x => x.Shop)
             .WithMany(x => x.Withdrawals);
     }

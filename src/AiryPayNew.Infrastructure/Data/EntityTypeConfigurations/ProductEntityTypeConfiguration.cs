@@ -19,6 +19,11 @@ internal class ProductEntityTypeConfiguration : IEntityTypeConfiguration<Product
             .HasValueGenerator<IdValueGenerator<ProductId>>()
             .ValueGeneratedOnAdd();
 
+        builder.Property(x => x.Emoji)
+            .HasMaxLength(256);
+        builder.Property(x => x.Name)
+            .HasMaxLength(128);
+        
         builder.HasOne(x => x.Shop)
             .WithMany(x => x.Products)
             .HasForeignKey(x => x.ShopId);

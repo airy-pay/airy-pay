@@ -1,6 +1,5 @@
 ﻿using AiryPayNew.Domain.Entities.Bills;
 using AiryPayNew.Domain.Entities.Bills.BillSecrets;
-using AiryPayNew.Domain.Entities.Products;
 using AiryPayNew.Domain.Entities.Purchases;
 using AiryPayNew.Infrastructure.Data.ValueGenerators;
 using Microsoft.EntityFrameworkCore;
@@ -22,10 +21,16 @@ internal class BillEntityTypeConfiguration : IEntityTypeConfiguration<Bill>
             .HasValueGenerator<IdValueGenerator<BillId>>()
             .ValueGeneratedOnAdd();
 
+        builder.Property(x => x.PaymentSystemName)
+            .HasMaxLength(128);
+        builder.Property(x => x.PaymentMethodId)
+            .HasMaxLength(128);
+        
         builder.Property(x => x.BillSecret)
             .HasConversion(
                 x => x.Key,
                 x => new BillSecret(x))
+            .HasMaxLength(512)
             .HasColumnName("bill_secret");
 
         builder.HasOne(x => x.Product)
