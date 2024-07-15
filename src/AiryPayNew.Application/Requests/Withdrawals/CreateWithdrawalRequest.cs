@@ -39,6 +39,8 @@ public class CreateWithdrawalRequestHandler(
         if (shop.Balance < request.Amount)
             return OperationResult.Error("Недостаточно средств.");
 
+        await shopRepository.UpdateBalance(shop.Id, -request.Amount);
+        
         var newWithdrawal = new Withdrawal
         {
             Amount = request.Amount,
