@@ -17,7 +17,7 @@ public class CompletePaymentRequestHandler(
 {
     public async Task<OperationResult> Handle(CompletePaymentRequest request, CancellationToken cancellationToken)
     {
-        var bill = await billRepository.GetByIdAsync(request.BillId);
+        var bill = await billRepository.GetByIdNoTrackingAsync(request.BillId);
         if (bill is null)
         {
             logger.LogInformation(

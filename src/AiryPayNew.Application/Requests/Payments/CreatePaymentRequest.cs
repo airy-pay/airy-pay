@@ -21,7 +21,7 @@ public class CreatePaymentRequestHandler(
 {
     public async Task<OperationResult<string>> Handle(CreatePaymentRequest request, CancellationToken cancellationToken)
     {
-        var shop = await shopRepository.GetByIdAsync(new ShopId(request.ShopId));
+        var shop = await shopRepository.GetByIdNoTrackingAsync(new ShopId(request.ShopId));
         if (shop is null)
             return Error("Магазин не найден.");
         if (shop.Blocked)
@@ -32,7 +32,7 @@ public class CreatePaymentRequestHandler(
         if (paymentService is null)
             return Error("Платёжный сервис не найден.");
         
-        var product = await productRepository.GetByIdAsync(request.ProductId);
+        var product = await productRepository.GetByIdNoTrackingAsync(request.ProductId);
         if (product is null)
             return Error("Товар не найден.");
         if (product.ShopId != shop.Id)

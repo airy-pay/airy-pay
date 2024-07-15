@@ -13,7 +13,7 @@ public class RemoveProductRequestHandler(
 {
     public async Task Handle(RemoveProductRequest request, CancellationToken cancellationToken)
     {
-        var product = await productRepository.GetByIdAsync(request.ProductId);
+        var product = await productRepository.GetByIdNoTrackingAsync(request.ProductId);
         if (product is null)
             return;
         

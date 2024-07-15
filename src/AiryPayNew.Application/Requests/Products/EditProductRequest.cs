@@ -21,13 +21,13 @@ public class EditProductRequestHandler(
             return OperationResult.Error(validationResult.Errors.First().ToString());
 
         var shopId = new ShopId(request.ShopId);
-        var shop = await shopRepository.GetByIdAsync(shopId);
+        var shop = await shopRepository.GetByIdNoTrackingAsync(shopId);
         if (shop is null)
             return OperationResult.Error("Магазин не найден.");
         if (shop.Blocked)
             return OperationResult.Error("Магазин заблокирован.");
         
-        var product = await productRepository.GetByIdAsync(request.ProductId);
+        var product = await productRepository.GetByIdNoTrackingAsync(request.ProductId);
         if (product is null)
             return OperationResult.Error("Товар не найден.");
         if (product.ShopId != shopId)

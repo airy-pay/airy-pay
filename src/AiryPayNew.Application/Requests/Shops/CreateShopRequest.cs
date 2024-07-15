@@ -10,7 +10,7 @@ public class CreateShopRequestHandler(IShopRepository shopRepository) : IRequest
     public async Task Handle(CreateShopRequest request, CancellationToken cancellationToken)
     {
         var shopId = new ShopId(request.ServerId);
-        var shop = await shopRepository.GetByIdAsync(shopId);
+        var shop = await shopRepository.GetByIdNoTrackingAsync(shopId);
         if (shop is not null)
             return;
 

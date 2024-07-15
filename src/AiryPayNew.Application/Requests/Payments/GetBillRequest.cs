@@ -10,7 +10,7 @@ public class GetBillRequestHandler(IBillRepository billRepository) : IRequestHan
     public async Task<Bill?> Handle(GetBillRequest request, CancellationToken cancellationToken)
     {
         var billId = new BillId(request.BillId);
-        var bill = await billRepository.GetByIdAsync(billId);
+        var bill = await billRepository.GetByIdNoTrackingAsync(billId);
         return bill;
     }
 }
