@@ -10,7 +10,6 @@ using AiryPayNew.Shared.Settings.AppSettings;
 using Discord;
 using Discord.Interactions;
 using MediatR;
-using DiscordCommands = Discord.Commands;
 
 namespace AiryPayNew.Discord.InteractionModules;
 
@@ -23,7 +22,7 @@ public class SetupInteractionModule(
 {
     private readonly Color _embedsColor = new(40, 117, 233);
     
-    [DiscordCommands.RequireUserPermission(GuildPermission.Administrator)]
+    [RequireUserPermission(GuildPermission.Administrator)]
     [SlashCommand("setup", "\u2728 Установка сообщения для продажи товаров")]
     public async Task Setup()
     {

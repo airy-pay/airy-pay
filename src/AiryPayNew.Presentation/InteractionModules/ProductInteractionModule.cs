@@ -1,5 +1,4 @@
-﻿using System.Data;
-using AiryPayNew.Application.Requests.Products;
+﻿using AiryPayNew.Application.Requests.Products;
 using AiryPayNew.Discord.AutocompleteHandlers;
 using AiryPayNew.Discord.Utils;
 using AiryPayNew.Domain.Entities.Products;
@@ -7,18 +6,18 @@ using Discord;
 using Discord.Interactions;
 using MediatR;
 using Sqids;
-using DiscordCommands = Discord.Commands;
 
 namespace AiryPayNew.Discord.InteractionModules;
 
 [RequireContext(ContextType.Guild)]
 [CommandContextType(InteractionContextType.Guild)]
-[DiscordCommands.RequireUserPermission(GuildPermission.Administrator)]
+[RequireUserPermission(GuildPermission.Administrator)]
 [Group("product", "\ud83d\udecd\ufe0f Работа с товарами")]
 public class ProductInteractionModule(
     IMediator mediator,
     SqidsEncoder<long> sqidsEncoder) : InteractionModuleBase<SocketInteractionContext>
 {
+    [RequireUserPermission(GuildPermission.Administrator)]
     [SlashCommand("create", "\ud83d\udd27 Создание нового товара")]
     public async Task Create(
         [Summary("Эмодзи", "Будет отображаться возле товара")] string emojiText,
@@ -61,6 +60,7 @@ public class ProductInteractionModule(
         await RespondAsync(":no_entry_sign: " + operationResult.ErrorMessage, ephemeral: true);
     }
     
+    [RequireUserPermission(GuildPermission.Administrator)]
     [SlashCommand("delete", "\ud83d\udeab Удаление товара")]
     public async Task Delete(
         [Summary("Товар", "Товар, который будет удалён"),
@@ -74,6 +74,7 @@ public class ProductInteractionModule(
         await RespondAsync(":wastebasket: Товар был удалён.", ephemeral: true);
     }
     
+    [RequireUserPermission(GuildPermission.Administrator)]
     [SlashCommand("edit", "\ud83d\udd04 Изменение товара")]
     public async Task Edit(
         [Summary("Товар", "Товар, который будет изменён"),

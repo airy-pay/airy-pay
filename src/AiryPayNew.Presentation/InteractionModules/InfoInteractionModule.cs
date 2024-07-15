@@ -4,17 +4,17 @@ using AiryPayNew.Domain.Entities.Withdrawals;
 using Discord;
 using Discord.Interactions;
 using MediatR;
-using DiscordCommands = Discord.Commands;
 
 namespace AiryPayNew.Discord.InteractionModules;
 
 [RequireContext(ContextType.Guild)]
 [CommandContextType(InteractionContextType.Guild)]
-[DiscordCommands.RequireUserPermission(GuildPermission.Administrator)]
+[RequireUserPermission(GuildPermission.Administrator)]
 public class InfoInteractionModule(IMediator mediator) : InteractionModuleBase<SocketInteractionContext>
 {
     private readonly Color _embedsColor = new(40, 117, 233);
     
+    [RequireUserPermission(GuildPermission.Administrator)]
     [SlashCommand("info", "\ud83c\udf10 Информация и магазине")]
     public async Task Info()
     {
@@ -99,6 +99,7 @@ public class InfoInteractionModule(IMediator mediator) : InteractionModuleBase<S
             ephemeral: true);
     }
     
+    [RequireUserPermission(GuildPermission.Administrator)]
     [ComponentInteraction("InfoInteractionModule.GetProducts")]
     public async Task GetProducts()
     {
@@ -145,6 +146,7 @@ public class InfoInteractionModule(IMediator mediator) : InteractionModuleBase<S
             ephemeral: true);
     }
     
+    [RequireUserPermission(GuildPermission.Administrator)]
     [ComponentInteraction("InfoInteractionModule.GetWithdrawals")]
     public async Task GetWithdrawals()
     {
@@ -180,6 +182,7 @@ public class InfoInteractionModule(IMediator mediator) : InteractionModuleBase<S
             ephemeral: true);
     }
     
+    [RequireUserPermission(GuildPermission.Administrator)]
     [ComponentInteraction("InfoInteractionModule.GetPurchases")]
     public async Task GetPurchases()
     {
