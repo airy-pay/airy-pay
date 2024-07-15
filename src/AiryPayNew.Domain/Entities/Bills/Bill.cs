@@ -20,6 +20,6 @@ public class Bill : IEntity<BillId>
     public ShopId ShopId { get; set; }
 
     public virtual Shop Shop { get; set; } = null!;
-    public required Product Product { get; set; }
+    public virtual Product Product { get; set; } = null!;
     public virtual Purchase? Purchase { get; set; }
 }

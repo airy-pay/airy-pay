@@ -43,12 +43,16 @@ public class CreatePaymentRequestHandler(
             BillStatus = BillStatus.Unpaid,
             BuyerDiscordId = request.BuyerId,
             ProductId = product.Id,
-            ShopId = shop.Id,
-            Product = product
+            ShopId = shop.Id
         };
         
         newBill.Id = await billRepository.Create(newBill);
-        var paymentUrl = await paymentService.CreateAsync(newBill, request.PaymentMethodId);
+
+        var bill = await billRepository.GetByIdNoTrackingAsync(newBill.Id);
+        if (bill is null)
+            return Error("Не удалось создать платёж.");
+        
+        var paymentUrl = await paymentService.CreateAsync(bill, request.PaymentMethodId);
 
         logger.LogInformation(string.Format(
             "Successfully created a new payment for bill #{0}",
