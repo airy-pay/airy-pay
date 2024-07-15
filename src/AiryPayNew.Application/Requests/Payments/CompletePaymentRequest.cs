@@ -37,7 +37,8 @@ public class CompletePaymentRequestHandler(
         };
         var purchaseId = await purchaseRepository.Create(newPurchase);
 
-        var shopBalanceChange = bill.Product.Price * 0.85m;
+        var commissionMultiplier = 1m - (bill.Shop.Commission.Value / 100);
+        var shopBalanceChange = bill.Product.Price * commissionMultiplier;
         await shopRepository.UpdateBalance(bill.ShopId, shopBalanceChange);
         
         logger.LogInformation(

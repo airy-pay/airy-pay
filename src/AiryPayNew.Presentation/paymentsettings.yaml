@@ -1,4 +1,7 @@
-﻿ruKassa:
+﻿# Positive decimal numbers 
+defaultShopCommission: 10.0
+
+ruKassa:
   merchantId: 1
   token: "token goes here"
   userEmail: "user@gmail.com"

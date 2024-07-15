@@ -4,6 +4,15 @@ namespace AiryPayNew.Shared.Settings.AppSettings;
 
 public class PaymentSettings
 {
+    /// <summary>
+    /// Shop commission used by default
+    /// </summary>
+    /// <exception cref="ArgumentException">
+    /// Thrown if value if below zero
+    /// </exception>
+    [YamlMember(typeof(decimal), Alias = "defaultShopCommission")]
+    public required decimal DefaultShopCommission { get; set; }
+
     [YamlMember(typeof(RuKassa), Alias = "ruKassa")]
     public required RuKassa RuKassa { get; set; }
     

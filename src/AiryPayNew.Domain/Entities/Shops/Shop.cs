@@ -11,6 +11,7 @@ public class Shop : IEntity<ShopId>
     public ShopId Id { get; set; }
     public decimal Balance { get; set; }
     public bool Blocked { get; set; } = false;
+    public Commission Commission { get; set; } = new(10.0m);
     
     public IList<Bill> Bills { get; set; } = new List<Bill>();
     public IList<Product> Products { get; set; } = new List<Product>();

@@ -18,8 +18,8 @@ public class Bill : IEntity<BillId>
     public ulong BuyerDiscordId { get; set; }
     public ProductId ProductId { get; set; }
     public ShopId ShopId { get; set; }
-    
-    public virtual Shop? Shop { get; set; }
+
+    public virtual Shop Shop { get; set; } = null!;
     public required Product Product { get; set; }
     public virtual Purchase? Purchase { get; set; }
 }

@@ -19,6 +19,11 @@ internal class ShopEntityTypeConfiguration : IEntityTypeConfiguration<Shop>
             .HasValueGenerator<IdValueGenerator<ShopId>>()
             .ValueGeneratedOnAdd();
 
+        builder.Property(x => x.Commission)
+            .HasConversion(
+                commission => commission.Value,
+                value => new Commission(value));
+        
         builder.HasMany(x => x.Products)
             .WithOne(x => x.Shop);
         builder.HasMany(x => x.Purchases)
