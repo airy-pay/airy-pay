@@ -16,6 +16,16 @@ internal class BillRepository(ApplicationDbContext dbContext)
             .Include(x => x.Purchase)
             .FirstOrDefaultAsync(x => x.Id == id);
     }
+
+    public override async Task<Bill?> GetByIdNoTrackingAsync(BillId id)
+    {
+        return await _dbContext.Bills
+            .AsNoTracking()
+            .Include(x => x.Product)
+            .Include(x => x.Shop)
+            .Include(x => x.Purchase)
+            .FirstOrDefaultAsync(x => x.Id == id);
+    }
     
     public async Task PayBill(BillId billId)
     {

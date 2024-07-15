@@ -1,5 +1,5 @@
-﻿using AiryPayNew.Domain.Common;
+﻿using AiryPayNew.Domain.Common.Repositories;
 
 namespace AiryPayNew.Domain.Entities.Purchases;
 
-public interface IPurchaseRepository : IRepository<PurchaseId, Purchase> { }
+public interface IPurchaseRepository : IDefaultRepository<PurchaseId, Purchase> { }

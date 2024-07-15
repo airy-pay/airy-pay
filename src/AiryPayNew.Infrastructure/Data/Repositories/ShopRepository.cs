@@ -18,6 +18,14 @@ internal class ShopRepository(ApplicationDbContext dbContext)
             .FirstOrDefaultAsync(x => x.Id == id);
     }
 
+    public override async Task<Shop?> GetByIdNoTrackingAsync(ShopId id)
+    {
+        return await _dbContext.Shops
+            .AsNoTracking()
+            .Include(x => x.Products)
+            .FirstOrDefaultAsync(x => x.Id == id);
+    }
+    
     public async Task<IList<Purchase>> GetShopPurchases(ShopId id, int amount)
     {
         return await _dbContext.Purchases

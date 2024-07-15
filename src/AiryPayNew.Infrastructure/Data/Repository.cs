@@ -1,9 +1,11 @@
 ﻿using AiryPayNew.Domain.Common;
+using AiryPayNew.Domain.Common.Repositories;
 using Microsoft.EntityFrameworkCore;
 
 namespace AiryPayNew.Infrastructure.Data;
 
-internal abstract class Repository<TId, TEntity>(ApplicationDbContext dbContext) : IRepository<TId, TEntity>
+internal abstract class Repository<TId, TEntity>(ApplicationDbContext dbContext)
+    : IDefaultRepository<TId, TEntity>
     where TId : IId
     where TEntity : class, IEntity<TId>
 {
@@ -12,7 +14,7 @@ internal abstract class Repository<TId, TEntity>(ApplicationDbContext dbContext)
         return await GetByIdAsync(id, true);
     }
     
-    public virtual async Task<TEntity?> GetByIdAsyncNoTracking(TId id)
+    public virtual async Task<TEntity?> GetByIdNoTrackingAsync(TId id)
     {
         return await GetByIdAsync(id, false);
     }

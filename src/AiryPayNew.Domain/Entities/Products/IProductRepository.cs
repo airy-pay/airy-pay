@@ -1,9 +1,13 @@
-﻿using AiryPayNew.Domain.Common;
+﻿using AiryPayNew.Domain.Common.Repositories;
 
 namespace AiryPayNew.Domain.Entities.Products;
 
-public interface IProductRepository : IRepository<ProductId, Product>
+public interface IProductRepository :
+    IDefaultRepository<ProductId, Product>,
+    IUpdateRepository<ProductId, Product>,
+    IDeleteRepository<ProductId>,
+    INoTrackRepository<ProductId, Product>
 {
-    public Task Update(ProductId productId, string newEmoji, string newName, decimal newPrice, ulong newDiscordRole);
-    public Task Delete(ProductId productId);
+    public Task Update(
+        ProductId productId, string newEmoji, string newName, decimal newPrice, ulong newDiscordRole);
 }
