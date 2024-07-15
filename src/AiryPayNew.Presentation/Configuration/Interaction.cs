@@ -23,6 +23,7 @@ public static class Interaction
                     .Add<ErrorChainHandler>()
                     .Add<ProblemChainHandler>()
                     .Add<RateLimitChainHandler>()
+                    .Add<CommandAuthChainHandler>()
                     .Add<ShopRegisterChainHandler>();
             })
                 .UseFinalHandler(ConfigureFinalHandler)
