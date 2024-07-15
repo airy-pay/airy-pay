@@ -12,12 +12,12 @@ try
 {
     var builder = WebApplication.CreateBuilder(args);
     
-    builder.Services.AddSerilog((services, lc) => lc
-        .ReadFrom.Configuration(builder.Configuration)
+    builder.Host.UseSerilog((context, services, configuration) => configuration
+        .ReadFrom.Configuration(context.Configuration)
         .ReadFrom.Services(services)
         .Enrich.FromLogContext());
     
-    builder.Configuration.AddYamlFile("paymentsettings.yaml");
+    builder.Configuration.AddYamlFile("paymentsettings.yaml", optional: false);
     var appSettings = builder.Configuration.GetAppSettings();
     
     LanguageChanger.Update(appSettings.Language);
