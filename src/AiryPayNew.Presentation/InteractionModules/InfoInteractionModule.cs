@@ -166,9 +166,9 @@ public class InfoInteractionModule(IMediator mediator) : InteractionModuleBase<S
                 withdrawals.Count == 0 ? "Тут пока пусто.\n" +
                                          "Создайте вывод средств при помощи команды `/withdrawal`" : null)
             .WithFields(withdrawals.Select(x => new EmbedFieldBuilder()
-                .WithName($"\ud83d\udcb3 {x.DateTime:0:dd/MM/yy H:mm:ss} MasterCard")
+                .WithName($"\ud83d\udcb3 {x.DateTime:dd/MM/yyyy H:mm} Card")
                 .WithValue($"""
-                            Номер счёта: ||{x.ReceivingAccountNumber}||
+                            Номер счёта: ||{CardFormatter.Format(x.ReceivingAccountNumber)}||
                             Сумма: **{x.Amount} ₽**
                             Статус: **{withdrawalStatusesGetter[x.WithdrawalStatus]}**
                             """)

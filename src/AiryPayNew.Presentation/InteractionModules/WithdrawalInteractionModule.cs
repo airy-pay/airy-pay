@@ -1,5 +1,5 @@
-﻿using System.Globalization;
-using AiryPayNew.Application.Requests.Withdrawals;
+﻿using AiryPayNew.Application.Requests.Withdrawals;
+using AiryPayNew.Discord.Utils;
 using Discord;
 using Discord.Interactions;
 using MediatR;
@@ -45,7 +45,7 @@ public class WithdrawalInteractionModule(IMediator mediator, ILogger<WithdrawalI
                     .WithIsInline(true),
                 new EmbedFieldBuilder()
                     .WithName("\ud83d\udcb3 Номер карты")
-                    .WithValue($"`{FormatCreditCardNumber(withdrawalAccount.ToString())}`")
+                    .WithValue($"`{CardFormatter.Format(withdrawalAccount.ToString())}`")
                     .WithIsInline(true)])
             .WithFooter($"AiryPay \u00a9 {DateTime.UtcNow.Year}", Context.Client.CurrentUser.GetAvatarUrl())
             .WithColor(_embedsColor)
@@ -56,14 +56,5 @@ public class WithdrawalInteractionModule(IMediator mediator, ILogger<WithdrawalI
             embed: verifyWithdrawalEmbed, ephemeral: true);
     }
 
-    public static string FormatCreditCardNumber(string creditCardNumber)
-    {
-        if (string.IsNullOrEmpty(creditCardNumber))
-        {
-            throw new ArgumentException("Credit card number cannot be null or empty", nameof(creditCardNumber));
-        }
 
-        return string.Join(" ", Enumerable.Range(0, creditCardNumber.Length / 4)
-            .Select(i => creditCardNumber.Substring(i * 4, 4)));
-    }
 }
