@@ -7,3 +7,4 @@ riderModule.iml
 /appsettings.json
 *.Test.cs
 /paymentsettings.yaml
+log_*.txt
