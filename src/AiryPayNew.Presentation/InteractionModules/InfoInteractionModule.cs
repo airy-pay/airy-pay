@@ -71,7 +71,7 @@ public class InfoInteractionModule(IMediator mediator) : InteractionModuleBase<S
             .WithStyle(ButtonStyle.Primary);
         var supportButton = new ButtonBuilder()
             .WithLabel("Поддержка")
-            .WithUrl("https://airypay.ru/support")
+            .WithUrl("https://discord.gg/Arn9RsRqD9")
             .WithEmote(new Emoji("\ud83d\udcac"))
             .WithStyle(ButtonStyle.Link);
         var termsButton = new ButtonBuilder()
