@@ -35,5 +35,5 @@ jobs:
           script: |
             docker login -u ${{ secrets.DOCKER_USERNAME }} -p ${{ secrets.DOCKER_ACCESS_TOKEN }}
             docker pull ${{ secrets.DOCKER_USERNAME }}/airypaynew:latest
-            docker compose -f /airy-pay-new/docker-compose.yml down
-            docker compose -f /airy-pay-new/docker-compose.yml up -d
+            docker compose -f ./airy-pay-new/docker-compose.yml down
+            docker compose -f ./airy-pay-new/docker-compose.yml up -d
