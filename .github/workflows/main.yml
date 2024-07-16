@@ -21,7 +21,7 @@ jobs:
 
       - name: Build and push Docker image
         run: |
-          docker build -t airypaynew:latest src/AiryPayNew.Presentation/Dockerfile
+          docker build -t airypaynew:latest -f src/AiryPayNew.Presentation/Dockerfile .
           docker tag airypaynew:latest ${{ secrets.DOCKER_USERNAME }}/airypaynew:latest
           docker push ${{ secrets.DOCKER_USERNAME }}/airypaynew:latest
 
