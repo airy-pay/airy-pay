@@ -20,7 +20,7 @@ public static class Services
         {
             foreach (var rateLimit in appSettings.Discord.RateLimiters)
             {
-                options.AddRateLimiter(rateLimit.Limit, rateLimit.Period);
+                options.AddRateLimiter(rateLimit.Limit, rateLimit.Period, rateLimit.BanPeriod);
             }
         });
 
