@@ -7,13 +7,16 @@ internal class WithdrawalRepository(ApplicationDbContext dbContext)
 {
     private readonly ApplicationDbContext _dbContext = dbContext;
 
-    public async Task UpdateStatus(WithdrawalId withdrawalId, WithdrawalStatus withdrawalStatus)
+    public async Task UpdateStatusAsync(
+        WithdrawalId withdrawalId,
+        WithdrawalStatus withdrawalStatus,
+        CancellationToken cancellationToken)
     {
-        var withdrawal = await GetByIdAsync(withdrawalId);
+        var withdrawal = await GetByIdAsync(withdrawalId, cancellationToken);
         if (withdrawal is null)
             return;
 
         withdrawal.WithdrawalStatus = withdrawalStatus;
-        await _dbContext.SaveChangesAsync();
+        await _dbContext.SaveChangesAsync(cancellationToken);
     }
 }

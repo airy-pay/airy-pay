@@ -11,7 +11,7 @@ public class GetShopRequestHandler(IShopRepository shopRepository) : IRequestHan
     public async Task<OperationResult<Shop?>> Handle(GetShopRequest request, CancellationToken cancellationToken)
     {
         var shopId = new ShopId(request.ShopId);
-        var shop = await shopRepository.GetByIdNoTrackingAsync(shopId);
+        var shop = await shopRepository.GetByIdNoTrackingAsync(shopId, cancellationToken);
         return shop is null
             ? OperationResult<Shop?>.Error(null, "Магазин не найден")
             : OperationResult<Shop?>.Success(shop);

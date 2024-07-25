@@ -4,5 +4,5 @@ public interface INoTrackRepository<in TId, TEntity> : IRepository
     where TId : IId
     where TEntity : IEntity<TId>
 {
-    public Task<TEntity?> GetByIdNoTrackingAsync(TId id);
+    public Task<TEntity?> GetByIdNoTrackingAsync(TId id, CancellationToken cancellationToken);
 }

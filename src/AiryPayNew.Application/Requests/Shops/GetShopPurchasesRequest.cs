@@ -13,6 +13,6 @@ public class GetShopPurchasesRequestHandler(
         GetShopPurchasesRequest request, CancellationToken cancellationToken)
     {
         var shopId = new ShopId(request.ShopId);
-        return await shopRepository.GetShopPurchases(shopId, 20);
+        return await shopRepository.GetShopPurchasesAsync(shopId, 20, cancellationToken);
     }
 }

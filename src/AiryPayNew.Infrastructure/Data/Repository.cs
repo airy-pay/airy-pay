@@ -9,24 +9,24 @@ internal abstract class Repository<TId, TEntity>(ApplicationDbContext dbContext)
     where TId : IId
     where TEntity : class, IEntity<TId>
 {
-    public virtual async Task<TEntity?> GetByIdAsync(TId id)
+    public virtual async Task<TEntity?> GetByIdAsync(TId id, CancellationToken cancellationToken)
     {
-        return await GetByIdAsync(id, true);
+        return await GetByIdAsync(id, true, cancellationToken);
     }
     
-    public virtual async Task<TEntity?> GetByIdNoTrackingAsync(TId id)
+    public virtual async Task<TEntity?> GetByIdNoTrackingAsync(TId id, CancellationToken cancellationToken)
     {
-        return await GetByIdAsync(id, false);
+        return await GetByIdAsync(id, false, cancellationToken);
     }
     
-    public virtual async Task<TId> Create(TEntity data)
+    public virtual async Task<TId> CreateAsync(TEntity data, CancellationToken cancellationToken)
     {
         dbContext.Set<TEntity>().Add(data);
-        await dbContext.SaveChangesAsync();
+        await dbContext.SaveChangesAsync(cancellationToken);
         return data.Id;
     }
     
-    private async Task<TEntity?> GetByIdAsync(TId id, bool trackEntity)
+    private async Task<TEntity?> GetByIdAsync(TId id, bool trackEntity, CancellationToken cancellationToken)
     {
         var query = dbContext.Set<TEntity>().AsQueryable();
         if (!trackEntity)
@@ -34,6 +34,8 @@ internal abstract class Repository<TId, TEntity>(ApplicationDbContext dbContext)
             query = query.AsNoTracking();
         }
 
-        return await query.FirstOrDefaultAsync(e => e.Id.Equals(id));
+        return await query.FirstOrDefaultAsync(
+            e => e.Id.Equals(id),
+            cancellationToken: cancellationToken);
     }
 }

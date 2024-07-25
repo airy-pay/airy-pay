@@ -13,6 +13,6 @@ public class GetShopWithdrawalsRequestHandler(
         GetShopWithdrawalsRequest request, CancellationToken cancellationToken)
     {
         var shopId = new ShopId(request.ShopId);
-        return await shopRepository.GetShopWithdrawals(shopId, 10);
+        return await shopRepository.GetShopWithdrawalsAsync(shopId, 10, cancellationToken);
     }
 }

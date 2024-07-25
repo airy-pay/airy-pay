@@ -21,7 +21,7 @@ public class CreatePaymentRequestHandler(
 {
     public async Task<OperationResult<string>> Handle(CreatePaymentRequest request, CancellationToken cancellationToken)
     {
-        var shop = await shopRepository.GetByIdNoTrackingAsync(new ShopId(request.ShopId));
+        var shop = await shopRepository.GetByIdNoTrackingAsync(new ShopId(request.ShopId), cancellationToken);
         if (shop is null)
             return Error("Магазин не найден.");
         if (shop.Blocked)
@@ -32,7 +32,7 @@ public class CreatePaymentRequestHandler(
         if (paymentService is null)
             return Error("Платёжный сервис не найден.");
         
-        var product = await productRepository.GetByIdNoTrackingAsync(request.ProductId);
+        var product = await productRepository.GetByIdNoTrackingAsync(request.ProductId, cancellationToken);
         if (product is null)
             return Error("Товар не найден.");
         if (product.ShopId != shop.Id)
@@ -46,9 +46,9 @@ public class CreatePaymentRequestHandler(
             ShopId = shop.Id
         };
         
-        newBill.Id = await billRepository.Create(newBill);
+        newBill.Id = await billRepository.CreateAsync(newBill, cancellationToken);
 
-        var bill = await billRepository.GetByIdNoTrackingAsync(newBill.Id);
+        var bill = await billRepository.GetByIdNoTrackingAsync(newBill.Id, cancellationToken);
         if (bill is null)
             return Error("Не удалось создать платёж.");
         

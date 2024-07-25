@@ -4,5 +4,8 @@ namespace AiryPayNew.Domain.Entities.Withdrawals;
 
 public interface IWithdrawalRepository : IDefaultRepository<WithdrawalId, Withdrawal>
 {
-    public Task UpdateStatus(WithdrawalId withdrawalId, WithdrawalStatus withdrawalStatus);
+    public Task UpdateStatusAsync(
+        WithdrawalId withdrawalId,
+        WithdrawalStatus withdrawalStatus,
+        CancellationToken cancellationToken);
 }

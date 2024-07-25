@@ -7,9 +7,14 @@ namespace AiryPayNew.Domain.Entities.Shops;
 
 public interface IShopRepository : IDefaultRepository<ShopId, Shop>, INoTrackRepository<ShopId, Shop>
 {
-    public Task<IList<Purchase>> GetShopPurchases(ShopId shopId, int amount);
-    public Task<IList<Withdrawal>> GetShopWithdrawals(ShopId shopId, int amount);
-    public Task Block(ShopId shopId);
-    public Task Unblock(ShopId shopId);
-    public Task<OperationResult<ShopId>> UpdateBalance(ShopId shopId, decimal change);
+    public Task<IList<Purchase>> GetShopPurchasesAsync(
+        ShopId shopId, int amount, CancellationToken cancellationToken);
+    public Task<IList<Withdrawal>> GetShopWithdrawalsAsync(
+        ShopId shopId, int amount, CancellationToken cancellationToken);
+    public Task BlockAsync(
+        ShopId shopId, CancellationToken cancellationToken);
+    public Task UnblockAsync(
+        ShopId shopId, CancellationToken cancellationToken);
+    public Task<OperationResult<ShopId>> UpdateBalanceAsync(
+        ShopId shopId, decimal change, CancellationToken cancellationToken);
 }

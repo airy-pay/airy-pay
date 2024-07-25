@@ -15,7 +15,7 @@ public class GetProductRequestHandler(
     {
         var productId = new ProductId(request.ProductId);
         var shopId = new ShopId(request.ShopId);
-        var product = await productRepository.GetByIdNoTrackingAsync(productId);
+        var product = await productRepository.GetByIdNoTrackingAsync(productId, cancellationToken);
  
         if (product is null)
             return OperationResult<Product?>.Error(null, "Товар не найден.");

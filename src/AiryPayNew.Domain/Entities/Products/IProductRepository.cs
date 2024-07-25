@@ -8,6 +8,11 @@ public interface IProductRepository :
     IDeleteRepository<ProductId>,
     INoTrackRepository<ProductId, Product>
 {
-    public Task Update(
-        ProductId productId, string newEmoji, string newName, decimal newPrice, ulong newDiscordRole);
+    public Task UpdateAsync(
+        ProductId productId,
+        string newEmoji,
+        string newName,
+        decimal newPrice,
+        ulong newDiscordRole,
+        CancellationToken cancellationToken);
 }

@@ -17,7 +17,7 @@ public class CompletePaymentRequestHandler(
 {
     public async Task<OperationResult> Handle(CompletePaymentRequest request, CancellationToken cancellationToken)
     {
-        var bill = await billRepository.GetByIdNoTrackingAsync(request.BillId);
+        var bill = await billRepository.GetByIdNoTrackingAsync(request.BillId, cancellationToken);
         if (bill is null)
         {
             logger.LogInformation(
@@ -26,7 +26,7 @@ public class CompletePaymentRequestHandler(
             return OperationResult.Error("Bill not found");
         }
 
-        await billRepository.PayBill(bill.Id);
+        await billRepository.PayBillAsync(bill.Id, cancellationToken);
 
         var newPurchase = new Purchase
         {
@@ -35,11 +35,11 @@ public class CompletePaymentRequestHandler(
             ShopId = bill.ShopId,
             BillId = bill.Id
         };
-        var purchaseId = await purchaseRepository.Create(newPurchase);
+        var purchaseId = await purchaseRepository.CreateAsync(newPurchase, cancellationToken);
 
         var commissionMultiplier = 1m - (bill.Shop.Commission.Value / 100);
         var shopBalanceChange = bill.Product.Price * commissionMultiplier;
-        await shopRepository.UpdateBalance(bill.ShopId, shopBalanceChange);
+        await shopRepository.UpdateBalanceAsync(bill.ShopId, shopBalanceChange, cancellationToken);
         
         logger.LogInformation(
             string.Format("Successfully completed a payment for bill with id {0}. New purchase id: {1}",

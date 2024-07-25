@@ -21,24 +21,25 @@ public class EditProductRequestHandler(
             return OperationResult.Error(validationResult.Errors.First().ToString());
 
         var shopId = new ShopId(request.ShopId);
-        var shop = await shopRepository.GetByIdNoTrackingAsync(shopId);
+        var shop = await shopRepository.GetByIdNoTrackingAsync(shopId, cancellationToken);
         if (shop is null)
             return OperationResult.Error("Магазин не найден.");
         if (shop.Blocked)
             return OperationResult.Error("Магазин заблокирован.");
         
-        var product = await productRepository.GetByIdNoTrackingAsync(request.ProductId);
+        var product = await productRepository.GetByIdNoTrackingAsync(request.ProductId, cancellationToken);
         if (product is null)
             return OperationResult.Error("Товар не найден.");
         if (product.ShopId != shopId)
             return OperationResult.Error("Неверный Id магазина.");
         
-        await productRepository.Update(
+        await productRepository.UpdateAsync(
             request.ProductId,
             request.ProductModel.DiscordEmoji,
             request.ProductModel.Name,
             request.ProductModel.Price,
-            request.ProductModel.DiscordRoleId);
+            request.ProductModel.DiscordRoleId,
+            cancellationToken);
         return OperationResult.Success();
     }
 }

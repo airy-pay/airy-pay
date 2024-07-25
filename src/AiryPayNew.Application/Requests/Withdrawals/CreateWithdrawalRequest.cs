@@ -29,7 +29,7 @@ public class CreateWithdrawalRequestHandler(
             return OperationResult.Error("Некорректный способ вывода средств.");
         
         var shopId = new ShopId(request.ServerId);
-        var shop = await shopRepository.GetByIdNoTrackingAsync(shopId);
+        var shop = await shopRepository.GetByIdNoTrackingAsync(shopId, cancellationToken);
         if (shop is null)
             return OperationResult.Error("Магазин не найден.");
         
@@ -39,7 +39,7 @@ public class CreateWithdrawalRequestHandler(
         if (shop.Balance < request.Amount)
             return OperationResult.Error("Недостаточно средств.");
 
-        await shopRepository.UpdateBalance(shop.Id, -request.Amount);
+        await shopRepository.UpdateBalanceAsync(shop.Id, -request.Amount, cancellationToken);
         
         var newWithdrawal = new Withdrawal
         {
@@ -50,7 +50,7 @@ public class CreateWithdrawalRequestHandler(
             DateTime = DateTime.UtcNow,
             ShopId = shop.Id
         };
-        await withdrawalRepository.Create(newWithdrawal);
+        await withdrawalRepository.CreateAsync(newWithdrawal, cancellationToken);
 
         return OperationResult.Success();
     }
