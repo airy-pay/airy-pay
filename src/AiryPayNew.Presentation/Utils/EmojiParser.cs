@@ -1,7 +1,6 @@
 ﻿using Discord;
-using Discord.WebSocket;
 
-namespace AiryPayNew.Discord.Utils;
+namespace AiryPayNew.Presentation.Utils;
 
 public static class EmojiParser
 {

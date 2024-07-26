@@ -5,7 +5,7 @@ using Discord.Interactions;
 using Discord.WebSocket;
 using IResult = Discord.Interactions.IResult;
 
-namespace AiryPayNew.Discord.ChainHandlers;
+namespace AiryPayNew.Presentation.ChainHandlers;
 
 public class CommandAuthChainHandler(
     IServiceProvider provider,

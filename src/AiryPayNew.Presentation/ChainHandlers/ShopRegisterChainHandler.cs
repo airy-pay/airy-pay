@@ -5,7 +5,7 @@ using Discord.WebSocket;
 using MediatR;
 using IResult = Discord.Interactions.IResult;
 
-namespace AiryPayNew.Discord.ChainHandlers;
+namespace AiryPayNew.Presentation.ChainHandlers;
 
 public class ShopRegisterChainHandler(
     IServiceProvider provider,

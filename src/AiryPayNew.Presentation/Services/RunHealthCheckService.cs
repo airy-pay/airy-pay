@@ -2,7 +2,7 @@
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 
-namespace AiryPayNew.Discord.Services;
+namespace AiryPayNew.Presentation.Services;
 
 public class RunHealthCheckService(
     IServiceScopeFactory serviceScopeFactory,

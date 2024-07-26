@@ -27,6 +27,7 @@
       <ProjectReference Include="..\..\src\AiryPayNew.Discord\AiryPayNew.Discord.csproj" />
       <ProjectReference Include="..\..\src\AiryPayNew.Domain\AiryPayNew.Domain.csproj" />
       <ProjectReference Include="..\..\src\AiryPayNew.Infrastructure\AiryPayNew.Infrastructure.csproj" />
+      <ProjectReference Include="..\..\src\AiryPayNew.Presentation\AiryPayNew.Presentation.csproj" />
     </ItemGroup>
 
 </Project>

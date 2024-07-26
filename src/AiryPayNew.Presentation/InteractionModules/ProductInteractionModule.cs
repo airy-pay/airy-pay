@@ -1,13 +1,13 @@
 ﻿using AiryPayNew.Application.Requests.Products;
-using AiryPayNew.Discord.AutocompleteHandlers;
-using AiryPayNew.Discord.Utils;
+using AiryPayNew.Presentation.AutocompleteHandlers;
 using AiryPayNew.Domain.Entities.Products;
+using AiryPayNew.Presentation.Utils;
 using Discord;
 using Discord.Interactions;
 using MediatR;
 using Sqids;
 
-namespace AiryPayNew.Discord.InteractionModules;
+namespace AiryPayNew.Presentation.InteractionModules;
 
 [RequireContext(ContextType.Guild)]
 [CommandContextType(InteractionContextType.Guild)]

@@ -1,7 +1,7 @@
 ﻿using System.Net;
 using AiryPayNew.Shared.Settings.AppSettings;
 
-namespace AiryPayNew.Discord.Http.Middlewares;
+namespace AiryPayNew.Presentation.Http.Middlewares;
 
 public class IpWhitelistMiddleware
 {

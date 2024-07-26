@@ -6,7 +6,7 @@ using GenericRateLimiter;
 using GenericRateLimiter.Core;
 using IResult = Discord.Interactions.IResult;
 
-namespace AiryPayNew.Discord.ChainHandlers;
+namespace AiryPayNew.Presentation.ChainHandlers;
 
 public class RateLimitChainHandler(
     IServiceProvider provider,

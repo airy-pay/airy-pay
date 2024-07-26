@@ -1,6 +1,6 @@
 ﻿using Discord;
 
-namespace AiryPayNew.Discord.Services;
+namespace AiryPayNew.Presentation.Services;
 
 public class UserRepositoryService
 {

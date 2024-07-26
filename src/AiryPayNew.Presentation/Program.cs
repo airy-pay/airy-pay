@@ -1,6 +1,6 @@
-﻿using AiryPayNew.Discord.Configuration;
-using AiryPayNew.Discord.Http;
-using AiryPayNew.Discord.Utils;
+﻿using AiryPayNew.Presentation.Configuration;
+using AiryPayNew.Presentation.Http;
+using AiryPayNew.Presentation.Utils;
 using AiryPayNew.Shared.Utils;
 using Serilog;
 

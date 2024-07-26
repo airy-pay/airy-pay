@@ -1,5 +1,5 @@
-﻿using AiryPayNew.Discord.Services;
-using AiryPayNew.Discord.Utils;
+﻿using AiryPayNew.Presentation.Services;
+using AiryPayNew.Presentation.Utils;
 using AiryPayNew.Shared.Settings;
 using AiryPayNew.Shared.Settings.AppSettings;
 using Discord;
@@ -8,7 +8,7 @@ using Discord.Commands;
 using Discord.WebSocket;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace AiryPayNew.Discord.Configuration;
+namespace AiryPayNew.Presentation.Configuration;
 
 public static class DiscordHost
 {

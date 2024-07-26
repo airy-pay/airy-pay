@@ -6,7 +6,7 @@
         <ImplicitUsings>enable</ImplicitUsings>
         <Nullable>enable</Nullable>
         <DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>
-        <RootNamespace>AiryPayNew.Discord</RootNamespace>
+        <RootNamespace>AiryPayNew.Presentation</RootNamespace>
     </PropertyGroup>
 
     <ItemGroup>
