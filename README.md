@@ -30,7 +30,8 @@ POSTGRES_DB=""
 POSTGRES_USER=""
 POSTGRES_PASSWORD=""
 ```
-3. Start the project:
+3. Open 80 port to allow payment callbacks.
+4. Start the project:
 ```shell
 docker compose up -d
 ```
