@@ -5,5 +5,5 @@ namespace AiryPayNew.Domain.Entities.Bills;
 public interface IBillRepository :
     IDefaultRepository<BillId, Bill>, INoTrackRepository<BillId, Bill>
 {
-    public Task PayBill(BillId billId);
+    public Task PayBillAsync(BillId billId, CancellationToken cancellationToken);
 }

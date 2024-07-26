@@ -15,7 +15,7 @@ public class ArchitectureTests
         var otherLayers = new[]
         {
             RootNamespace + nameof(Application),
-            RootNamespace + nameof(Discord),
+            RootNamespace + nameof(Presentation),
             RootNamespace + nameof(Infrastructure)
         };
 
@@ -34,7 +34,7 @@ public class ArchitectureTests
         var layer = Assembly.Load(RootNamespace + nameof(Application));
         var otherLayers = new[]
         {
-            RootNamespace + nameof(Discord),
+            RootNamespace + nameof(Presentation),
             RootNamespace + nameof(Infrastructure)
         };
 
@@ -48,9 +48,9 @@ public class ArchitectureTests
     }
     
     [Fact]
-    public void Discord_Should_Not_HaveDependencyOnOtherProjects()
+    public void Presentation_Should_Not_HaveDependencyOnOtherProjects()
     {
-        var layer = Assembly.Load(RootNamespace + nameof(Discord));
+        var layer = Assembly.Load(RootNamespace + nameof(Presentation));
         var otherLayers = new[]
         {
             RootNamespace + nameof(Infrastructure),

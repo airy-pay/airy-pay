@@ -1,10 +1,10 @@
 ﻿using AiryPayNew.Application.Requests.Payments;
-using AiryPayNew.Discord.Services;
+using AiryPayNew.Presentation.Services;
 using Discord.WebSocket;
 using FinPay.API.Callbacks.Impl;
 using MediatR;
 
-namespace AiryPayNew.Discord.Http.Endpoints;
+namespace AiryPayNew.Presentation.Http.Endpoints;
 
 [Endpoint]
 public static class FinPayCallbackEndpoint

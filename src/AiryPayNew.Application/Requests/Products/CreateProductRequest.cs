@@ -23,7 +23,7 @@ public class CreateProductRequestHandler(
             return OperationResult.Error(validationResult.Errors.First().ToString());
 
         var shopId = new ShopId(request.ShopId);
-        var shop = await shopRepository.GetByIdNoTrackingAsync(shopId);
+        var shop = await shopRepository.GetByIdNoTrackingAsync(shopId, cancellationToken);
         if (shop is null)
             return OperationResult.Error("Магазин не найден.");
         if (shop.Products.Count > 25)
@@ -40,7 +40,7 @@ public class CreateProductRequestHandler(
             ShopId = shopId
         };
         
-        newProduct.Id = await productRepository.Create(newProduct);
+        newProduct.Id = await productRepository.CreateAsync(newProduct, cancellationToken);
         logger.LogInformation(string.Format(
             "Created a new product with id #{0}",
             newProduct.Id.Value));

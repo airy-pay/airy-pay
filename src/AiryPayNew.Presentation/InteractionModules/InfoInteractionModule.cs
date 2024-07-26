@@ -1,11 +1,12 @@
 ﻿using AiryPayNew.Application.Requests.Shops;
-using AiryPayNew.Discord.Utils;
+using AiryPayNew.Presentation.Utils;
 using AiryPayNew.Domain.Entities.Withdrawals;
+using AiryPayNew.Presentation.Utils;
 using Discord;
 using Discord.Interactions;
 using MediatR;
 
-namespace AiryPayNew.Discord.InteractionModules;
+namespace AiryPayNew.Presentation.InteractionModules;
 
 [RequireContext(ContextType.Guild)]
 [CommandContextType(InteractionContextType.Guild)]

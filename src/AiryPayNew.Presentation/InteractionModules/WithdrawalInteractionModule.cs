@@ -1,10 +1,10 @@
 ﻿using AiryPayNew.Application.Requests.Withdrawals;
-using AiryPayNew.Discord.Utils;
+using AiryPayNew.Presentation.Utils;
 using Discord;
 using Discord.Interactions;
 using MediatR;
 
-namespace AiryPayNew.Discord.InteractionModules;
+namespace AiryPayNew.Presentation.InteractionModules;
 
 [RequireContext(ContextType.Guild)]
 [CommandContextType(InteractionContextType.Guild)]

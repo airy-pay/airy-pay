@@ -7,12 +7,13 @@ internal class ProductRepository(ApplicationDbContext dbContext)
 {
     private readonly ApplicationDbContext _dbContext = dbContext;
 
-    public Task Update(
+    public Task UpdateAsync(
         ProductId productId,
         string newEmoji,
         string newName,
         decimal newPrice,
-        ulong newDiscordRole)
+        ulong newDiscordRole,
+        CancellationToken cancellationToken)
     {
         var updatedProduct = new Product
         {
@@ -23,12 +24,12 @@ internal class ProductRepository(ApplicationDbContext dbContext)
             DiscordRoleId = newDiscordRole
         };
         
-        return Update(updatedProduct);
+        return UpdateAsync(updatedProduct, cancellationToken);
     }
 
-    public async Task Update(Product entity)
+    public async Task UpdateAsync(Product entity, CancellationToken cancellationToken)
     {
-        var product = await GetByIdAsync(entity.Id);
+        var product = await GetByIdAsync(entity.Id, cancellationToken);
         if (product is null || entity.Price <= 0)
             return;
         
@@ -37,16 +38,16 @@ internal class ProductRepository(ApplicationDbContext dbContext)
         product.Price = entity.Price;
         product.DiscordRoleId = entity.DiscordRoleId;
 
-        await _dbContext.SaveChangesAsync();
+        await _dbContext.SaveChangesAsync(cancellationToken);
     }
     
-    public async Task Delete(ProductId productId)
+    public async Task DeleteAsync(ProductId productId, CancellationToken cancellationToken)
     {
-        var product = await GetByIdAsync(productId);
+        var product = await GetByIdAsync(productId, cancellationToken);
         if (product is null)
             return;
 
         _dbContext.Remove(product);
-        await _dbContext.SaveChangesAsync();
+        await _dbContext.SaveChangesAsync(cancellationToken);
     }
 }

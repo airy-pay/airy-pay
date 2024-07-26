@@ -1,4 +1,4 @@
-﻿using AiryPayNew.Discord.ChainHandlers;
+﻿using AiryPayNew.Presentation.ChainHandlers;
 using AiryPayNew.Shared.Settings;
 using AiryPayNew.Shared.Settings.AppSettings;
 using Discord;
@@ -7,7 +7,7 @@ using Discord.Addons.ChainHandlers.Default;
 using Discord.Interactions;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace AiryPayNew.Discord.Configuration;
+namespace AiryPayNew.Presentation.Configuration;
 
 public static class Interaction
 {

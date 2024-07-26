@@ -11,22 +11,25 @@ internal class ShopRepository(ApplicationDbContext dbContext)
 {
     private readonly ApplicationDbContext _dbContext = dbContext;
 
-    public override async Task<Shop?> GetByIdAsync(ShopId id)
+    public override async Task<Shop?> GetByIdAsync(
+        ShopId id, CancellationToken cancellationToken)
     {
         return await _dbContext.Shops
             .Include(x => x.Products)
-            .FirstOrDefaultAsync(x => x.Id == id);
+            .FirstOrDefaultAsync(x => x.Id == id, cancellationToken: cancellationToken);
     }
 
-    public override async Task<Shop?> GetByIdNoTrackingAsync(ShopId id)
+    public override async Task<Shop?> GetByIdNoTrackingAsync(
+        ShopId id, CancellationToken cancellationToken)
     {
         return await _dbContext.Shops
             .AsNoTracking()
             .Include(x => x.Products)
-            .FirstOrDefaultAsync(x => x.Id == id);
+            .FirstOrDefaultAsync(x => x.Id == id, cancellationToken: cancellationToken);
     }
     
-    public async Task<IList<Purchase>> GetShopPurchases(ShopId id, int amount)
+    public async Task<IList<Purchase>> GetShopPurchasesAsync(
+        ShopId id, int amount, CancellationToken cancellationToken)
     {
         return await _dbContext.Purchases
             .AsNoTracking()
@@ -34,48 +37,50 @@ internal class ShopRepository(ApplicationDbContext dbContext)
             .Include(x => x.Bill)
             .OrderByDescending(x => x.DateTime)
             .Take(amount)
-            .ToListAsync(); 
+            .ToListAsync(cancellationToken: cancellationToken); 
     }
 
-    public async Task<IList<Withdrawal>> GetShopWithdrawals(ShopId id, int amount)
+    public async Task<IList<Withdrawal>> GetShopWithdrawalsAsync(
+        ShopId id, int amount, CancellationToken cancellationToken)
     {
         return await _dbContext.Withdrawals
             .AsNoTracking()
             .OrderByDescending(x => x.DateTime)
             .Take(amount)
-            .ToListAsync(); 
+            .ToListAsync(cancellationToken: cancellationToken); 
     }
 
-    public async Task Block(ShopId shopId)
+    public async Task BlockAsync(ShopId shopId, CancellationToken cancellationToken)
     {
-        await ChangeBlockedStatus(shopId, true);
+        await ChangeBlockedStatus(shopId, true, cancellationToken);
     }
 
-    public async Task Unblock(ShopId shopId)
+    public async Task UnblockAsync(ShopId shopId, CancellationToken cancellationToken)
     {
-        await ChangeBlockedStatus(shopId, false);
+        await ChangeBlockedStatus(shopId, false, cancellationToken);
     }
 
-    public async Task<OperationResult<ShopId>> UpdateBalance(ShopId shopId, decimal change)
+    public async Task<OperationResult<ShopId>> UpdateBalanceAsync(
+        ShopId shopId, decimal change, CancellationToken cancellationToken)
     {
-        var shop = await GetByIdAsync(shopId);
+        var shop = await GetByIdAsync(shopId, cancellationToken);
         if (shop is null)
             return new OperationResult<ShopId>(false, "Entity not found", shopId);
         if (shop.Balance + change < 0)
             return new OperationResult<ShopId>(false, "Balance can't go below zero", shopId);
 
         shop.Balance += change;
-        await _dbContext.SaveChangesAsync();
+        await _dbContext.SaveChangesAsync(cancellationToken);
         return OperationResult<ShopId>.Success(shopId);
     }
 
-    private async Task ChangeBlockedStatus(ShopId shopId, bool blocked)
+    private async Task ChangeBlockedStatus(ShopId shopId, bool blocked, CancellationToken cancellationToken)
     {
-        var shop = await GetByIdAsync(shopId);
+        var shop = await GetByIdAsync(shopId, cancellationToken);
         if (shop is null)
             return;
 
         shop.Blocked = blocked;
-        await _dbContext.SaveChangesAsync();
+        await _dbContext.SaveChangesAsync(cancellationToken);
     }
 }

@@ -3,5 +3,5 @@
 public interface IDeleteRepository<in TId> : IRepository
     where TId : IId
 {
-    public Task Delete(TId id);
+    public Task DeleteAsync(TId id, CancellationToken cancellationToken);
 }

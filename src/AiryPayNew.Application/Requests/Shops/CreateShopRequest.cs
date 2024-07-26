@@ -13,7 +13,7 @@ public class CreateShopRequestHandler(
     public async Task Handle(CreateShopRequest request, CancellationToken cancellationToken)
     {
         var shopId = new ShopId(request.ServerId);
-        var shop = await shopRepository.GetByIdNoTrackingAsync(shopId);
+        var shop = await shopRepository.GetByIdNoTrackingAsync(shopId, cancellationToken);
         if (shop is not null)
             return;
 
@@ -25,6 +25,6 @@ public class CreateShopRequestHandler(
             Commission = new Commission(appSettings.PaymentSettings.DefaultShopCommission)
         };
 
-        await shopRepository.Create(shop);
+        await shopRepository.CreateAsync(shop, cancellationToken);
     }
 }

@@ -1,11 +1,11 @@
 ﻿using AiryPayNew.Application;
-using AiryPayNew.Discord.Services;
+using AiryPayNew.Presentation.Services;
 using AiryPayNew.Infrastructure;
 using AiryPayNew.Shared.Settings.AppSettings;
 using GenericRateLimiter.Configuration;
 using Sqids;
 
-namespace AiryPayNew.Discord.Configuration;
+namespace AiryPayNew.Presentation.Configuration;
 
 public static class Services
 {
@@ -20,7 +20,7 @@ public static class Services
         {
             foreach (var rateLimit in appSettings.Discord.RateLimiters)
             {
-                options.AddRateLimiter(rateLimit.Limit, rateLimit.Period);
+                options.AddRateLimiter(rateLimit.Limit, rateLimit.Period, rateLimit.BanPeriod);
             }
         });
 

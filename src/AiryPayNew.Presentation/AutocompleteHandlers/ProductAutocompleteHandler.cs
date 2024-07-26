@@ -5,7 +5,7 @@ using MediatR;
 using Microsoft.Extensions.DependencyInjection;
 using Sqids;
 
-namespace AiryPayNew.Discord.AutocompleteHandlers;
+namespace AiryPayNew.Presentation.AutocompleteHandlers;
 
 public class ProductAutocompleteHandler : AutocompleteHandler
 {

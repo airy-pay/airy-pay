@@ -4,5 +4,5 @@ public interface IUpdateRepository<in TId, in TEntity> : IRepository
     where TId : IId
     where TEntity : IEntity<TId>
 {
-    public Task Update(TEntity entity);
+    public Task UpdateAsync(TEntity entity, CancellationToken cancellationToken);
 }

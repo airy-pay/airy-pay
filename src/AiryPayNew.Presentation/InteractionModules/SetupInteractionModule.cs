@@ -2,16 +2,17 @@
 using AiryPayNew.Application.Requests.Payments;
 using AiryPayNew.Application.Requests.Products;
 using AiryPayNew.Application.Requests.Shops;
-using AiryPayNew.Discord.Services;
-using AiryPayNew.Discord.Utils;
+using AiryPayNew.Presentation.Services;
+using AiryPayNew.Presentation.Utils;
 using AiryPayNew.Domain.Common;
 using AiryPayNew.Domain.Entities.Products;
+using AiryPayNew.Presentation.Utils;
 using AiryPayNew.Shared.Settings.AppSettings;
 using Discord;
 using Discord.Interactions;
 using MediatR;
 
-namespace AiryPayNew.Discord.InteractionModules;
+namespace AiryPayNew.Presentation.InteractionModules;
 
 [RequireContext(ContextType.Guild)]
 [CommandContextType(InteractionContextType.Guild)]

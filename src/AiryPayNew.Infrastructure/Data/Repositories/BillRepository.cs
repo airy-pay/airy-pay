@@ -8,32 +8,32 @@ internal class BillRepository(ApplicationDbContext dbContext)
 {
     private readonly ApplicationDbContext _dbContext = dbContext;
 
-    public override async Task<Bill?> GetByIdAsync(BillId id)
+    public override async Task<Bill?> GetByIdAsync(BillId id, CancellationToken cancellationToken)
     {
         return await _dbContext.Bills
             .Include(x => x.Product)
             .Include(x => x.Shop)
             .Include(x => x.Purchase)
-            .FirstOrDefaultAsync(x => x.Id == id);
+            .FirstOrDefaultAsync(x => x.Id == id, cancellationToken: cancellationToken);
     }
 
-    public override async Task<Bill?> GetByIdNoTrackingAsync(BillId id)
+    public override async Task<Bill?> GetByIdNoTrackingAsync(BillId id, CancellationToken cancellationToken)
     {
         return await _dbContext.Bills
             .AsNoTracking()
             .Include(x => x.Product)
             .Include(x => x.Shop)
             .Include(x => x.Purchase)
-            .FirstOrDefaultAsync(x => x.Id == id);
+            .FirstOrDefaultAsync(x => x.Id == id, cancellationToken: cancellationToken);
     }
     
-    public async Task PayBill(BillId billId)
+    public async Task PayBillAsync(BillId billId, CancellationToken cancellationToken)
     {
-        var bill = await GetByIdAsync(billId);
+        var bill = await GetByIdAsync(billId, cancellationToken);
         if (bill is null)
             return;
 
         bill.BillStatus = BillStatus.Paid;
-        await _dbContext.SaveChangesAsync();
+        await _dbContext.SaveChangesAsync(cancellationToken);
     }
 }
