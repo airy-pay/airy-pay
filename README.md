@@ -31,7 +31,8 @@ POSTGRES_USER=""
 POSTGRES_PASSWORD=""
 ```
 3. Open 80 port to allow payment callbacks.
-4. Start the project:
+4. Update database using [Ef Core commands](https://github.com/airy-pay/airy-pay-new?tab=readme-ov-file#%EF%B8%8F-ef-core-commands)
+5. Start the project:
 ```shell
 docker compose up -d
 ```
