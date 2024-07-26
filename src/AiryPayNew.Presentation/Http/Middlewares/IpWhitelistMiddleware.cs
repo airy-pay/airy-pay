@@ -16,6 +16,12 @@ public class IpWhitelistMiddleware
 
     public async Task InvokeAsync(HttpContext context)
     {
+        if (_allowedIPs.Contains("*"))
+        {
+            await _next(context);
+            return;
+        }
+        
         var remoteIp = context.Connection.RemoteIpAddress;
 
         string remoteIpString = remoteIp?.ToString() ?? string.Empty;
