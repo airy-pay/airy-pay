@@ -1,6 +1,14 @@
 ﻿<wpf:ResourceDictionary xml:space="preserve" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:s="clr-namespace:System;assembly=mscorlib" xmlns:ss="urn:shemas-jetbrains-com:settings-storage-xaml" xmlns:wpf="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
 	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=eb54f824_002Dbe05_002D40a6_002D8f7b_002D921728c5152d/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" IsActive="True" Name="All tests from &amp;lt;tests&amp;gt;\&amp;lt;AiryPayNew.Tests.Architecture&amp;gt;" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;&#xD;
-  &lt;Project Location="C:\Users\oqo0\RiderProjects\AiryPayNew\tests\AiryPayNew.Tests.Architecture" Presentation="&amp;lt;tests&amp;gt;\&amp;lt;AiryPayNew.Tests.Architecture&amp;gt;" /&gt;&#xD;
+  &lt;Or&gt;&#xD;
+    &lt;Project Location="C:\Users\oqo0\RiderProjects\AiryPayNew\tests\AiryPayNew.Tests.Architecture" Presentation="&amp;lt;tests&amp;gt;\&amp;lt;AiryPayNew.Tests.Architecture&amp;gt;" /&gt;&#xD;
+    &lt;TestAncestor&gt;&#xD;
+      &lt;TestId&gt;xUnit::688E0688-1338-4025-8939-18BC706876F8::net8.0::AiryPayNew.Tests.Infrastructure.ConnectionStringReaderTests&lt;/TestId&gt;&#xD;
+      &lt;TestId&gt;xUnit::688E0688-1338-4025-8939-18BC706876F8::net8.0::AiryPayNew.Tests.Infrastructure.Repositories.RepositoryTests&lt;/TestId&gt;&#xD;
+      &lt;TestId&gt;xUnit::688E0688-1338-4025-8939-18BC706876F8::net8.0::RepositoryTests&lt;/TestId&gt;&#xD;
+      &lt;TestId&gt;xUnit::74463CFA-4FED-42A8-9098-3FEA373FB136::net8.0::AiryPayNew.Tests.Application.CreateWithdrawalRequestHandlerTests&lt;/TestId&gt;&#xD;
+    &lt;/TestAncestor&gt;&#xD;
+  &lt;/Or&gt;&#xD;
 &lt;/SessionState&gt;</s:String>
 	
 	</wpf:ResourceDictionary>
