@@ -4,7 +4,7 @@
 
 <h1>
     <img height="28" src="./assets/logo.png" alt="Logo">
-    Swagger themes
+    AiryPay
 </h1>
 
 Discord bot which allows server owners to create a shop where users can purchase roles for real money. Simple yet powerful way to monetize and manage and sell roles within your community.
