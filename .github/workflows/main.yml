@@ -35,6 +35,9 @@ jobs:
           script: |
             docker login -u ${{ secrets.DOCKER_USERNAME }} -p ${{ secrets.DOCKER_ACCESS_TOKEN }}
             docker pull ${{ secrets.DOCKER_USERNAME }}/airypaynew:latest
+            docker image prune -f
 
-            docker compose -f ./airy-pay-new/docker-compose.yml down
-            docker compose -f ./airy-pay-new/docker-compose.yml up -d
+            cd ./airy-pay-new
+            docker compose down
+            docker compose pull
+            docker compose up -d --force-recreate
