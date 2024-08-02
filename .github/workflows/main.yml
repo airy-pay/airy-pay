@@ -39,5 +39,4 @@ jobs:
 
             cd ./airy-pay-new
             docker compose down
-            docker compose pull
             docker compose up -d --force-recreate
