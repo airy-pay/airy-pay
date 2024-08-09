@@ -2,7 +2,7 @@
 
 services:
   airypaynew:
-    image: airypaynew
+    image: airypaynew:latest
     environment:
       - "DISCORD_TOKEN=${DISCORD_TOKEN}"
       - "POSTGRES_DB=${POSTGRES_DB}"
