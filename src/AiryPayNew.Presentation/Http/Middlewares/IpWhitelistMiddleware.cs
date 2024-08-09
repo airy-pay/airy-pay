@@ -34,7 +34,7 @@ public class IpWhitelistMiddleware
         if (string.IsNullOrEmpty(remoteIpString) || !_allowedIPs.Contains(remoteIpString))
         {
             context.Response.StatusCode = (int) HttpStatusCode.Forbidden;
-            await context.Response.WriteAsync("Forbidden: Your IP is not allowed.");
+            await context.Response.WriteAsync("Forbidden: IP is not allowed.");
             return;
         }
 
