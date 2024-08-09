@@ -21,9 +21,10 @@ jobs:
 
       - name: Build and push Docker image
         run: |
-          docker build -t airypaynew:latest -f src/AiryPayNew.Presentation/Dockerfile .
-          docker tag airypaynew:latest ${{ secrets.DOCKER_USERNAME }}/airypaynew:latest
-          docker push ${{ secrets.DOCKER_USERNAME }}/airypaynew:latest
+          IMAGE_TAG=$(echo "${GITHUB_SHA}" | cut -c1-12)
+          docker build --no-cache -t airypaynew:${IMAGE_TAG} -f src/AiryPayNew.Presentation/Dockerfile .
+          docker tag airypaynew:${IMAGE_TAG} ${{ secrets.DOCKER_USERNAME }}/airypaynew:${IMAGE_TAG}
+          docker push ${{ secrets.DOCKER_USERNAME }}/airypaynew:${IMAGE_TAG}
 
       - name: Deploy to Server
         uses: appleboy/ssh-action@master
@@ -33,10 +34,12 @@ jobs:
           key: ${{ secrets.SERVER_SSH_KEY }}
           port: ${{ secrets.SERVER_SSH_PORT }}
           script: |
+            IMAGE_TAG=$(echo "${GITHUB_SHA}" | cut -c1-12)
             docker login -u ${{ secrets.DOCKER_USERNAME }} -p ${{ secrets.DOCKER_ACCESS_TOKEN }}
-            docker pull ${{ secrets.DOCKER_USERNAME }}/airypaynew:latest
+            docker pull ${{ secrets.DOCKER_USERNAME }}/airypaynew:${IMAGE_TAG}
             docker image prune -f
-
+            
             cd ./airy-pay-new
-            docker compose down
-            docker compose up -d --build
+            docker-compose down
+            docker-compose rm -f
+            docker-compose up -d --build

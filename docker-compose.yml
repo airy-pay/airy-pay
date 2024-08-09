@@ -1,7 +1,6 @@
 ﻿services:
-  
   airypaynew:
-    image: oqpin/airypaynew:latest
+    image: airypaynew:latest
     environment:
       - "DISCORD_TOKEN=${DISCORD_TOKEN}"
       - "POSTGRES_DB=${POSTGRES_DB}"
