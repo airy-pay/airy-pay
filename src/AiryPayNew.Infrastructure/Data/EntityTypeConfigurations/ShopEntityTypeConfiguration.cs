@@ -1,12 +1,13 @@
 ﻿using AiryPayNew.Domain.Common;
 using AiryPayNew.Domain.Entities.Shops;
 using AiryPayNew.Infrastructure.Data.ValueGenerators;
+using AiryPayNew.Shared.Settings.AppSettings;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace AiryPayNew.Infrastructure.Data.EntityTypeConfigurations;
 
-internal class ShopEntityTypeConfiguration : IEntityTypeConfiguration<Shop>
+internal class ShopEntityTypeConfiguration(AppSettings appSettings) : IEntityTypeConfiguration<Shop>
 {
     public void Configure(EntityTypeBuilder<Shop> builder)
     {
@@ -25,6 +26,7 @@ internal class ShopEntityTypeConfiguration : IEntityTypeConfiguration<Shop>
                 language => language.Code,
                 value => new Language(value))
             .HasMaxLength(2)
+            .HasDefaultValue(new Language("en"))
             .IsRequired();
         
         builder.Property(x => x.Commission)
