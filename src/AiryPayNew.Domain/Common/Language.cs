@@ -1,14 +1,14 @@
 ﻿namespace AiryPayNew.Domain.Common;
 
-public class Language
+public record Language
 {
-    public string Code { get; private set; }
-
-    public Language(string languageCode)
+    public string Code { get; }
+    
+    public Language(string code)
     {
-        if (languageCode.Length != 2)
+        if (code.Length != 2)
             throw new ArgumentException("Invalid language code");
         
-        Code = languageCode.ToLower();
+        Code = code;
     }
 }
