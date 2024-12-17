@@ -17,4 +17,6 @@ public interface IShopRepository : IDefaultRepository<ShopId, Shop>, INoTrackRep
         ShopId shopId, CancellationToken cancellationToken);
     public Task<OperationResult<ShopId>> UpdateBalanceAsync(
         ShopId shopId, decimal change, CancellationToken cancellationToken);
+    public Task<OperationResult> UpdateLanguageAsync(
+        ShopId shopId, Language language, CancellationToken cancellationToken);
 }
