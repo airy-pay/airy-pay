@@ -2,6 +2,7 @@
 using AiryPayNew.Presentation.Utils;
 using AiryPayNew.Domain.Entities.Withdrawals;
 using AiryPayNew.Presentation.Utils;
+using AiryPayNew.Shared.Settings.AppSettings;
 using Discord;
 using Discord.Interactions;
 using MediatR;
@@ -11,10 +12,11 @@ namespace AiryPayNew.Presentation.InteractionModules;
 [RequireContext(ContextType.Guild)]
 [CommandContextType(InteractionContextType.Guild)]
 [RequireUserPermission(GuildPermission.Administrator)]
-public class InfoInteractionModule(IMediator mediator) : InteractionModuleBase<SocketInteractionContext>
+public class InfoInteractionModule(
+    IMediator mediator,
+    AppSettings appSettings
+    ) : InteractionModuleBase<SocketInteractionContext>
 {
-    private readonly Color _embedsColor = new(40, 117, 233);
-    
     [RequireUserPermission(GuildPermission.Administrator)]
     [SlashCommand("info", "\ud83c\udf10 Информация и магазине")]
     public async Task Info()
@@ -52,7 +54,7 @@ public class InfoInteractionModule(IMediator mediator) : InteractionModuleBase<S
                     .WithValue($"`{Context.Guild.Id}`")
                     .WithIsInline(true)])
             .WithFooter($"AiryPay \u00a9 {DateTime.UtcNow.Year}", Context.Client.CurrentUser.GetAvatarUrl())
-            .WithColor(_embedsColor)
+            .WithColor(appSettings.Discord.EmbedMessageColor)
             .Build();
         
         var productsButton = new ButtonBuilder()
@@ -139,7 +141,7 @@ public class InfoInteractionModule(IMediator mediator) : InteractionModuleBase<S
                     : null)
             .WithFields(fields)
             .WithFooter($"AiryPay \u00a9 {DateTime.UtcNow.Year}", Context.Client.CurrentUser.GetAvatarUrl())
-            .WithColor(_embedsColor)
+            .WithColor(appSettings.Discord.EmbedMessageColor)
             .Build();
         
         await RespondAsync(
@@ -175,7 +177,7 @@ public class InfoInteractionModule(IMediator mediator) : InteractionModuleBase<S
                             """)
                 .WithIsInline(false)))
             .WithFooter($"AiryPay \u00a9 {DateTime.UtcNow.Year}", Context.Client.CurrentUser.GetAvatarUrl())
-            .WithColor(_embedsColor)
+            .WithColor(appSettings.Discord.EmbedMessageColor)
             .Build();
         
         await RespondAsync(
@@ -212,7 +214,7 @@ public class InfoInteractionModule(IMediator mediator) : InteractionModuleBase<S
                                        "Пользователи пока не совершали покупки." : null)     
             .WithFields(fields)
             .WithFooter($"AiryPay \u00a9 {DateTime.UtcNow.Year}", Context.Client.CurrentUser.GetAvatarUrl())
-            .WithColor(_embedsColor)
+            .WithColor(appSettings.Discord.EmbedMessageColor)
             .Build();
         
         await RespondAsync(

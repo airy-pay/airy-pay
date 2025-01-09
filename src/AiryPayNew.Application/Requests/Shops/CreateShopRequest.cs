@@ -23,8 +23,7 @@ public class CreateShopRequestHandler(
             Id = shopId,
             Balance = 0,
             Blocked = false,
-            Commission = new Commission(appSettings.PaymentSettings.DefaultShopCommission),
-            Language = new Language("ru")
+            Commission = new Commission(appSettings.PaymentSettings.DefaultShopCommission)
         };
 
         await shopRepository.CreateAsync(shop, cancellationToken);

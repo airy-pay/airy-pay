@@ -19,10 +19,9 @@ namespace AiryPayNew.Presentation.InteractionModules;
 public class SetupInteractionModule(
     IMediator mediator,
     AppSettings appSettings,
-    UserRepositoryService userRepositoryService) : InteractionModuleBase
+    UserRepositoryService userRepositoryService
+    ) : InteractionModuleBase
 {
-    private readonly Color _embedsColor = new(40, 117, 233);
-    
     [RequireUserPermission(GuildPermission.Administrator)]
     [SlashCommand("setup", "\u2728 Установка сообщения для продажи товаров")]
     public async Task Setup()
@@ -141,7 +140,7 @@ public class SetupInteractionModule(
                     .WithValue($"{paymentMethod.Description} ")
                     .WithIsInline(true)])
             .WithFooter($"AiryPay \u00a9 {DateTime.UtcNow.Year}", Context.Client.CurrentUser.GetAvatarUrl())
-            .WithColor(_embedsColor)
+            .WithColor(appSettings.Discord.EmbedMessageColor)
             .Build();
         
         var payButton = new ButtonBuilder()

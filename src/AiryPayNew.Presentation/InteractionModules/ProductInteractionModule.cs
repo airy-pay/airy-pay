@@ -15,7 +15,8 @@ namespace AiryPayNew.Presentation.InteractionModules;
 [Group("product", "\ud83d\udecd\ufe0f Работа с товарами")]
 public class ProductInteractionModule(
     IMediator mediator,
-    SqidsEncoder<long> sqidsEncoder) : InteractionModuleBase<SocketInteractionContext>
+    SqidsEncoder<long> sqidsEncoder
+    ) : InteractionModuleBase<SocketInteractionContext>
 {
     [RequireUserPermission(GuildPermission.Administrator)]
     [SlashCommand("create", "\ud83d\udd27 Создание нового товара")]

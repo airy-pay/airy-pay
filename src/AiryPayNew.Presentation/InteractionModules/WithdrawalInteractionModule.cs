@@ -1,5 +1,6 @@
 ﻿using AiryPayNew.Application.Requests.Withdrawals;
 using AiryPayNew.Presentation.Utils;
+using AiryPayNew.Shared.Settings.AppSettings;
 using Discord;
 using Discord.Interactions;
 using MediatR;
@@ -9,10 +10,12 @@ namespace AiryPayNew.Presentation.InteractionModules;
 [RequireContext(ContextType.Guild)]
 [CommandContextType(InteractionContextType.Guild)]
 [Group("withdrawal", "\ud83d\udcb8 Вывод средств")]
-public class WithdrawalInteractionModule(IMediator mediator, ILogger<WithdrawalInteractionModule> logger) : InteractionModuleBase<SocketInteractionContext>
+public class WithdrawalInteractionModule(
+    IMediator mediator,
+    ILogger<WithdrawalInteractionModule> logger,
+    AppSettings appSettings
+    ) : InteractionModuleBase<SocketInteractionContext>
 {
-    private readonly Color _embedsColor = new(40, 117, 233);
-    
     [SlashCommand("create", "\ud83d\udcb8 Создание вывода средств")]
     public async Task Create(
         [Summary("Сумма", "Сумма вывода средств")] decimal withdrawalSum,
@@ -48,7 +51,7 @@ public class WithdrawalInteractionModule(IMediator mediator, ILogger<WithdrawalI
                     .WithValue($"`{CardFormatter.Format(withdrawalAccount.ToString())}`")
                     .WithIsInline(true)])
             .WithFooter($"AiryPay \u00a9 {DateTime.UtcNow.Year}", Context.Client.CurrentUser.GetAvatarUrl())
-            .WithColor(_embedsColor)
+            .WithColor(appSettings.Discord.EmbedMessageColor)
             .Build();
         
         await RespondAsync(
