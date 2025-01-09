@@ -1,4 +1,5 @@
-﻿using AiryPayNew.Application.Requests.Shops;
+﻿using AiryPayNew.Application.Common;
+using AiryPayNew.Application.Requests.Shops;
 using AiryPayNew.Presentation.Utils;
 using AiryPayNew.Domain.Entities.Withdrawals;
 using AiryPayNew.Presentation.Utils;
@@ -11,7 +12,9 @@ namespace AiryPayNew.Presentation.InteractionModules;
 [RequireContext(ContextType.Guild)]
 [CommandContextType(InteractionContextType.Guild)]
 [RequireUserPermission(GuildPermission.Administrator)]
-public class InfoInteractionModule(IMediator mediator) : InteractionModuleBase<SocketInteractionContext>
+public class InfoInteractionModule(
+    IMediator mediator,
+    IShopLanguageService shopLanguageService) : InteractionModuleBase<SocketInteractionContext>
 {
     private readonly Color _embedsColor = new(40, 117, 233);
     
@@ -28,12 +31,16 @@ public class InfoInteractionModule(IMediator mediator) : InteractionModuleBase<S
         }
         if (operationResult.Entity is null)
         {
-            await RespondAsync(":no_entry_sign: " + "Магазин не найден", ephemeral: true);
+            await RespondAsync(
+                ":no_entry_sign: " + shopLanguageService.GetLocalization(
+                    Context.Guild.Id, "shop not found"),
+                ephemeral: true);
             return;
         }
         
         var shopInfoEmbed = new EmbedBuilder()
-            .WithTitle("\ud83c\udf10 Информация о магазине")
+            .WithTitle("\ud83c\udf10 " + shopLanguageService.GetLocalization(
+                Context.Guild.Id, "shop information"))
             .WithFields([
                 new EmbedFieldBuilder()
                     .WithName("\ud83d\udcb0 Баланс")

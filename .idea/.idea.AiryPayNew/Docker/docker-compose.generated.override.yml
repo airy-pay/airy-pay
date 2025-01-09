@@ -1,5 +1,4 @@
 # This is a generated file. Not intended for manual editing.
-version: "3.8"
 services:
   airypaynew:
     build:
@@ -19,20 +18,19 @@ services:
     - "--timeout=60"
     environment:
       ASPNETCORE_ENVIRONMENT: "Development"
-      DOTNET_USE_POLLING_FILE_WATCHER: "true"
       RIDER_DEBUGGER_LOG_DIR: "/var/opt/rider-debugger"
       RESHARPER_LOG_CONF: "/etc/opt/rider-debugger/backend-log.xml"
     image: "airypaynew:dev"
     ports:
-    - "127.0.0.1:57000:57100"
-    - "127.0.0.1:57200:57300"
+    - "127.0.0.1:57007:57100"
+    - "127.0.0.1:57207:57300"
     volumes:
     - "C:\\Users\\oqo0\\.nuget\\packages:/root/.nuget/packages"
     - "C:\\Users\\oqo0\\RiderProjects\\AiryPayNew\\src\\AiryPayNew.Presentation:/app:rw"
     - "C:\\Users\\oqo0\\RiderProjects\\AiryPayNew:/src:rw"
-    - "C:\\Users\\oqo0\\AppData\\Local\\JetBrains\\RiderRemoteDebugger\\2024.1.4\\\
+    - "C:\\Users\\oqo0\\AppData\\Local\\JetBrains\\RiderRemoteDebugger\\2024.2.7\\\
       Linux64:/opt/rider-debugger"
     - "C:\\Users\\oqo0\\AppData\\Local\\Programs\\Rider\\bin:/etc/opt/rider-debugger/backend-log.xml"
-    - "C:\\Users\\oqo0\\AppData\\Local\\JetBrains\\Rider2024.1\\log\\DebuggerWorker\\\
-      JetBrains.Debugger.Worker.2024_7_27_01_02_45:/var/opt/rider-debugger:rw"
+    - "C:\\Users\\oqo0\\AppData\\Local\\JetBrains\\Rider2024.2\\log\\DebuggerWorker\\\
+      JetBrains.Debugger.Worker.2024_12_17_12_55_31:/var/opt/rider-debugger:rw"
     working_dir: "/app"

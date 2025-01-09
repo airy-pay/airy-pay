@@ -12,7 +12,7 @@ public class FinPayPaymentService(FinPayApiClient finPayApiClient) : IPaymentSer
 {
     private const string Name = "FinPay"; 
 
-    public string GetServiceName() => Name;
+    public string GetServiceName() => Name; 
     
     public async Task<OperationResult<string>> CreateAsync(Bill bill, string paymentMethod)
     {
