@@ -1,4 +1,5 @@
-﻿using AiryPayNew.Domain.Entities.Shops;
+﻿using AiryPayNew.Domain.Common;
+using AiryPayNew.Domain.Entities.Shops;
 using AiryPayNew.Shared.Settings.AppSettings;
 using MediatR;
 
@@ -22,7 +23,8 @@ public class CreateShopRequestHandler(
             Id = shopId,
             Balance = 0,
             Blocked = false,
-            Commission = new Commission(appSettings.PaymentSettings.DefaultShopCommission)
+            Commission = new Commission(appSettings.PaymentSettings.DefaultShopCommission),
+            Language = new Language("ru")
         };
 
         await shopRepository.CreateAsync(shop, cancellationToken);

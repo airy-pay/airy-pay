@@ -10,5 +10,7 @@
     &lt;/TestAncestor&gt;&#xD;
   &lt;/Or&gt;&#xD;
 &lt;/SessionState&gt;</s:String>
+	<s:Boolean x:Key="/Default/ResxEditorPersonal/CheckedGroups/=src_002FAiryPayNew_002EPresentation_002FLocalization_002FLocalization/@EntryIndexedValue">False</s:Boolean>
+	<s:Boolean x:Key="/Default/ResxEditorPersonal/CheckedGroups/=src_002FAiryPayNew_002EPresentation_002FLocalization_002FLocalization/@EntryIndexRemoved">True</s:Boolean>
 	
 	</wpf:ResourceDictionary>
