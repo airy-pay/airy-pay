@@ -7,23 +7,12 @@
     AiryPay
 </h1>
 
-Discord bot which allows server owners to create a shop where users can purchase roles for real money. Simple yet powerful way to monetize and manage and sell roles within your community.
-
-### 🤖 Bot commands
-
-| Command | Description |
-| - | - |
-| `/info` | Get current shop information |
-| `/product create` | Create product |
-| `/product delete` | Delete product |
-| `/product edit` | Edit product |
-| `/setup` | Set up shop in the server |
-| `/withdrawal create` | Create money withdrawal request |
+Monetize, manage and sell roles within your Discord community.
 
 ### 📦 Manual deployment
 
 1. Create `appsettings.json` and `paymentsettings.yaml` files in project root directory using templates in `./src/AiryPayPay.Presentation` and configure them.
-2. Create `.env` file using template in project root directory:
+2. Add `.env` file using template in project root directory:
 ```js
 DISCORD_TOKEN=""
 POSTGRES_DB=""
