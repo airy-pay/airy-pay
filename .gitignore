@@ -8,3 +8,4 @@ riderModule.iml
 *.Test.cs
 /paymentsettings.yaml
 log_*.txt
+*.DotSettings.user
