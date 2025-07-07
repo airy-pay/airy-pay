@@ -60,7 +60,7 @@ namespace AiryPayNew.Presentation.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to .
+        ///   Looks up a localized string similar to 🇺🇸.
         /// </summary>
         internal static string _languageEmoji {
             get {
@@ -69,7 +69,7 @@ namespace AiryPayNew.Presentation.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to .
+        ///   Looks up a localized string similar to English.
         /// </summary>
         internal static string _languageName {
             get {
@@ -78,7 +78,223 @@ namespace AiryPayNew.Presentation.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to .
+        ///   Looks up a localized string similar to Active.
+        /// </summary>
+        internal static string active {
+            get {
+                return ResourceManager.GetString("active", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Amount.
+        /// </summary>
+        internal static string amount {
+            get {
+                return ResourceManager.GetString("amount", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Balance.
+        /// </summary>
+        internal static string balance {
+            get {
+                return ResourceManager.GetString("balance", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Blocked.
+        /// </summary>
+        internal static string blocked {
+            get {
+                return ResourceManager.GetString("blocked", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Buyer.
+        /// </summary>
+        internal static string buyer {
+            get {
+                return ResourceManager.GetString("buyer", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Canceled.
+        /// </summary>
+        internal static string canceled {
+            get {
+                return ResourceManager.GetString("canceled", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Account Number.
+        /// </summary>
+        internal static string cardNumber {
+            get {
+                return ResourceManager.GetString("cardNumber", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Date.
+        /// </summary>
+        internal static string date {
+            get {
+                return ResourceManager.GetString("date", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Date: `{0} (UTC)`.
+        /// </summary>
+        internal static string dateUtc {
+            get {
+                return ResourceManager.GetString("dateUtc", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to ID.
+        /// </summary>
+        internal static string guildId {
+            get {
+                return ResourceManager.GetString("guildId", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Shop information.
+        /// </summary>
+        internal static string infoCommandDescription {
+            get {
+                return ResourceManager.GetString("infoCommandDescription", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to In process.
+        /// </summary>
+        internal static string inProcess {
+            get {
+                return ResourceManager.GetString("inProcess", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Language.
+        /// </summary>
+        internal static string language {
+            get {
+                return ResourceManager.GetString("language", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Nothing here yet.\nCreate a new product using the /product create command..
+        /// </summary>
+        internal static string noProducts {
+            get {
+                return ResourceManager.GetString("noProducts", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Nothing here yet.\nUsers haven&apos;t made any purchases yet..
+        /// </summary>
+        internal static string noPurchases {
+            get {
+                return ResourceManager.GetString("noPurchases", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Nothing here yet.\nCreate a withdrawal using the /withdrawal command..
+        /// </summary>
+        internal static string noWithdrawals {
+            get {
+                return ResourceManager.GetString("noWithdrawals", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Paid.
+        /// </summary>
+        internal static string paid {
+            get {
+                return ResourceManager.GetString("paid", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Price: **{0} ₽**.
+        /// </summary>
+        internal static string productPrice {
+            get {
+                return ResourceManager.GetString("productPrice", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Role: &lt;@&amp;{0}&gt;.
+        /// </summary>
+        internal static string productRole {
+            get {
+                return ResourceManager.GetString("productRole", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Products.
+        /// </summary>
+        internal static string products {
+            get {
+                return ResourceManager.GetString("products", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Profit.
+        /// </summary>
+        internal static string profit {
+            get {
+                return ResourceManager.GetString("profit", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Recent Purchases.
+        /// </summary>
+        internal static string purchases {
+            get {
+                return ResourceManager.GetString("purchases", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Role.
+        /// </summary>
+        internal static string role {
+            get {
+                return ResourceManager.GetString("role", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Shop ID.
+        /// </summary>
+        internal static string shopId {
+            get {
+                return ResourceManager.GetString("shopId", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Shop Information.
         /// </summary>
         internal static string shopInformation {
             get {
@@ -87,11 +303,137 @@ namespace AiryPayNew.Presentation.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to .
+        ///   Looks up a localized string similar to {0}.
+        /// </summary>
+        internal static string shopInfoTitle {
+            get {
+                return ResourceManager.GetString("shopInfoTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Shop not found.
         /// </summary>
         internal static string shopNotFound {
             get {
                 return ResourceManager.GetString("shopNotFound", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Status.
+        /// </summary>
+        internal static string status {
+            get {
+                return ResourceManager.GetString("status", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Status.
+        /// </summary>
+        internal static string statusField {
+            get {
+                return ResourceManager.GetString("statusField", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Support.
+        /// </summary>
+        internal static string support {
+            get {
+                return ResourceManager.GetString("support", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Terms of Service.
+        /// </summary>
+        internal static string terms {
+            get {
+                return ResourceManager.GetString("terms", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Terms of Service.
+        /// </summary>
+        internal static string termsOfService {
+            get {
+                return ResourceManager.GetString("termsOfService", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Account number: ||{0}||.
+        /// </summary>
+        internal static string withdrawalAccountNumber {
+            get {
+                return ResourceManager.GetString("withdrawalAccountNumber", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Amount: **{0} ₽**.
+        /// </summary>
+        internal static string withdrawalAmount {
+            get {
+                return ResourceManager.GetString("withdrawalAmount", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to {0:dd/MM/yyyy H:mm} Card.
+        /// </summary>
+        internal static string withdrawalDateCard {
+            get {
+                return ResourceManager.GetString("withdrawalDateCard", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Withdrawals.
+        /// </summary>
+        internal static string withdrawals {
+            get {
+                return ResourceManager.GetString("withdrawals", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Status: **{0}**.
+        /// </summary>
+        internal static string withdrawalStatus {
+            get {
+                return ResourceManager.GetString("withdrawalStatus", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Canceled.
+        /// </summary>
+        internal static string withdrawalStatus_canceled {
+            get {
+                return ResourceManager.GetString("withdrawalStatus_canceled", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to In process.
+        /// </summary>
+        internal static string withdrawalStatus_inprocess {
+            get {
+                return ResourceManager.GetString("withdrawalStatus_inprocess", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Paid.
+        /// </summary>
+        internal static string withdrawalStatus_paid {
+            get {
+                return ResourceManager.GetString("withdrawalStatus_paid", resourceCulture);
             }
         }
     }

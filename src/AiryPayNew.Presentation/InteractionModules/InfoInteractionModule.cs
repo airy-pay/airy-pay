@@ -17,9 +17,8 @@ public class InfoInteractionModule(
     IShopLanguageService shopLanguageService) : InteractionModuleBase<SocketInteractionContext>
 {
     private readonly Color _embedsColor = new(40, 117, 233);
-    
-    [RequireUserPermission(GuildPermission.Administrator)]
-    [SlashCommand("info", "\ud83c\udf10 Информация и магазине")]
+
+    [SlashCommand("info", "🌐 Информация о магазине")]
     public async Task Info()
     {
         var getShopRequest = new GetShopRequest(Context.Guild.Id);
@@ -31,59 +30,70 @@ public class InfoInteractionModule(
         }
 
         var localizer = new Localizer(operationResult.Entity.Language);
+
+        var re = localizer.GetString("status");
         
         var shopInfoEmbed = new EmbedBuilder()
-            .WithTitle("\ud83c\udf10 " + localizer.GetString("shopInformation"))
-            .WithFields([
+            .WithTitle($"🌐 {localizer.GetString("shopInformation")}")
+            .WithFields(
                 new EmbedFieldBuilder()
-                    .WithName("\ud83d\udcb0 Баланс")
-                    .WithValue($"{operationResult.Entity.Balance} \u20bd")
+                    .WithName($"💰 {localizer.GetString("balance")}")
+                    .WithValue($"{operationResult.Entity.Balance} ₽")
                     .WithIsInline(true),
                 new EmbedFieldBuilder()
-                    .WithName("\ud83d\udd04 Статус")
-                    .WithValue(operationResult.Entity.Blocked ? "Заблокирован" : "Активен")
+                    .WithName($"🔄 {localizer.GetString("status")}")
+                    .WithValue(operationResult.Entity.Blocked
+                        ? localizer.GetString("blocked")
+                        : localizer.GetString("active"))
                     .WithIsInline(true),
                 new EmbedFieldBuilder()
-                    .WithName("\ud83d\udecd\ufe0f Товары")
+                    .WithName($"🛍️ {localizer.GetString("products")}")
                     .WithValue(operationResult.Entity.Products.Count)
                     .WithIsInline(true),
                 new EmbedFieldBuilder()
-                    .WithName("\ud83c\udff7\ufe0f Id")
+                    .WithName($"🏷️ {localizer.GetString("shopId")}")
                     .WithValue($"`{Context.Guild.Id}`")
-                    .WithIsInline(true)])
-            .WithFooter($"AiryPay \u00a9 {DateTime.UtcNow.Year}", Context.Client.CurrentUser.GetAvatarUrl())
+                    .WithIsInline(true),
+                new EmbedFieldBuilder()
+                    .WithName($"{localizer.GetString("_languageEmoji")} {localizer.GetString("language")}")
+                    .WithValue(localizer.GetString("_languageName"))
+                    .WithIsInline(true))
+            .WithFooter($"AiryPay © {DateTime.UtcNow.Year}", Context.Client.CurrentUser.GetAvatarUrl())
             .WithColor(_embedsColor)
             .Build();
-        
+
         var productsButton = new ButtonBuilder()
             .WithCustomId("InfoInteractionModule.GetProducts")
-            .WithLabel("Товары")
-            .WithEmote(new Emoji("\ud83d\udecd\ufe0f"))
+            .WithLabel(localizer.GetString("products"))
+            .WithEmote(new Emoji("🛍️"))
             .WithStyle(ButtonStyle.Primary);
+
         var withdrawalsButton = new ButtonBuilder()
             .WithCustomId("InfoInteractionModule.GetWithdrawals")
-            .WithLabel("Выводы средств")
-            .WithEmote(new Emoji("\ud83d\udcb8"))
+            .WithLabel(localizer.GetString("withdrawals"))
+            .WithEmote(new Emoji("💸"))
             .WithStyle(ButtonStyle.Primary);
+
         var lastPurchasesButton = new ButtonBuilder()
             .WithCustomId("InfoInteractionModule.GetPurchases")
-            .WithLabel("Последние покупки")
-            .WithEmote(new Emoji("\ud83d\udce6"))
+            .WithLabel(localizer.GetString("purchases"))
+            .WithEmote(new Emoji("📦"))
             .WithStyle(ButtonStyle.Primary);
+
         var supportButton = new ButtonBuilder()
-            .WithLabel("Поддержка")
+            .WithLabel(localizer.GetString("support"))
             .WithUrl("https://discord.gg/Arn9RsRqD9")
-            .WithEmote(new Emoji("\ud83d\udcac"))
+            .WithEmote(new Emoji("💬"))
             .WithStyle(ButtonStyle.Link);
+
         var termsButton = new ButtonBuilder()
             .WithUrl("https://airypay.ru/terms")
-            .WithLabel("Условия предоставления услуг")
-            .WithEmote(new Emoji("\ud83d\udcc3"))
+            .WithLabel(localizer.GetString("terms"))
+            .WithEmote(new Emoji("📃"))
             .WithStyle(ButtonStyle.Link);
-        
+
         var messageComponents = new ComponentBuilder()
-            .WithRows(new[]
-            {
+            .WithRows([
                 new ActionRowBuilder()
                     .WithButton(productsButton)
                     .WithButton(withdrawalsButton)
@@ -91,16 +101,12 @@ public class InfoInteractionModule(
                 new ActionRowBuilder()
                     .WithButton(supportButton)
                     .WithButton(termsButton),
-            })
+            ])
             .Build();
-        
-        await RespondAsync(
-            embed: shopInfoEmbed,
-            components: messageComponents,
-            ephemeral: true);
+
+        await RespondAsync(embed: shopInfoEmbed, components: messageComponents, ephemeral: true);
     }
-    
-    [RequireUserPermission(GuildPermission.Administrator)]
+
     [ComponentInteraction("InfoInteractionModule.GetProducts")]
     public async Task GetProducts()
     {
@@ -112,106 +118,120 @@ public class InfoInteractionModule(
             return;
         }
 
+        var localizer = new Localizer(operationResult.Entity.Language);
+
         var fieldsTasks = operationResult.Entity.Products.Select(async x =>
         {
             var emoji = await EmojiParser.GetExistingEmojiAsync(Context.Guild, x.Emoji);
             return new EmbedFieldBuilder()
                 .WithName($"{emoji} {x.Name}")
                 .WithValue($"""
-                            Стоимость: **{x.Price} ₽**
-                            Роль: <@&{x.DiscordRoleId}>
+                            {localizer.GetString("amount")}: **{x.Price} ₽**
+                            {localizer.GetString("role")}: <@&{x.DiscordRoleId}>
                             """)
                 .WithIsInline(true);
         });
+
         var fields = await Task.WhenAll(fieldsTasks);
-        
+
         var productsEmbed = new EmbedBuilder()
-            .WithTitle("\ud83d\udce6 Товары")
-            .WithDescription(
-                operationResult.Entity.Products.Count == 0 ? 
-                    "Тут пока пусто.\n" + 
-                    "Создайте новый товар при помощи команды `/product create`"
-                    : null)
+            .WithTitle($"📦 {localizer.GetString("products")}")
+            .WithDescription(operationResult.Entity.Products.Count == 0
+                ? localizer.GetString("noProducts")
+                : null)
             .WithFields(fields)
-            .WithFooter($"AiryPay \u00a9 {DateTime.UtcNow.Year}", Context.Client.CurrentUser.GetAvatarUrl())
+            .WithFooter($"AiryPay © {DateTime.UtcNow.Year}", Context.Client.CurrentUser.GetAvatarUrl())
             .WithColor(_embedsColor)
             .Build();
-        
-        await RespondAsync(
-            embed: productsEmbed,
-            ephemeral: true);
+
+        await RespondAsync(embed: productsEmbed, ephemeral: true);
     }
-    
-    [RequireUserPermission(GuildPermission.Administrator)]
+
     [ComponentInteraction("InfoInteractionModule.GetWithdrawals")]
     public async Task GetWithdrawals()
     {
+        var getShopRequest = new GetShopRequest(Context.Guild.Id);
+        var operationResult = await mediator.Send(getShopRequest);
+        if (!operationResult.Successful)
+        {
+            await RespondAsync(":no_entry_sign: " + operationResult.ErrorMessage, ephemeral: true);
+            return;
+        }
+        
+        var localizer = new Localizer(operationResult.Entity.Language);
+        
         var getShopWithdrawalsRequest = new GetShopWithdrawalsRequest(Context.Guild.Id);
         var withdrawals = await mediator.Send(getShopWithdrawalsRequest);
 
         var withdrawalStatusesGetter = new Dictionary<WithdrawalStatus, string>()
         {
-            { WithdrawalStatus.InProcess, "\ud83d\udfe1 В процессе" },
-            { WithdrawalStatus.Paid, "\ud83d\udfe2 Выплачен" },
-            { WithdrawalStatus.Canceled, "\ud83d\udd34 Отменён" },
+            { WithdrawalStatus.InProcess, $"🟡 {localizer.GetString("inProcess")}" },
+            { WithdrawalStatus.Paid, $"🟢 {localizer.GetString("paid")}" },
+            { WithdrawalStatus.Canceled, $"🔴 {localizer.GetString("canceled")}" },
         };
-        
+
         var withdrawalsEmbed = new EmbedBuilder()
-            .WithTitle("\ud83d\udcb8 Выводы средств")
-            .WithDescription(
-                withdrawals.Count == 0 ? "Тут пока пусто.\n" +
-                                         "Создайте вывод средств при помощи команды `/withdrawal`" : null)
+            .WithTitle($"💸 {localizer.GetString("withdrawals")}")
+            .WithDescription(withdrawals.Count == 0
+                ? localizer.GetString("noWithdrawals")
+                : null)
             .WithFields(withdrawals.Select(x => new EmbedFieldBuilder()
-                .WithName($"\ud83d\udcb3 {x.DateTime:dd/MM/yyyy H:mm} Card")
+                .WithName($"💳 {x.DateTime:dd/MM/yyyy H:mm} Card")
                 .WithValue($"""
-                            Номер счёта: ||{CardFormatter.Format(x.ReceivingAccountNumber)}||
-                            Сумма: **{x.Amount} ₽**
-                            Статус: **{withdrawalStatusesGetter[x.WithdrawalStatus]}**
+                            {localizer.GetString("cardNumber")}: ||{CardFormatter.Format(x.ReceivingAccountNumber)}||
+                            {localizer.GetString("amount")}: **{x.Amount} ₽**
+                            {localizer.GetString("statusField")}: **{withdrawalStatusesGetter[x.WithdrawalStatus]}**
                             """)
                 .WithIsInline(false)))
-            .WithFooter($"AiryPay \u00a9 {DateTime.UtcNow.Year}", Context.Client.CurrentUser.GetAvatarUrl())
+            .WithFooter($"AiryPay © {DateTime.UtcNow.Year}", Context.Client.CurrentUser.GetAvatarUrl())
             .WithColor(_embedsColor)
             .Build();
-        
-        await RespondAsync(
-            embed: withdrawalsEmbed,
-            ephemeral: true);
+
+        await RespondAsync(embed: withdrawalsEmbed, ephemeral: true);
     }
-    
-    [RequireUserPermission(GuildPermission.Administrator)]
+
     [ComponentInteraction("InfoInteractionModule.GetPurchases")]
     public async Task GetPurchases()
     {
+        var getShopRequest = new GetShopRequest(Context.Guild.Id);
+        var operationResult = await mediator.Send(getShopRequest);
+        if (!operationResult.Successful)
+        {
+            await RespondAsync(":no_entry_sign: " + operationResult.ErrorMessage, ephemeral: true);
+            return;
+        }
+        
+        var localizer = new Localizer(operationResult.Entity.Language);
+        
         var getShopPurchasesRequest = new GetShopPurchasesRequest(Context.Guild.Id);
         var purchases = await mediator.Send(getShopPurchasesRequest);
-        
+
         var fieldsTasks = purchases.Select(async x =>
         {
             var productEmoji = await EmojiParser.GetExistingEmojiAsync(Context.Guild, x.Product.Emoji);
             return new EmbedFieldBuilder()
                 .WithName($"{productEmoji} {x.Product.Name}")
                 .WithValue($"""
-                            Попупатель: <@{x.Bill.BuyerDiscordId}>
-                            Роль: <@&{x.Product.DiscordRoleId}>
-                            Прибыль: **{x.Product.Price} ₽**
-                            Дата: `{x.DateTime} (UTC)`
+                            {localizer.GetString("buyer")}: <@{x.Bill.BuyerDiscordId}>
+                            {localizer.GetString("role")}: <@&{x.Product.DiscordRoleId}>
+                            {localizer.GetString("profit")}: **{x.Product.Price} ₽**
+                            {localizer.GetString("date")}: `{x.DateTime} (UTC)`
                             """)
                 .WithIsInline(true);
         });
+
         var fields = await Task.WhenAll(fieldsTasks);
-        
+
         var purchasesEmbed = new EmbedBuilder()
-            .WithTitle("\ud83d\udce6 Последние покупки")
-            .WithDescription(
-                purchases.Count == 0 ? "Тут пока пусто.\n" +
-                                       "Пользователи пока не совершали покупки." : null)     
+            .WithTitle($"📦 {localizer.GetString("purchases")}")
+            .WithDescription(purchases.Count == 0
+                ? localizer.GetString("noPurchases")
+                : null)
             .WithFields(fields)
-            .WithFooter($"AiryPay \u00a9 {DateTime.UtcNow.Year}", Context.Client.CurrentUser.GetAvatarUrl())
+            .WithFooter($"AiryPay © {DateTime.UtcNow.Year}", Context.Client.CurrentUser.GetAvatarUrl())
             .WithColor(_embedsColor)
             .Build();
-        
-        await RespondAsync(
-            embed: purchasesEmbed,
-            ephemeral: true);
+
+        await RespondAsync(embed: purchasesEmbed, ephemeral: true);
     }
 }
