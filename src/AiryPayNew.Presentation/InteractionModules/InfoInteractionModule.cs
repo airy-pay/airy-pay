@@ -2,7 +2,7 @@
 using AiryPayNew.Application.Requests.Shops;
 using AiryPayNew.Presentation.Utils;
 using AiryPayNew.Domain.Entities.Withdrawals;
-using AiryPayNew.Presentation.Utils;
+using AiryPayNew.Presentation.Localization;
 using Discord;
 using Discord.Interactions;
 using MediatR;
@@ -33,14 +33,15 @@ public class InfoInteractionModule(
         {
             await RespondAsync(
                 ":no_entry_sign: " + shopLanguageService.GetLocalization(
-                    Context.Guild.Id, "shop not found"),
+                    Context.Guild.Id, "shopNotFound"),
                 ephemeral: true);
             return;
         }
+
+        var localizer = new Localizer(operationResult.Entity.Language);
         
         var shopInfoEmbed = new EmbedBuilder()
-            .WithTitle("\ud83c\udf10 " + shopLanguageService.GetLocalization(
-                Context.Guild.Id, "shop information"))
+            .WithTitle("\ud83c\udf10 " + localizer.GetString("shopInformation"))
             .WithFields([
                 new EmbedFieldBuilder()
                     .WithName("\ud83d\udcb0 Баланс")
