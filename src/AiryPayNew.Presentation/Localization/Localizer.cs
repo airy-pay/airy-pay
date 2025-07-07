@@ -16,4 +16,9 @@ public class Localizer
     {
         return LocalizationManager.GetLocalized(localizationRow, _language);
     }
+
+    public static string GetString(string localizationRow, Language language)
+    {
+        return LocalizationManager.GetLocalized(localizationRow, language);
+    }
 }
