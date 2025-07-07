@@ -23,7 +23,7 @@ public class ShopLanguageService(IMediator mediator) : IShopLanguageService
         if (shop.Entity is null || !shop.Successful)
             return OperationResult<string>.Error(string.Empty, "Failed to get shop");
 
-        var result = LocalizationManager.GetLocalizedString(localizationKey, shop.Entity.Language);
+        var result = LocalizationManager.GetLocalized(localizationKey, shop.Entity.Language);
         
         return OperationResult<string>.Success(result);
     }

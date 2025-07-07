@@ -1,16 +1,19 @@
 ﻿using System.Globalization;
 using System.Resources;
 using AiryPayNew.Domain.Common;
+using AiryPayNew.Presentation.Localization;
 
 namespace AiryPayNew.Presentation.Utils;
 
 public static class LocalizationManager
 {
-    private static readonly ResourceManager ResourceManager = new(
-        typeof(LocalizationManager).Namespace + ".Localization", 
-        typeof(LocalizationManager).Assembly);
+    private const string ResourceBaseName = "AiryPayNew.Presentation.Localization.Localization";
+    
+    private static readonly ResourceManager ResourceManager = new (
+        ResourceBaseName,
+        typeof(Localizer).Assembly);
 
-    public static string GetLocalizedString(string key, Language language)
+    public static string GetLocalized(string key, Language language)
     {
         var culture = new CultureInfo(language.Code);
         return ResourceManager.GetString(key, culture) ?? key;
