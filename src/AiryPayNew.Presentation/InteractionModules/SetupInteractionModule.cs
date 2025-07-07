@@ -24,7 +24,7 @@ public class SetupInteractionModule(
     private readonly Color _embedsColor = new(40, 117, 233);
     
     [RequireUserPermission(GuildPermission.Administrator)]
-    [SlashCommand("setup", "\u2728 Установка сообщения для продажи товаров")]
+    [SlashCommand("setup", "\u2728 Change message for selling products")]
     public async Task Setup()
     {
         var getShopRequest = new GetShopRequest(Context.Guild.Id);

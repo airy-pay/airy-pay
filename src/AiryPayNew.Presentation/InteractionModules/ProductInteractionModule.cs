@@ -12,13 +12,13 @@ namespace AiryPayNew.Presentation.InteractionModules;
 [RequireContext(ContextType.Guild)]
 [CommandContextType(InteractionContextType.Guild)]
 [RequireUserPermission(GuildPermission.Administrator)]
-[Group("product", "\ud83d\udecd\ufe0f Работа с товарами")]
+[Group("product", "\ud83d\udecd\ufe0f Working with products")]
 public class ProductInteractionModule(
     IMediator mediator,
     SqidsEncoder<long> sqidsEncoder) : InteractionModuleBase<SocketInteractionContext>
 {
     [RequireUserPermission(GuildPermission.Administrator)]
-    [SlashCommand("create", "\ud83d\udd27 Создание нового товара")]
+    [SlashCommand("create", "\ud83d\udd27 Create new product")]
     public async Task Create(
         [Summary("Эмодзи", "Будет отображаться возле товара")] string emojiText,
         [Summary("Название", "Название товара")] string name,
@@ -61,7 +61,7 @@ public class ProductInteractionModule(
     }
     
     [RequireUserPermission(GuildPermission.Administrator)]
-    [SlashCommand("delete", "\ud83d\udeab Удаление товара")]
+    [SlashCommand("delete", "\ud83d\udeab Delete product")]
     public async Task Delete(
         [Summary("Товар", "Товар, который будет удалён"),
          Autocomplete(typeof(ProductAutocompleteHandler))] string productHashId)
@@ -75,7 +75,7 @@ public class ProductInteractionModule(
     }
     
     [RequireUserPermission(GuildPermission.Administrator)]
-    [SlashCommand("edit", "\ud83d\udd04 Изменение товара")]
+    [SlashCommand("edit", "\ud83d\udd04 Change product")]
     public async Task Edit(
         [Summary("Товар", "Товар, который будет изменён"),
          Autocomplete(typeof(ProductAutocompleteHandler))] string productHashId,

@@ -18,7 +18,7 @@ public class InfoInteractionModule(
 {
     private readonly Color _embedsColor = new(40, 117, 233);
 
-    [SlashCommand("info", "🌐 Информация о магазине")]
+    [SlashCommand("info", "🌐 Shop information")]
     public async Task Info()
     {
         var getShopRequest = new GetShopRequest(Context.Guild.Id);

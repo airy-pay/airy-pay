@@ -8,12 +8,12 @@ namespace AiryPayNew.Presentation.InteractionModules;
 
 [RequireContext(ContextType.Guild)]
 [CommandContextType(InteractionContextType.Guild)]
-[Group("withdrawal", "\ud83d\udcb8 Вывод средств")]
+[Group("withdrawal", "\ud83d\udcb8 Withdrawal")]
 public class WithdrawalInteractionModule(IMediator mediator, ILogger<WithdrawalInteractionModule> logger) : InteractionModuleBase<SocketInteractionContext>
 {
     private readonly Color _embedsColor = new(40, 117, 233);
     
-    [SlashCommand("create", "\ud83d\udcb8 Создание вывода средств")]
+    [SlashCommand("create", "\ud83d\udcb8 Creating a withdrawal")]
     public async Task Create(
         [Summary("Сумма", "Сумма вывода средств")] decimal withdrawalSum,
         [Summary("Карта", "Номер карты")] long withdrawalAccount)
@@ -55,6 +55,4 @@ public class WithdrawalInteractionModule(IMediator mediator, ILogger<WithdrawalI
             "-# В случае ошибки во время вывода средства будут возвращены на счёт магазина.",
             embed: verifyWithdrawalEmbed, ephemeral: true);
     }
-
-
 }
