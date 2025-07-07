@@ -62,27 +62,36 @@ namespace AiryPayNew.Presentation.Localization {
         /// <summary>
         ///   Looks up a localized string similar to .
         /// </summary>
-        internal static string Language_name {
+        internal static string _languageEmoji {
             get {
-                return ResourceManager.GetString("Language name", resourceCulture);
+                return ResourceManager.GetString("_languageEmoji", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Looks up a localized string similar to .
         /// </summary>
-        internal static string shop_information {
+        internal static string _languageName {
             get {
-                return ResourceManager.GetString("shop information", resourceCulture);
+                return ResourceManager.GetString("_languageName", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Looks up a localized string similar to .
         /// </summary>
-        internal static string shop_not_found {
+        internal static string shopInformation {
             get {
-                return ResourceManager.GetString("shop not found", resourceCulture);
+                return ResourceManager.GetString("shopInformation", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to .
+        /// </summary>
+        internal static string shopNotFound {
+            get {
+                return ResourceManager.GetString("shopNotFound", resourceCulture);
             }
         }
     }
