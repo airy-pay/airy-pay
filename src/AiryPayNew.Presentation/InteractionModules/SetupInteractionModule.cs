@@ -34,11 +34,6 @@ public class SetupInteractionModule(
             await RespondAsync(":no_entry_sign: " + operationResult.ErrorMessage, ephemeral: true);
             return;
         }
-        if (operationResult.Entity is null)
-        {
-            await RespondAsync(":no_entry_sign: " + "Магазин не найден.", ephemeral: true);
-            return;
-        }
 
         var selectMenuOptionsTasks = operationResult.Entity.Products
             .Select(async x => new SelectMenuOptionBuilder()

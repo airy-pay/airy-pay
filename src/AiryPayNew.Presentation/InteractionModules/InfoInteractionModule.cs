@@ -29,14 +29,6 @@ public class InfoInteractionModule(
             await RespondAsync(":no_entry_sign: " + operationResult.ErrorMessage, ephemeral: true);
             return;
         }
-        if (operationResult.Entity is null)
-        {
-            await RespondAsync(
-                ":no_entry_sign: " + shopLanguageService.GetLocalization(
-                    Context.Guild.Id, "shopNotFound"),
-                ephemeral: true);
-            return;
-        }
 
         var localizer = new Localizer(operationResult.Entity.Language);
         
@@ -117,11 +109,6 @@ public class InfoInteractionModule(
         if (!operationResult.Successful)
         {
             await RespondAsync(":no_entry_sign: " + operationResult.ErrorMessage, ephemeral: true);
-            return;
-        }
-        if (operationResult.Entity is null)
-        {
-            await RespondAsync(":no_entry_sign: " + "Магазин не найден", ephemeral: true);
             return;
         }
 
