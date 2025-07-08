@@ -20,10 +20,11 @@ public class ProductInteractionModule(
     [RequireUserPermission(GuildPermission.Administrator)]
     [SlashCommand("create", "\ud83d\udd27 Create new product")]
     public async Task Create(
-        [Summary("Эмодзи", "Будет отображаться возле товара")] string emojiText,
-        [Summary("Название", "Название товара")] string name,
-        [Summary("Цена", "Цена товара")] decimal price,
-        [Summary("Роль", "Роль, которая будет выдана покупателю товара")] IRole discordRole)
+        [Summary("Emoji", "Will be displayed next to the product")] string emojiText,
+        [Summary("Name", "The name of the product")] string name,
+        [Summary("Price", "The price of the product")] decimal price,
+        [Summary("Role", "The role that will be granted to the buyer of the product")] IRole discordRole)
+
     {
         var validEmojiText = await EmojiParser.GetEmojiText(emojiText);
         if (validEmojiText is null)
@@ -63,8 +64,9 @@ public class ProductInteractionModule(
     [RequireUserPermission(GuildPermission.Administrator)]
     [SlashCommand("delete", "\ud83d\udeab Delete product")]
     public async Task Delete(
-        [Summary("Товар", "Товар, который будет удалён"),
+        [Summary("Product", "The product that will be deleted"),
          Autocomplete(typeof(ProductAutocompleteHandler))] string productHashId)
+
     {
         var productId = new ProductId(sqidsEncoder.Decode(productHashId).Single());
         
@@ -77,12 +79,13 @@ public class ProductInteractionModule(
     [RequireUserPermission(GuildPermission.Administrator)]
     [SlashCommand("edit", "\ud83d\udd04 Change product")]
     public async Task Edit(
-        [Summary("Товар", "Товар, который будет изменён"),
+        [Summary("Product", "The product that will be edited"),
          Autocomplete(typeof(ProductAutocompleteHandler))] string productHashId,
-        [Summary("Эмодзи", "Будет отображаться возле товара")] string emojiText,
-        [Summary("Название", "Название товара")] string name,
-        [Summary("Цена", "Цена товара")] decimal price,
-        [Summary("Роль", "Роль, которая будет выдана покупателю товара")] IRole discordRole)
+        [Summary("Emoji", "Will be displayed next to the product")] string emojiText,
+        [Summary("Name", "The name of the product")] string name,
+        [Summary("Price", "The price of the product")] decimal price,
+        [Summary("Role", "The role that will be granted to the buyer of the product")] IRole discordRole)
+
     {
         var validEmojiText = await EmojiParser.GetEmojiText(emojiText);
         if (validEmojiText is null)

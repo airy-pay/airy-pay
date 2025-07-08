@@ -15,8 +15,8 @@ public class WithdrawalInteractionModule(IMediator mediator, ILogger<WithdrawalI
     
     [SlashCommand("create", "\ud83d\udcb8 Creating a withdrawal")]
     public async Task Create(
-        [Summary("Сумма", "Сумма вывода средств")] decimal withdrawalSum,
-        [Summary("Карта", "Номер карты")] long withdrawalAccount)
+        [Summary("Amount", "The amount of money to withdraw")] decimal withdrawalSum,
+        [Summary("Card", "Card number to which the money will be sent")] long withdrawalAccount)
     {
         if (withdrawalAccount.ToString().Length != 16)
         {
