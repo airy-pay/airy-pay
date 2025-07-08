@@ -33,17 +33,17 @@ public class ProductInteractionModule(
             return;
         }
 
-        bool giveHighRoleWarning = true;
+        bool giveHigherRoleWarning = true;
         var botUser = Context.Guild.GetUser(Context.Client.CurrentUser.Id);
         var botMaxPositionRole = botUser.Roles.MaxBy(x => x.Position);
         if (botMaxPositionRole is not null)
         {
-            giveHighRoleWarning = botMaxPositionRole.Position <= discordRole.Position;
+            giveHigherRoleWarning = botMaxPositionRole.Position <= discordRole.Position;
         }
 
         var botRoleName = botMaxPositionRole is null ? "AiryPay" : $"<@&{botMaxPositionRole.Id}>";
         var responseMessage = ":white_check_mark: Новый товар был создан."
-            + (giveHighRoleWarning
+            + (giveHigherRoleWarning
             ? $"\n\n:warning: Роль бота ({botRoleName}) находится ниже роли товара (<@&{discordRole.Id}>).\n" +
               "Измените позицию роли в настройках сервера, иначе бот не сможет автоматически выдавать её."
             : "");
