@@ -4,15 +4,22 @@ using Discord;
 using Discord.Interactions;
 using MediatR;
 
-namespace AiryPayNew.Presentation.InteractionModules;
+namespace AiryPayNew.Presentation.InteractionModules.Impl;
 
 [RequireContext(ContextType.Guild)]
 [CommandContextType(InteractionContextType.Guild)]
 [Group("withdrawal", "\ud83d\udcb8 Withdrawal")]
-public class WithdrawalInteractionModule(IMediator mediator, ILogger<WithdrawalInteractionModule> logger) : InteractionModuleBase<SocketInteractionContext>
+public class WithdrawalInteractionModule : ShopInteractionModuleBase
 {
     private readonly Color _embedsColor = new(40, 117, 233);
-    
+    private readonly IMediator _mediator;
+
+    public WithdrawalInteractionModule(
+        IMediator mediator) : base(mediator)
+    {
+        _mediator = mediator;
+    }
+
     [SlashCommand("create", "\ud83d\udcb8 Creating a withdrawal")]
     public async Task Create(
         [Summary("Amount", "The amount of money to withdraw")] decimal withdrawalSum,
@@ -26,7 +33,7 @@ public class WithdrawalInteractionModule(IMediator mediator, ILogger<WithdrawalI
         
         var createWithdrawalRequest = new CreateWithdrawalRequest(
             Context.Guild.Id, withdrawalSum, "card", withdrawalAccount.ToString());
-        var createWithdrawalRequestResult = await mediator.Send(createWithdrawalRequest);
+        var createWithdrawalRequestResult = await _mediator.Send(createWithdrawalRequest);
         if (!createWithdrawalRequestResult.Successful)
         {
             await RespondAsync(":no_entry_sign: " + createWithdrawalRequestResult.ErrorMessage,

@@ -1,22 +1,31 @@
 ﻿using AiryPayNew.Application.Requests.Products;
-using AiryPayNew.Presentation.AutocompleteHandlers;
 using AiryPayNew.Domain.Entities.Products;
+using AiryPayNew.Presentation.AutocompleteHandlers;
 using AiryPayNew.Presentation.Utils;
 using Discord;
 using Discord.Interactions;
 using MediatR;
 using Sqids;
 
-namespace AiryPayNew.Presentation.InteractionModules;
+namespace AiryPayNew.Presentation.InteractionModules.Impl;
 
 [RequireContext(ContextType.Guild)]
 [CommandContextType(InteractionContextType.Guild)]
 [RequireUserPermission(GuildPermission.Administrator)]
 [Group("product", "\ud83d\udecd\ufe0f Working with products")]
-public class ProductInteractionModule(
-    IMediator mediator,
-    SqidsEncoder<long> sqidsEncoder) : InteractionModuleBase<SocketInteractionContext>
+public class ProductInteractionModule : ShopInteractionModuleBase
 {
+    private readonly IMediator _mediator;
+    private readonly SqidsEncoder<long> _sqidsEncoder;
+
+    public ProductInteractionModule(
+        IMediator mediator,
+        SqidsEncoder<long> sqidsEncoder) : base(mediator)
+    {
+        _sqidsEncoder = sqidsEncoder;
+        _mediator = mediator;
+    }
+
     [RequireUserPermission(GuildPermission.Administrator)]
     [SlashCommand("create", "\ud83d\udd27 Create new product")]
     public async Task Create(
@@ -51,7 +60,7 @@ public class ProductInteractionModule(
         var createProductRequest = new CreateProductRequest(
             Context.Guild.Id,
             new ProductModel(validEmojiText, name, price, discordRole.Id));
-        var operationResult = await mediator.Send(createProductRequest);
+        var operationResult = await _mediator.Send(createProductRequest);
         if (operationResult.Successful)
         {
             await RespondAsync(responseMessage, ephemeral: true);
@@ -68,10 +77,10 @@ public class ProductInteractionModule(
          Autocomplete(typeof(ProductAutocompleteHandler))] string productHashId)
 
     {
-        var productId = new ProductId(sqidsEncoder.Decode(productHashId).Single());
+        var productId = new ProductId(_sqidsEncoder.Decode(productHashId).Single());
         
         var removeProductRequest = new RemoveProductRequest(Context.Guild.Id, productId);
-        await mediator.Send(removeProductRequest);
+        await _mediator.Send(removeProductRequest);
         
         await RespondAsync(":wastebasket: Товар был удалён.", ephemeral: true);
     }
@@ -94,13 +103,13 @@ public class ProductInteractionModule(
             return;
         }
         
-        var productId = new ProductId(sqidsEncoder.Decode(productHashId).Single());
+        var productId = new ProductId(_sqidsEncoder.Decode(productHashId).Single());
 
         var editProductRequest = new EditProductRequest(
             Context.Guild.Id,
             productId,
             new ProductModel(validEmojiText, name, price, discordRole.Id));
-        var operationResult = await mediator.Send(editProductRequest);
+        var operationResult = await _mediator.Send(editProductRequest);
         if (operationResult.Successful)
         {
             await RespondAsync(":recycle: Товар был изменён.", ephemeral: true);

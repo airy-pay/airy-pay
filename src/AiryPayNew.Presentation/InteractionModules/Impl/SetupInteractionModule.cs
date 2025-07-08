@@ -1,41 +1,45 @@
 ﻿using System.Globalization;
 using AiryPayNew.Application.Requests.Payments;
 using AiryPayNew.Application.Requests.Products;
-using AiryPayNew.Application.Requests.Shops;
-using AiryPayNew.Presentation.Services;
-using AiryPayNew.Presentation.Utils;
 using AiryPayNew.Domain.Common;
 using AiryPayNew.Domain.Entities.Products;
+using AiryPayNew.Presentation.Localization;
+using AiryPayNew.Presentation.Services;
 using AiryPayNew.Presentation.Utils;
 using AiryPayNew.Shared.Settings.AppSettings;
 using Discord;
 using Discord.Interactions;
 using MediatR;
 
-namespace AiryPayNew.Presentation.InteractionModules;
+namespace AiryPayNew.Presentation.InteractionModules.Impl;
 
 [RequireContext(ContextType.Guild)]
 [CommandContextType(InteractionContextType.Guild)]
-public class SetupInteractionModule(
-    IMediator mediator,
-    AppSettings appSettings,
-    UserRepositoryService userRepositoryService) : InteractionModuleBase
+public class SetupInteractionModule : ShopInteractionModuleBase
 {
     private readonly Color _embedsColor = new(40, 117, 233);
-    
+    private readonly IMediator _mediator;
+    private readonly AppSettings _appSettings;
+    private readonly UserRepositoryService _userRepositoryService;
+
+    public SetupInteractionModule(
+        IMediator mediator,
+        AppSettings appSettings,
+        UserRepositoryService userRepositoryService) : base(mediator)
+    {
+        _appSettings = appSettings;
+        _userRepositoryService = userRepositoryService;
+        _mediator = mediator;
+    }
+
     [RequireUserPermission(GuildPermission.Administrator)]
     [SlashCommand("setup", "\u2728 Change message for selling products")]
     public async Task Setup()
     {
-        var getShopRequest = new GetShopRequest(Context.Guild.Id);
-        var operationResult = await mediator.Send(getShopRequest);
-        if (!operationResult.Successful)
-        {
-            await RespondAsync(":no_entry_sign: " + operationResult.ErrorMessage, ephemeral: true);
-            return;
-        }
+        var shop = await GetShopOrRespondAsync();
+        var localizer = new Localizer(shop.Language);
 
-        var selectMenuOptionsTasks = operationResult.Entity.Products
+        var selectMenuOptionsTasks = shop.Products
             .Select(async x => new SelectMenuOptionBuilder()
                 .WithLabel(x.Name)
                 .WithDescription($"{x.Price.ToString(CultureInfo.InvariantCulture)} \u20bd")
@@ -68,7 +72,7 @@ public class SetupInteractionModule(
             return;
         }
 
-        var affordablePaymentMethods = appSettings.PaymentSettings.PaymentMethods
+        var affordablePaymentMethods = _appSettings.PaymentSettings.PaymentMethods
             .Where(x => operationResult.Entity.Price >= x.MinimalSum);
         
         var selectMenu = new SelectMenuBuilder()
@@ -91,7 +95,7 @@ public class SetupInteractionModule(
     [ComponentInteraction("SetupInteractionModule.ChoosePaymentMethod:*")]
     public async Task ChooseProduct(string selectedProductId, string paymentMethodKey)
     {
-        var paymentMethod = appSettings.PaymentSettings.PaymentMethods
+        var paymentMethod = _appSettings.PaymentSettings.PaymentMethods
             .FirstOrDefault(x => x.MethodId == paymentMethodKey);
         if (paymentMethod is null)
         {
@@ -114,14 +118,14 @@ public class SetupInteractionModule(
             paymentMethod.MethodId,
             Context.Interaction.User.Id,
             Context.Guild.Id);
-        var createPaymentOperationResult = await mediator.Send(createPaymentRequest);
+        var createPaymentOperationResult = await _mediator.Send(createPaymentRequest);
         if (!createPaymentOperationResult.Successful)
         {
             await RespondAsync(":no_entry_sign: " + createPaymentOperationResult.ErrorMessage, ephemeral: true);
             return;
         }
         
-        userRepositoryService.SetUser(Context.Interaction.User);
+        _userRepositoryService.SetUser(Context.Interaction.User);
         
         var payEmbed = new EmbedBuilder()
             .WithTitle($"\ud83d\udcb8 Оплата")
@@ -168,7 +172,7 @@ public class SetupInteractionModule(
         }
         
         var getProductRequest = new GetProductRequest(Context.Guild.Id, productId);
-        var getProductOperationResult = await mediator.Send(getProductRequest);
+        var getProductOperationResult = await _mediator.Send(getProductRequest);
         if (!getProductOperationResult.Successful)
         {
             return OperationResult<Product>.Error(new Product(), getProductOperationResult.ErrorMessage);

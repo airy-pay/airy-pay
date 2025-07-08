@@ -1,54 +1,51 @@
 ﻿using AiryPayNew.Application.Common;
 using AiryPayNew.Application.Requests.Shops;
-using AiryPayNew.Presentation.Utils;
 using AiryPayNew.Domain.Entities.Withdrawals;
 using AiryPayNew.Presentation.Localization;
+using AiryPayNew.Presentation.Utils;
 using Discord;
 using Discord.Interactions;
 using MediatR;
 
-namespace AiryPayNew.Presentation.InteractionModules;
+namespace AiryPayNew.Presentation.InteractionModules.Impl;
 
 [RequireContext(ContextType.Guild)]
 [CommandContextType(InteractionContextType.Guild)]
 [RequireUserPermission(GuildPermission.Administrator)]
-public class InfoInteractionModule(
-    IMediator mediator,
-    IShopLanguageService shopLanguageService) : InteractionModuleBase<SocketInteractionContext>
+public class InfoInteractionModule : ShopInteractionModuleBase
 {
     private readonly Color _embedsColor = new(40, 117, 233);
+    private readonly IMediator _mediator;
+
+    public InfoInteractionModule(
+        IMediator mediator,
+        IShopLanguageService shopLanguageService) : base(mediator)
+    {
+        _mediator = mediator;
+    }
 
     [SlashCommand("info", "🌐 Shop information")]
     public async Task Info()
     {
-        var getShopRequest = new GetShopRequest(Context.Guild.Id);
-        var operationResult = await mediator.Send(getShopRequest);
-        if (!operationResult.Successful)
-        {
-            await RespondAsync(":no_entry_sign: " + operationResult.ErrorMessage, ephemeral: true);
-            return;
-        }
+        var shop = await GetShopOrRespondAsync();
+        var localizer = new Localizer(shop.Language);
 
-        var localizer = new Localizer(operationResult.Entity.Language);
-
-        var re = localizer.GetString("status");
-        
         var shopInfoEmbed = new EmbedBuilder()
             .WithTitle($"🌐 {localizer.GetString("shopInformation")}")
             .WithFields(
                 new EmbedFieldBuilder()
                     .WithName($"💰 {localizer.GetString("balance")}")
-                    .WithValue($"{operationResult.Entity.Balance} ₽")
+                    .WithValue($"{shop.Balance} ₽")
                     .WithIsInline(true),
                 new EmbedFieldBuilder()
                     .WithName($"🔄 {localizer.GetString("status")}")
-                    .WithValue(operationResult.Entity.Blocked
+                    .WithValue(shop.Blocked
                         ? localizer.GetString("blocked")
                         : localizer.GetString("active"))
                     .WithIsInline(true),
                 new EmbedFieldBuilder()
                     .WithName($"🛍️ {localizer.GetString("products")}")
-                    .WithValue(operationResult.Entity.Products.Count)
+                    .WithValue(shop.Products.Count)
                     .WithIsInline(true),
                 new EmbedFieldBuilder()
                     .WithName($"🏷️ {localizer.GetString("shopId")}")
@@ -110,17 +107,10 @@ public class InfoInteractionModule(
     [ComponentInteraction("InfoInteractionModule.GetProducts")]
     public async Task GetProducts()
     {
-        var getShopRequest = new GetShopRequest(Context.Guild.Id);
-        var operationResult = await mediator.Send(getShopRequest);
-        if (!operationResult.Successful)
-        {
-            await RespondAsync(":no_entry_sign: " + operationResult.ErrorMessage, ephemeral: true);
-            return;
-        }
+        var shop = await GetShopOrRespondAsync();
+        var localizer = new Localizer(shop.Language);
 
-        var localizer = new Localizer(operationResult.Entity.Language);
-
-        var fieldsTasks = operationResult.Entity.Products.Select(async x =>
+        var fieldsTasks = shop.Products.Select(async x =>
         {
             var emoji = await EmojiParser.GetExistingEmojiAsync(Context.Guild, x.Emoji);
             return new EmbedFieldBuilder()
@@ -136,7 +126,7 @@ public class InfoInteractionModule(
 
         var productsEmbed = new EmbedBuilder()
             .WithTitle($"📦 {localizer.GetString("products")}")
-            .WithDescription(operationResult.Entity.Products.Count == 0
+            .WithDescription(shop.Products.Count == 0
                 ? localizer.GetString("noProducts")
                 : null)
             .WithFields(fields)
@@ -150,18 +140,11 @@ public class InfoInteractionModule(
     [ComponentInteraction("InfoInteractionModule.GetWithdrawals")]
     public async Task GetWithdrawals()
     {
-        var getShopRequest = new GetShopRequest(Context.Guild.Id);
-        var operationResult = await mediator.Send(getShopRequest);
-        if (!operationResult.Successful)
-        {
-            await RespondAsync(":no_entry_sign: " + operationResult.ErrorMessage, ephemeral: true);
-            return;
-        }
-        
-        var localizer = new Localizer(operationResult.Entity.Language);
+        var shop = await GetShopOrRespondAsync();
+        var localizer = new Localizer(shop.Language);
         
         var getShopWithdrawalsRequest = new GetShopWithdrawalsRequest(Context.Guild.Id);
-        var withdrawals = await mediator.Send(getShopWithdrawalsRequest);
+        var withdrawals = await _mediator.Send(getShopWithdrawalsRequest);
 
         var withdrawalStatusesGetter = new Dictionary<WithdrawalStatus, string>()
         {
@@ -193,18 +176,11 @@ public class InfoInteractionModule(
     [ComponentInteraction("InfoInteractionModule.GetPurchases")]
     public async Task GetPurchases()
     {
-        var getShopRequest = new GetShopRequest(Context.Guild.Id);
-        var operationResult = await mediator.Send(getShopRequest);
-        if (!operationResult.Successful)
-        {
-            await RespondAsync(":no_entry_sign: " + operationResult.ErrorMessage, ephemeral: true);
-            return;
-        }
-        
-        var localizer = new Localizer(operationResult.Entity.Language);
+        var shop = await GetShopOrRespondAsync();
+        var localizer = new Localizer(shop.Language);
         
         var getShopPurchasesRequest = new GetShopPurchasesRequest(Context.Guild.Id);
-        var purchases = await mediator.Send(getShopPurchasesRequest);
+        var purchases = await _mediator.Send(getShopPurchasesRequest);
 
         var fieldsTasks = purchases.Select(async x =>
         {
