@@ -25,11 +25,11 @@ public class CreateProductRequestHandler(
         var shopId = new ShopId(request.ShopId);
         var shop = await shopRepository.GetByIdNoTrackingAsync(shopId, cancellationToken);
         if (shop is null)
-            return OperationResult.Error("Магазин не найден.");
+            return OperationResult.Error("Shop not found.");
         if (shop.Products.Count > 25)
-            return OperationResult.Error("Количество товаров не может быть больше 25.");
+            return OperationResult.Error("The number of products cannot exceed 25.");
         if (shop.Blocked)
-            return OperationResult.Error("Магазин заблокирован.");
+            return OperationResult.Error("Shop is blocked.");
         
         var newProduct = new Product
         {

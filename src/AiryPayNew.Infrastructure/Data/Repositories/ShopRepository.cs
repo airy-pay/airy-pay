@@ -74,6 +74,19 @@ internal class ShopRepository(ApplicationDbContext dbContext)
         return OperationResult<ShopId>.Success(shopId);
     }
 
+    public async Task<OperationResult> UpdateLanguageAsync(
+        ShopId shopId, Language language, CancellationToken cancellationToken)
+    {
+        var shop = await GetByIdAsync(shopId, cancellationToken);
+        if (shop is null)
+            return new OperationResult(false, "Entity not found");
+        
+        shop.Language = language;
+        
+        await _dbContext.SaveChangesAsync(cancellationToken);
+        return OperationResult.Success();
+    }
+
     private async Task ChangeBlockedStatus(ShopId shopId, bool blocked, CancellationToken cancellationToken)
     {
         var shop = await GetByIdAsync(shopId, cancellationToken);

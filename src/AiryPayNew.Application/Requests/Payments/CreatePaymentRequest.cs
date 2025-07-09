@@ -23,20 +23,20 @@ public class CreatePaymentRequestHandler(
     {
         var shop = await shopRepository.GetByIdNoTrackingAsync(new ShopId(request.ShopId), cancellationToken);
         if (shop is null)
-            return Error("Магазин не найден.");
+            return Error("Shop not found.");
         if (shop.Blocked)
-            return Error("Магазин заблокирован.");
+            return Error("Shop is blocked.");
         
         var paymentService = paymentServices.FirstOrDefault(x =>
             x.GetServiceName() == request.PaymentServiceName);
         if (paymentService is null)
-            return Error("Платёжный сервис не найден.");
+            return Error("Payment service not found.");
         
         var product = await productRepository.GetByIdNoTrackingAsync(request.ProductId, cancellationToken);
         if (product is null)
-            return Error("Товар не найден.");
+            return Error("Product not found.");
         if (product.ShopId != shop.Id)
-            return Error("Нет доступа.");
+            return Error("Access denied.");
         
         var newBill = new Bill
         {
@@ -50,7 +50,7 @@ public class CreatePaymentRequestHandler(
 
         var bill = await billRepository.GetByIdNoTrackingAsync(newBill.Id, cancellationToken);
         if (bill is null)
-            return Error("Не удалось создать платёж.");
+            return Error("Failed to create payment.");
         
         var paymentUrl = await paymentService.CreateAsync(bill, request.PaymentMethodId);
 

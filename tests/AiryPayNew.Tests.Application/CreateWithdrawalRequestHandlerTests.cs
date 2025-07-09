@@ -1,4 +1,5 @@
 ﻿using AiryPayNew.Application.Requests.Withdrawals;
+using AiryPayNew.Domain.Common;
 using AiryPayNew.Domain.Entities.Shops;
 using AiryPayNew.Domain.Entities.Withdrawals;
 using FluentAssertions;
@@ -89,7 +90,7 @@ public class CreateWithdrawalRequestHandlerTests
     {
         // Arrange
         var request = new CreateWithdrawalRequest(1, 400, "card", "account123");
-        var shop = new Shop { Id = new ShopId(1), Balance = 1000 };
+        var shop = new Shop { Id = new ShopId(1), Balance = 1000, Language = new Language("en") };
         _mockShopRepository.Setup(repo => repo.GetByIdNoTrackingAsync(It.IsAny<ShopId>(), It.IsAny<CancellationToken>()))
             .ReturnsAsync(shop);
 
@@ -105,7 +106,7 @@ public class CreateWithdrawalRequestHandlerTests
     {
         // Arrange
         var request = new CreateWithdrawalRequest(1, 1000, "card", "account123");
-        var shop = new Shop { Id = new ShopId(1), Balance = 500 };
+        var shop = new Shop { Id = new ShopId(1), Balance = 500, Language = new Language("en") };
         _mockShopRepository.Setup(repo => repo.GetByIdNoTrackingAsync(It.IsAny<ShopId>(), It.IsAny<CancellationToken>()))
             .ReturnsAsync(shop);
 

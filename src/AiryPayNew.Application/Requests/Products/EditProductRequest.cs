@@ -23,15 +23,15 @@ public class EditProductRequestHandler(
         var shopId = new ShopId(request.ShopId);
         var shop = await shopRepository.GetByIdNoTrackingAsync(shopId, cancellationToken);
         if (shop is null)
-            return OperationResult.Error("Магазин не найден.");
+            return OperationResult.Error("Shop not found.");
         if (shop.Blocked)
-            return OperationResult.Error("Магазин заблокирован.");
+            return OperationResult.Error("Shop is blocked.");
         
         var product = await productRepository.GetByIdNoTrackingAsync(request.ProductId, cancellationToken);
         if (product is null)
-            return OperationResult.Error("Товар не найден.");
+            return OperationResult.Error("Product not found.");
         if (product.ShopId != shopId)
-            return OperationResult.Error("Неверный Id магазина.");
+            return OperationResult.Error("Invalid shop Id.");
         
         await productRepository.UpdateAsync(
             request.ProductId,

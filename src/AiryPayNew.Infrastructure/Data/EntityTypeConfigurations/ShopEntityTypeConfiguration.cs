@@ -1,4 +1,5 @@
-﻿using AiryPayNew.Domain.Entities.Shops;
+﻿using AiryPayNew.Domain.Common;
+using AiryPayNew.Domain.Entities.Shops;
 using AiryPayNew.Infrastructure.Data.ValueGenerators;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
@@ -19,6 +20,14 @@ internal class ShopEntityTypeConfiguration : IEntityTypeConfiguration<Shop>
             .HasValueGenerator<IdValueGenerator<ShopId>>()
             .ValueGeneratedOnAdd();
 
+        builder.Property(x => x.Language)
+            .HasConversion(
+                language => language.Code,
+                value => new Language(value))
+            .HasMaxLength(2)
+            .HasDefaultValue(new Language("en"))
+            .IsRequired();
+        
         builder.Property(x => x.Commission)
             .HasConversion(
                 commission => commission.Value,
