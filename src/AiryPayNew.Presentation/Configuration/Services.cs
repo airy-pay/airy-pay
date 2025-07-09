@@ -1,4 +1,5 @@
 ﻿using AiryPayNew.Application;
+using AiryPayNew.Application.Common;
 using AiryPayNew.Presentation.Services;
 using AiryPayNew.Infrastructure;
 using AiryPayNew.Shared.Settings.AppSettings;
@@ -30,6 +31,7 @@ public static class Services
         }));
         
         serviceCollection.AddSingleton(appSettings);
+        serviceCollection.AddSingleton<IShopLanguageService, ShopLanguageService>();
         serviceCollection.AddHostedService<RunHealthCheckService>();
         
         return serviceCollection;

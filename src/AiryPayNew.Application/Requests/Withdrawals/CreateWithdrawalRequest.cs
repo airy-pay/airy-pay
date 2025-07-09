@@ -14,30 +14,30 @@ public class CreateWithdrawalRequestHandler(
     IShopRepository shopRepository)
     : IRequestHandler<CreateWithdrawalRequest, OperationResult>
 {
-    private readonly List<string> _withdrawalWays = [ "card" ];
+    private readonly List<string> _withdrawalWays = new() { "card" };
     
     public async Task<OperationResult> Handle(
         CreateWithdrawalRequest request,
         CancellationToken cancellationToken)
     {
         if (request.Amount <= 0)
-            return OperationResult.Error("Некорректная сумма вывода.");
+            return OperationResult.Error("Invalid withdrawal amount.");
         if (string.IsNullOrEmpty(request.Way)
             || string.IsNullOrEmpty(request.ReceivingAccountNumber))
-            return OperationResult.Error("Некорректные реквизиты вывода.");
+            return OperationResult.Error("Invalid withdrawal details.");
         if (!_withdrawalWays.Contains(request.Way))
-            return OperationResult.Error("Некорректный способ вывода средств.");
+            return OperationResult.Error("Invalid withdrawal method.");
         
         var shopId = new ShopId(request.ServerId);
         var shop = await shopRepository.GetByIdNoTrackingAsync(shopId, cancellationToken);
         if (shop is null)
-            return OperationResult.Error("Магазин не найден.");
+            return OperationResult.Error("Shop not found.");
         
         const int minimalWithdrawalAmount = 500;
         if (request.Amount < minimalWithdrawalAmount)
-            return OperationResult.Error($"Минимальная сумма вывода: {minimalWithdrawalAmount} \u20bd");
+            return OperationResult.Error($"Minimum withdrawal amount: {minimalWithdrawalAmount} \u20bd");
         if (shop.Balance < request.Amount)
-            return OperationResult.Error("Недостаточно средств.");
+            return OperationResult.Error("Insufficient funds.");
 
         await shopRepository.UpdateBalanceAsync(shop.Id, -request.Amount, cancellationToken);
         
