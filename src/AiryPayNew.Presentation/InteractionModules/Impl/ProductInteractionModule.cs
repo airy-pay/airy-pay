@@ -1,6 +1,7 @@
 ﻿using AiryPayNew.Application.Requests.Products;
 using AiryPayNew.Domain.Entities.Products;
 using AiryPayNew.Presentation.AutocompleteHandlers;
+using AiryPayNew.Presentation.Localization;
 using AiryPayNew.Presentation.Utils;
 using Discord;
 using Discord.Interactions;
@@ -12,7 +13,7 @@ namespace AiryPayNew.Presentation.InteractionModules.Impl;
 [RequireContext(ContextType.Guild)]
 [CommandContextType(InteractionContextType.Guild)]
 [RequireUserPermission(GuildPermission.Administrator)]
-[Group("product", "\ud83d\udecd\ufe0f Working with products")]
+[Group("product", "🛍️ Working with products")]
 public class ProductInteractionModule : ShopInteractionModuleBase
 {
     private readonly IMediator _mediator;
@@ -26,19 +27,20 @@ public class ProductInteractionModule : ShopInteractionModuleBase
         _mediator = mediator;
     }
 
-    [RequireUserPermission(GuildPermission.Administrator)]
-    [SlashCommand("create", "\ud83d\udd27 Create new product")]
+    [SlashCommand("create", "🔧 Create new product")]
     public async Task Create(
         [Summary("Emoji", "Will be displayed next to the product")] string emojiText,
         [Summary("Name", "The name of the product")] string name,
         [Summary("Price", "The price of the product")] decimal price,
         [Summary("Role", "The role that will be granted to the buyer of the product")] IRole discordRole)
-
     {
+        var shop = await GetShopOrRespondAsync();
+        var localizer = new Localizer(shop.Language);
+
         var validEmojiText = await EmojiParser.GetEmojiText(emojiText);
         if (validEmojiText is null)
         {
-            await RespondAsync(":no_entry_sign: Используйте допустимый emoji", ephemeral: true);
+            await RespondAsync($":no_entry_sign: {localizer.GetString("invalidEmoji")}", ephemeral: true);
             return;
         }
 
@@ -51,12 +53,16 @@ public class ProductInteractionModule : ShopInteractionModuleBase
         }
 
         var botRoleName = botMaxPositionRole is null ? "AiryPay" : $"<@&{botMaxPositionRole.Id}>";
-        var responseMessage = ":white_check_mark: Новый товар был создан."
-            + (giveHigherRoleWarning
-            ? $"\n\n:warning: Роль бота ({botRoleName}) находится ниже роли товара (<@&{discordRole.Id}>).\n" +
-              "Измените позицию роли в настройках сервера, иначе бот не сможет автоматически выдавать её."
-            : "");
-        
+        var responseMessage = ":white_check_mark: " + localizer.GetString("productCreated");
+
+        if (giveHigherRoleWarning)
+        {
+            responseMessage += "\n\n:warning: " + string.Format(
+                localizer.GetString("botRoleTooLow"),
+                botRoleName,
+                $"<@&{discordRole.Id}>");
+        }
+
         var createProductRequest = new CreateProductRequest(
             Context.Guild.Id,
             new ProductModel(validEmojiText, name, price, discordRole.Id));
@@ -66,27 +72,27 @@ public class ProductInteractionModule : ShopInteractionModuleBase
             await RespondAsync(responseMessage, ephemeral: true);
             return;
         }
-        
+
         await RespondAsync(":no_entry_sign: " + operationResult.ErrorMessage, ephemeral: true);
     }
-    
-    [RequireUserPermission(GuildPermission.Administrator)]
-    [SlashCommand("delete", "\ud83d\udeab Delete product")]
+
+    [SlashCommand("delete", "🚫 Delete product")]
     public async Task Delete(
         [Summary("Product", "The product that will be deleted"),
          Autocomplete(typeof(ProductAutocompleteHandler))] string productHashId)
-
     {
+        var shop = await GetShopOrRespondAsync();
+        var localizer = new Localizer(shop.Language);
+
         var productId = new ProductId(_sqidsEncoder.Decode(productHashId).Single());
-        
+
         var removeProductRequest = new RemoveProductRequest(Context.Guild.Id, productId);
         await _mediator.Send(removeProductRequest);
-        
-        await RespondAsync(":wastebasket: Товар был удалён.", ephemeral: true);
+
+        await RespondAsync($":wastebasket: {localizer.GetString("productDeleted")}", ephemeral: true);
     }
-    
-    [RequireUserPermission(GuildPermission.Administrator)]
-    [SlashCommand("edit", "\ud83d\udd04 Change product")]
+
+    [SlashCommand("edit", "🔄 Change product")]
     public async Task Edit(
         [Summary("Product", "The product that will be edited"),
          Autocomplete(typeof(ProductAutocompleteHandler))] string productHashId,
@@ -94,15 +100,17 @@ public class ProductInteractionModule : ShopInteractionModuleBase
         [Summary("Name", "The name of the product")] string name,
         [Summary("Price", "The price of the product")] decimal price,
         [Summary("Role", "The role that will be granted to the buyer of the product")] IRole discordRole)
-
     {
+        var shop = await GetShopOrRespondAsync();
+        var localizer = new Localizer(shop.Language);
+
         var validEmojiText = await EmojiParser.GetEmojiText(emojiText);
         if (validEmojiText is null)
         {
-            await RespondAsync(":no_entry_sign: Используйте допустимый emoji", ephemeral: true);
+            await RespondAsync($":no_entry_sign: {localizer.GetString("invalidEmoji")}", ephemeral: true);
             return;
         }
-        
+
         var productId = new ProductId(_sqidsEncoder.Decode(productHashId).Single());
 
         var editProductRequest = new EditProductRequest(
@@ -112,10 +120,10 @@ public class ProductInteractionModule : ShopInteractionModuleBase
         var operationResult = await _mediator.Send(editProductRequest);
         if (operationResult.Successful)
         {
-            await RespondAsync(":recycle: Товар был изменён.", ephemeral: true);
+            await RespondAsync($":recycle: {localizer.GetString("productEdited")}", ephemeral: true);
             return;
         }
-        
+
         await RespondAsync(":no_entry_sign: " + operationResult.ErrorMessage, ephemeral: true);
     }
 }

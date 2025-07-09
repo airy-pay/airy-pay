@@ -32,10 +32,10 @@
     <data name="guildId" xml:space="preserve"><value>ID</value></data>
     <data name="support" xml:space="preserve"><value>Поддержка</value></data>
     <data name="termsOfService" xml:space="preserve"><value>Условия предоставления услуг</value></data>
-    <data name="noProducts" xml:space="preserve"><value>Тут пока пусто.\nСоздайте новый товар при помощи команды `/product create`</value></data>
+    <data name="noProducts" xml:space="preserve"><value>Тут пока пусто. Создайте новый товар при помощи команды `/product create`</value></data>
     <data name="productPrice" xml:space="preserve"><value>Стоимость: **{0} ₽**</value></data>
     <data name="productRole" xml:space="preserve"><value>Роль: &lt;@&amp;{0}&gt;</value></data>
-    <data name="noWithdrawals" xml:space="preserve"><value>Тут пока пусто.\nСоздайте вывод средств при помощи команды `/withdrawal`</value></data>
+    <data name="noWithdrawals" xml:space="preserve"><value>Тут пока пусто. Создайте вывод средств при помощи команды `/withdrawal`</value></data>
     <data name="withdrawalDateCard" xml:space="preserve"><value>{0:dd/MM/yyyy H:mm} Карта</value></data>
     <data name="withdrawalAccountNumber" xml:space="preserve"><value>Номер счёта: ||{0}||</value></data>
     <data name="withdrawalAmount" xml:space="preserve"><value>Сумма: **{0} ₽**</value></data>
@@ -43,7 +43,7 @@
     <data name="withdrawalStatus_inprocess" xml:space="preserve"><value>В процессе</value></data>
     <data name="withdrawalStatus_paid" xml:space="preserve"><value>Выплачен</value></data>
     <data name="withdrawalStatus_canceled" xml:space="preserve"><value>Отменён</value></data>
-    <data name="noPurchases" xml:space="preserve"><value>Тут пока пусто.\nПользователи пока не совершали покупки.</value></data>
+    <data name="noPurchases" xml:space="preserve"><value>Тут пока пусто. Пользователи пока не совершали покупки.</value></data>
     <data name="buyer" xml:space="preserve"><value>Покупатель: &lt;@{0}&gt;</value></data>
     <data name="profit" xml:space="preserve"><value>Прибыль: **{0} ₽**</value></data>
     <data name="dateUtc" xml:space="preserve"><value>Дата: `{0} (UTC)`</value></data>
@@ -86,5 +86,8 @@
     </data>
     <data name="language" xml:space="preserve">
         <value>Язык</value>
+    </data>
+    <data name="invalidEmoji" xml:space="preserve">
+        <value>Используйте допустимый emoji</value>
     </data>
 </root>

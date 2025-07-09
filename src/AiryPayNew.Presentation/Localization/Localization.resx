@@ -47,13 +47,13 @@
     <value>Active</value>
   </data>
   <data name="noProducts" xml:space="preserve">
-    <value>Nothing here yet.\nCreate a new product using the /product create command.</value>
+    <value>Nothing here yet Create a new product using the /product create command.</value>
   </data>
   <data name="withdrawals" xml:space="preserve">
     <value>Withdrawals</value>
   </data>
   <data name="noWithdrawals" xml:space="preserve">
-    <value>Nothing here yet.\nCreate a withdrawal using the /withdrawal command.</value>
+    <value>Nothing here yet. Create a withdrawal using the /withdrawal command.</value>
   </data>
   <data name="inProcess" xml:space="preserve">
     <value>In process</value>
@@ -77,7 +77,7 @@
     <value>Recent Purchases</value>
   </data>
   <data name="noPurchases" xml:space="preserve">
-    <value>Nothing here yet.\nUsers haven't made any purchases yet.</value>
+    <value>Nothing here yet. Users haven't made any purchases yet.</value>
   </data>
   <data name="buyer" xml:space="preserve">
     <value>Buyer</value>
@@ -141,5 +141,74 @@
   </data>
   <data name="language" xml:space="preserve">
     <value>Language</value>
+  </data>
+  <data name="invalidEmoji" xml:space="preserve">
+    <value>Use valid emoji</value>
+  </data>
+  <data name="productCreated" xml:space="preserve">
+    <value>New product has been created.</value>
+  </data>
+  <data name="productEdited" xml:space="preserve">
+    <value>Product has been updated.</value>
+  </data>
+  <data name="productDeleted" xml:space="preserve">
+    <value>Product has been deleted.</value>
+  </data>
+  <data name="botRoleTooLow" xml:space="preserve">
+    <value>Bot's role ({0}) is lower than the product's role ({1}).\nFix this in role settings.</value>
+  </data>
+  <data name="setup.selectProduct.placeholder" xml:space="preserve">
+    <value>🛍️ Select a product to buy</value>
+  </data>
+  <data name="setup.selectProduct.warning" xml:space="preserve">
+    <value>:warning: After updating shop products, this message must be deleted and reset using the /setup command.</value>
+  </data>
+  <data name="setup.invalidProduct" xml:space="preserve">
+    <value>:no_entry_sign: The selected product is invalid.</value>
+  </data>
+  <data name="setup.selectPayment.placeholder" xml:space="preserve">
+    <value>💳 Select a payment method</value>
+  </data>
+  <data name="setup.invalidPaymentMethod" xml:space="preserve">
+    <value>:no_entry_sign: The selected payment method is invalid.</value>
+  </data>
+  <data name="setup.paymentError" xml:space="preserve">
+    <value>:no_entry_sign: Failed to create payment: {0}</value>
+  </data>
+  <data name="setup.paymentEmbed.title" xml:space="preserve">
+    <value>💸 Payment</value>
+  </data>
+  <data name="setup.paymentEmbed.description" xml:space="preserve">
+    <value>Pay the [invoice]({0}) within 10 minutes.</value>
+  </data>
+  <data name="setup.paymentEmbed.footer" xml:space="preserve">
+    <value>AiryPay © {0}</value>
+  </data>
+  <data name="setup.paymentButton.label" xml:space="preserve">
+    <value>Pay | {0} ₽</value>
+  </data>
+  <data name="withdrawal.cardInvalid" xml:space="preserve">
+  <value>:no_entry_sign: Invalid card number specified.</value>
+  </data>
+    <data name="withdrawal.create.error" xml:space="preserve">
+    <value>:no_entry_sign: {0}</value>
+  </data>
+    <data name="withdrawal.created.title" xml:space="preserve">
+    <value>💸 Withdrawal Created</value>
+  </data>
+    <data name="withdrawal.created.description" xml:space="preserve">
+    <value>If the funds do not arrive at the specified account within 24 hours, please contact support.</value>
+  </data>
+    <data name="withdrawal.created.amountField" xml:space="preserve">
+    <value>💵 Amount</value>
+  </data>
+    <data name="withdrawal.created.cardField" xml:space="preserve">
+    <value>💳 Card Number</value>
+  </data>
+    <data name="withdrawal.created.footer" xml:space="preserve">
+    <value>AiryPay © {0}</value>
+  </data>
+    <data name="withdrawal.created.warning" xml:space="preserve">
+    <value>-# In case of an error during withdrawal, the funds will be returned to the shop balance.</value>
   </data>
 </root>

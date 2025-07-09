@@ -1,4 +1,5 @@
 ﻿using AiryPayNew.Application.Requests.Withdrawals;
+using AiryPayNew.Presentation.Localization;
 using AiryPayNew.Presentation.Utils;
 using Discord;
 using Discord.Interactions;
@@ -14,8 +15,7 @@ public class WithdrawalInteractionModule : ShopInteractionModuleBase
     private readonly Color _embedsColor = new(40, 117, 233);
     private readonly IMediator _mediator;
 
-    public WithdrawalInteractionModule(
-        IMediator mediator) : base(mediator)
+    public WithdrawalInteractionModule(IMediator mediator) : base(mediator)
     {
         _mediator = mediator;
     }
@@ -25,41 +25,45 @@ public class WithdrawalInteractionModule : ShopInteractionModuleBase
         [Summary("Amount", "The amount of money to withdraw")] decimal withdrawalSum,
         [Summary("Card", "Card number to which the money will be sent")] long withdrawalAccount)
     {
+        var shop = await GetShopOrRespondAsync();
+        var localizer = new Localizer(shop.Language);
+
         if (withdrawalAccount.ToString().Length != 16)
         {
-            await RespondAsync(":no_entry_sign: Указан неверный номер карты", ephemeral: true);
+            await RespondAsync(localizer.GetString("withdrawal.cardInvalid"), ephemeral: true);
             return;
         }
-        
+
         var createWithdrawalRequest = new CreateWithdrawalRequest(
             Context.Guild.Id, withdrawalSum, "card", withdrawalAccount.ToString());
         var createWithdrawalRequestResult = await _mediator.Send(createWithdrawalRequest);
+
         if (!createWithdrawalRequestResult.Successful)
         {
-            await RespondAsync(":no_entry_sign: " + createWithdrawalRequestResult.ErrorMessage,
-                ephemeral: true);
+            await RespondAsync(string.Format(localizer.GetString("withdrawal.create.error"), createWithdrawalRequestResult.ErrorMessage), ephemeral: true);
             return;
         }
-        
+
         var verifyWithdrawalEmbed = new EmbedBuilder()
-            .WithTitle("\ud83d\udcb8 Вывод средств создан")
-            .WithDescription("Если средства не пришли на указанный счёт в течение 24 часов, пожалуйста, " +
-                             "обратитесь в [поддержку](https://discord.gg/Arn9RsRqD9).")
-            .WithFields([
+            .WithTitle(localizer.GetString("withdrawal.created.title"))
+            .WithDescription(localizer.GetString("withdrawal.created.description"))
+            .WithFields(
                 new EmbedFieldBuilder()
-                    .WithName("\ud83d\udcb5 Сумма")
+                    .WithName(localizer.GetString("withdrawal.created.amountField"))
                     .WithValue($"{withdrawalSum} \u20bd")
                     .WithIsInline(true),
                 new EmbedFieldBuilder()
-                    .WithName("\ud83d\udcb3 Номер карты")
+                    .WithName(localizer.GetString("withdrawal.created.cardField"))
                     .WithValue($"`{CardFormatter.Format(withdrawalAccount.ToString())}`")
-                    .WithIsInline(true)])
-            .WithFooter($"AiryPay \u00a9 {DateTime.UtcNow.Year}", Context.Client.CurrentUser.GetAvatarUrl())
+                    .WithIsInline(true)
+            )
+            .WithFooter(string.Format(localizer.GetString("withdrawal.created.footer"), DateTime.UtcNow.Year), Context.Client.CurrentUser.GetAvatarUrl())
             .WithColor(_embedsColor)
             .Build();
-        
+
         await RespondAsync(
-            "-# В случае ошибки во время вывода средства будут возвращены на счёт магазина.",
-            embed: verifyWithdrawalEmbed, ephemeral: true);
+            localizer.GetString("withdrawal.created.warning"),
+            embed: verifyWithdrawalEmbed,
+            ephemeral: true);
     }
 }

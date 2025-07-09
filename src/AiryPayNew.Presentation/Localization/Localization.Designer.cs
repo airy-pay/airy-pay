@@ -114,6 +114,15 @@ namespace AiryPayNew.Presentation.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Bot&apos;s role ({0}) is lower than the product&apos;s role ({1}).\nFix this in role settings..
+        /// </summary>
+        internal static string botRoleTooLow {
+            get {
+                return ResourceManager.GetString("botRoleTooLow", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Buyer.
         /// </summary>
         internal static string buyer {
@@ -186,6 +195,15 @@ namespace AiryPayNew.Presentation.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Use valid emoji.
+        /// </summary>
+        internal static string invalidEmoji {
+            get {
+                return ResourceManager.GetString("invalidEmoji", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Language.
         /// </summary>
         internal static string language {
@@ -195,7 +213,7 @@ namespace AiryPayNew.Presentation.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Nothing here yet.\nCreate a new product using the /product create command..
+        ///   Looks up a localized string similar to Nothing here yet Create a new product using the /product create command..
         /// </summary>
         internal static string noProducts {
             get {
@@ -204,7 +222,7 @@ namespace AiryPayNew.Presentation.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Nothing here yet.\nUsers haven&apos;t made any purchases yet..
+        ///   Looks up a localized string similar to Nothing here yet. Users haven&apos;t made any purchases yet..
         /// </summary>
         internal static string noPurchases {
             get {
@@ -213,7 +231,7 @@ namespace AiryPayNew.Presentation.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Nothing here yet.\nCreate a withdrawal using the /withdrawal command..
+        ///   Looks up a localized string similar to Nothing here yet. Create a withdrawal using the /withdrawal command..
         /// </summary>
         internal static string noWithdrawals {
             get {
@@ -227,6 +245,33 @@ namespace AiryPayNew.Presentation.Localization {
         internal static string paid {
             get {
                 return ResourceManager.GetString("paid", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to New product has been created..
+        /// </summary>
+        internal static string productCreated {
+            get {
+                return ResourceManager.GetString("productCreated", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Product has been deleted..
+        /// </summary>
+        internal static string productDeleted {
+            get {
+                return ResourceManager.GetString("productDeleted", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Product has been updated..
+        /// </summary>
+        internal static string productEdited {
+            get {
+                return ResourceManager.GetString("productEdited", resourceCulture);
             }
         }
         
@@ -281,6 +326,96 @@ namespace AiryPayNew.Presentation.Localization {
         internal static string role {
             get {
                 return ResourceManager.GetString("role", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to :no_entry_sign: The selected payment method is invalid..
+        /// </summary>
+        internal static string setup_invalidPaymentMethod {
+            get {
+                return ResourceManager.GetString("setup.invalidPaymentMethod", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to :no_entry_sign: The selected product is invalid..
+        /// </summary>
+        internal static string setup_invalidProduct {
+            get {
+                return ResourceManager.GetString("setup.invalidProduct", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Pay | {0} ₽.
+        /// </summary>
+        internal static string setup_paymentButton_label {
+            get {
+                return ResourceManager.GetString("setup.paymentButton.label", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Pay the [invoice]({0}) within 10 minutes..
+        /// </summary>
+        internal static string setup_paymentEmbed_description {
+            get {
+                return ResourceManager.GetString("setup.paymentEmbed.description", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to AiryPay © {0}.
+        /// </summary>
+        internal static string setup_paymentEmbed_footer {
+            get {
+                return ResourceManager.GetString("setup.paymentEmbed.footer", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to 💸 Payment.
+        /// </summary>
+        internal static string setup_paymentEmbed_title {
+            get {
+                return ResourceManager.GetString("setup.paymentEmbed.title", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to :no_entry_sign: Failed to create payment: {0}.
+        /// </summary>
+        internal static string setup_paymentError {
+            get {
+                return ResourceManager.GetString("setup.paymentError", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to 💳 Select a payment method.
+        /// </summary>
+        internal static string setup_selectPayment_placeholder {
+            get {
+                return ResourceManager.GetString("setup.selectPayment.placeholder", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to 🛍️ Select a product to buy.
+        /// </summary>
+        internal static string setup_selectProduct_placeholder {
+            get {
+                return ResourceManager.GetString("setup.selectProduct.placeholder", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to :warning: After updating shop products, this message must be deleted and reset using the /setup command..
+        /// </summary>
+        internal static string setup_selectProduct_warning {
+            get {
+                return ResourceManager.GetString("setup.selectProduct.warning", resourceCulture);
             }
         }
         
@@ -362,6 +497,78 @@ namespace AiryPayNew.Presentation.Localization {
         internal static string termsOfService {
             get {
                 return ResourceManager.GetString("termsOfService", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to :no_entry_sign: Invalid card number specified..
+        /// </summary>
+        internal static string withdrawal_cardInvalid {
+            get {
+                return ResourceManager.GetString("withdrawal.cardInvalid", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to :no_entry_sign: {0}.
+        /// </summary>
+        internal static string withdrawal_create_error {
+            get {
+                return ResourceManager.GetString("withdrawal.create.error", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to 💵 Amount.
+        /// </summary>
+        internal static string withdrawal_created_amountField {
+            get {
+                return ResourceManager.GetString("withdrawal.created.amountField", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to 💳 Card Number.
+        /// </summary>
+        internal static string withdrawal_created_cardField {
+            get {
+                return ResourceManager.GetString("withdrawal.created.cardField", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to If the funds do not arrive at the specified account within 24 hours, please contact support..
+        /// </summary>
+        internal static string withdrawal_created_description {
+            get {
+                return ResourceManager.GetString("withdrawal.created.description", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to AiryPay © {0}.
+        /// </summary>
+        internal static string withdrawal_created_footer {
+            get {
+                return ResourceManager.GetString("withdrawal.created.footer", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to 💸 Withdrawal Created.
+        /// </summary>
+        internal static string withdrawal_created_title {
+            get {
+                return ResourceManager.GetString("withdrawal.created.title", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to -# In case of an error during withdrawal, the funds will be returned to the shop balance..
+        /// </summary>
+        internal static string withdrawal_created_warning {
+            get {
+                return ResourceManager.GetString("withdrawal.created.warning", resourceCulture);
             }
         }
         

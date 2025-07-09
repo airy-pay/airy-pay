@@ -26,10 +26,10 @@
     <data name="guildId" xml:space="preserve"><value>ID</value></data>
     <data name="support" xml:space="preserve"><value>Support</value></data>
     <data name="termsOfService" xml:space="preserve"><value>Terms of Service</value></data>
-    <data name="noProducts" xml:space="preserve"><value>It's empty for now.\nCreate a new product with `/product create`</value></data>
+    <data name="noProducts" xml:space="preserve"><value>It's empty for now. Create a new product with `/product create`</value></data>
     <data name="productPrice" xml:space="preserve"><value>Price: **{0} ₽**</value></data>
     <data name="productRole" xml:space="preserve"><value>Role: &lt;@&amp;{0}&gt;</value></data>
-    <data name="noWithdrawals" xml:space="preserve"><value>It's empty for now.\nCreate a withdrawal with `/withdrawal`</value></data>
+    <data name="noWithdrawals" xml:space="preserve"><value>It's empty for now. Create a withdrawal with `/withdrawal`</value></data>
     <data name="withdrawalDateCard" xml:space="preserve"><value>{0:dd/MM/yyyy H:mm} Card</value></data>
     <data name="withdrawalAccountNumber" xml:space="preserve"><value>Account number: ||{0}||</value></data>
     <data name="withdrawalAmount" xml:space="preserve"><value>Amount: **{0} ₽**</value></data>
@@ -37,7 +37,7 @@
     <data name="withdrawalStatus_inprocess" xml:space="preserve"><value>In process</value></data>
     <data name="withdrawalStatus_paid" xml:space="preserve"><value>Paid</value></data>
     <data name="withdrawalStatus_canceled" xml:space="preserve"><value>Canceled</value></data>
-    <data name="noPurchases" xml:space="preserve"><value>It's empty for now.\nNo purchases yet.</value></data>
+    <data name="noPurchases" xml:space="preserve"><value>It's empty for now. No purchases yet.</value></data>
     <data name="buyer" xml:space="preserve"><value>Buyer: &lt;@{0}&gt;</value></data>
     <data name="profit" xml:space="preserve"><value>Profit: **{0} ₽**</value></data>
     <data name="dateUtc" xml:space="preserve"><value>Date: `{0} (UTC)`</value></data>
@@ -86,5 +86,8 @@
     </data>
     <data name="language" xml:space="preserve">
         <value>Language</value>
+    </data>
+    <data name="invalidEmoji" xml:space="preserve">
+        <value>Use valid emoji</value>
     </data>
 </root>
