@@ -1,6 +1,7 @@
 ﻿using AiryPayNew.Application.Requests.Withdrawals;
 using AiryPayNew.Presentation.Localization;
 using AiryPayNew.Presentation.Utils;
+using AiryPayNew.Shared.Settings.AppSettings;
 using Discord;
 using Discord.Interactions;
 using MediatR;
@@ -12,12 +13,15 @@ namespace AiryPayNew.Presentation.InteractionModules.Impl;
 [Group("withdrawal", "\ud83d\udcb8 Withdrawal")]
 public class WithdrawalInteractionModule : ShopInteractionModuleBase
 {
-    private readonly Color _embedsColor = new(40, 117, 233);
+    private readonly Color _embedsColor;
     private readonly IMediator _mediator;
 
-    public WithdrawalInteractionModule(IMediator mediator) : base(mediator)
+    public WithdrawalInteractionModule(
+        IMediator mediator,
+        AppSettings appSettings) : base(mediator)
     {
         _mediator = mediator;
+        _embedsColor = ColorMapper.Map(appSettings.Discord.EmbedMessageColor);
     }
 
     [SlashCommand("create", "\ud83d\udcb8 Creating a withdrawal")]
@@ -40,7 +44,10 @@ public class WithdrawalInteractionModule : ShopInteractionModuleBase
 
         if (!createWithdrawalRequestResult.Successful)
         {
-            await RespondAsync(string.Format(localizer.GetString("withdrawal.create.error"), createWithdrawalRequestResult.ErrorMessage), ephemeral: true);
+            await RespondAsync(
+                string.Format(
+                    localizer.GetString("withdrawal.create.error"),
+                    createWithdrawalRequestResult.ErrorMessage), ephemeral: true);
             return;
         }
 
@@ -57,7 +64,11 @@ public class WithdrawalInteractionModule : ShopInteractionModuleBase
                     .WithValue($"`{CardFormatter.Format(withdrawalAccount.ToString())}`")
                     .WithIsInline(true)
             )
-            .WithFooter(string.Format(localizer.GetString("withdrawal.created.footer"), DateTime.UtcNow.Year), Context.Client.CurrentUser.GetAvatarUrl())
+            .WithFooter(
+                string.Format(
+                    localizer.GetString("withdrawal.created.footer"),
+                    DateTime.UtcNow.Year),
+                Context.Client.CurrentUser.GetAvatarUrl())
             .WithColor(_embedsColor)
             .Build();
 

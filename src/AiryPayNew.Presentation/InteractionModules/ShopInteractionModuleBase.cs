@@ -1,10 +1,11 @@
 ﻿using AiryPayNew.Application.Requests.Shops;
 using AiryPayNew.Domain.Entities.Shops;
+using AiryPayNew.Shared.Settings.AppSettings;
+using Discord;
 using Discord.Interactions;
 using MediatR;
 
 namespace AiryPayNew.Presentation.InteractionModules;
-
 
 public abstract class ShopInteractionModuleBase(
     IMediator mediator) : InteractionModuleBase<SocketInteractionContext>

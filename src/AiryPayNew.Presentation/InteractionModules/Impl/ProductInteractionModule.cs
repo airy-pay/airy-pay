@@ -32,7 +32,7 @@ public class ProductInteractionModule : ShopInteractionModuleBase
         [Summary("Emoji", "Will be displayed next to the product")] string emojiText,
         [Summary("Name", "The name of the product")] string name,
         [Summary("Price", "The price of the product")] decimal price,
-        [Summary("Role", "The role that will be granted to the buyer of the product")] IRole discordRole)
+        [Summary("Role", "The role that will be granted to the buyer")] IRole discordRole)
     {
         var shop = await GetShopOrRespondAsync();
         var localizer = new Localizer(shop.Language);
@@ -40,7 +40,9 @@ public class ProductInteractionModule : ShopInteractionModuleBase
         var validEmojiText = await EmojiParser.GetEmojiText(emojiText);
         if (validEmojiText is null)
         {
-            await RespondAsync($":no_entry_sign: {localizer.GetString("invalidEmoji")}", ephemeral: true);
+            await RespondAsync(
+                $":no_entry_sign: {localizer.GetString("invalidEmoji")}",
+                ephemeral: true);
             return;
         }
 
@@ -73,7 +75,8 @@ public class ProductInteractionModule : ShopInteractionModuleBase
             return;
         }
 
-        await RespondAsync(":no_entry_sign: " + operationResult.ErrorMessage, ephemeral: true);
+        await RespondAsync(
+            ":no_entry_sign: " + operationResult.ErrorMessage, ephemeral: true);
     }
 
     [SlashCommand("delete", "🚫 Delete product")]
@@ -89,7 +92,9 @@ public class ProductInteractionModule : ShopInteractionModuleBase
         var removeProductRequest = new RemoveProductRequest(Context.Guild.Id, productId);
         await _mediator.Send(removeProductRequest);
 
-        await RespondAsync($":wastebasket: {localizer.GetString("productDeleted")}", ephemeral: true);
+        await RespondAsync(
+            $":wastebasket: {localizer.GetString("productDeleted")}",
+            ephemeral: true);
     }
 
     [SlashCommand("edit", "🔄 Change product")]
@@ -99,7 +104,7 @@ public class ProductInteractionModule : ShopInteractionModuleBase
         [Summary("Emoji", "Will be displayed next to the product")] string emojiText,
         [Summary("Name", "The name of the product")] string name,
         [Summary("Price", "The price of the product")] decimal price,
-        [Summary("Role", "The role that will be granted to the buyer of the product")] IRole discordRole)
+        [Summary("Role", "The role that will be granted to the buyer")] IRole discordRole)
     {
         var shop = await GetShopOrRespondAsync();
         var localizer = new Localizer(shop.Language);
@@ -107,7 +112,9 @@ public class ProductInteractionModule : ShopInteractionModuleBase
         var validEmojiText = await EmojiParser.GetEmojiText(emojiText);
         if (validEmojiText is null)
         {
-            await RespondAsync($":no_entry_sign: {localizer.GetString("invalidEmoji")}", ephemeral: true);
+            await RespondAsync(
+                $":no_entry_sign: {localizer.GetString("invalidEmoji")}",
+                ephemeral: true);
             return;
         }
 
@@ -120,10 +127,13 @@ public class ProductInteractionModule : ShopInteractionModuleBase
         var operationResult = await _mediator.Send(editProductRequest);
         if (operationResult.Successful)
         {
-            await RespondAsync($":recycle: {localizer.GetString("productEdited")}", ephemeral: true);
+            await RespondAsync(
+                $":recycle: {localizer.GetString("productEdited")}",
+                ephemeral: true);
             return;
         }
 
-        await RespondAsync(":no_entry_sign: " + operationResult.ErrorMessage, ephemeral: true);
+        await RespondAsync(
+            ":no_entry_sign: " + operationResult.ErrorMessage, ephemeral: true);
     }
 }

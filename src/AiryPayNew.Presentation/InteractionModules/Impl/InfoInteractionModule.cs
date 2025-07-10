@@ -1,8 +1,8 @@
-﻿using AiryPayNew.Application.Common;
-using AiryPayNew.Application.Requests.Shops;
+﻿using AiryPayNew.Application.Requests.Shops;
 using AiryPayNew.Domain.Entities.Withdrawals;
 using AiryPayNew.Presentation.Localization;
 using AiryPayNew.Presentation.Utils;
+using AiryPayNew.Shared.Settings.AppSettings;
 using Discord;
 using Discord.Interactions;
 using MediatR;
@@ -14,14 +14,16 @@ namespace AiryPayNew.Presentation.InteractionModules.Impl;
 [RequireUserPermission(GuildPermission.Administrator)]
 public class InfoInteractionModule : ShopInteractionModuleBase
 {
-    private readonly Color _embedsColor = new(40, 117, 233);
     private readonly IMediator _mediator;
-
+    private readonly Color _embedsColor;
+    
     public InfoInteractionModule(
         IMediator mediator,
-        IShopLanguageService shopLanguageService) : base(mediator)
+        AppSettings appSettings) : base(mediator)
     {
         _mediator = mediator;
+        
+        _embedsColor = ColorMapper.Map(appSettings.Discord.EmbedMessageColor);
     }
 
     [SlashCommand("info", "🌐 Shop information")]
@@ -52,10 +54,14 @@ public class InfoInteractionModule : ShopInteractionModuleBase
                     .WithValue($"`{Context.Guild.Id}`")
                     .WithIsInline(true),
                 new EmbedFieldBuilder()
-                    .WithName($"{localizer.GetString("_languageEmoji")} {localizer.GetString("language")}")
+                    .WithName(
+                        $"{localizer.GetString("_languageEmoji")} " +
+                        $"{localizer.GetString("language")}")
                     .WithValue(localizer.GetString("_languageName"))
                     .WithIsInline(true))
-            .WithFooter($"AiryPay © {DateTime.UtcNow.Year}", Context.Client.CurrentUser.GetAvatarUrl())
+            .WithFooter(
+                $"AiryPay © {DateTime.UtcNow.Year}",
+                Context.Client.CurrentUser.GetAvatarUrl())
             .WithColor(_embedsColor)
             .Build();
 
@@ -130,7 +136,9 @@ public class InfoInteractionModule : ShopInteractionModuleBase
                 ? localizer.GetString("noProducts")
                 : null)
             .WithFields(fields)
-            .WithFooter($"AiryPay © {DateTime.UtcNow.Year}", Context.Client.CurrentUser.GetAvatarUrl())
+            .WithFooter(
+                $"AiryPay © {DateTime.UtcNow.Year}",
+                Context.Client.CurrentUser.GetAvatarUrl())
             .WithColor(_embedsColor)
             .Build();
 
@@ -161,9 +169,12 @@ public class InfoInteractionModule : ShopInteractionModuleBase
             .WithFields(withdrawals.Select(x => new EmbedFieldBuilder()
                 .WithName($"💳 {x.DateTime:dd/MM/yyyy H:mm} Card")
                 .WithValue($"""
-                            {localizer.GetString("cardNumber")}: ||{CardFormatter.Format(x.ReceivingAccountNumber)}||
-                            {localizer.GetString("amount")}: **{x.Amount} ₽**
-                            {localizer.GetString("statusField")}: **{withdrawalStatusesGetter[x.WithdrawalStatus]}**
+                            {localizer.GetString(
+                                "cardNumber")}: ||{CardFormatter.Format(x.ReceivingAccountNumber)}||
+                            {localizer.GetString(
+                                "amount")}: **{x.Amount} ₽**
+                            {localizer.GetString(
+                                "statusField")}: **{withdrawalStatusesGetter[x.WithdrawalStatus]}**
                             """)
                 .WithIsInline(false)))
             .WithFooter($"AiryPay © {DateTime.UtcNow.Year}", Context.Client.CurrentUser.GetAvatarUrl())
