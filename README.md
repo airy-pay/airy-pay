@@ -11,7 +11,7 @@ Monetize, manage and sell roles within your Discord community.
 
 ### 📦 Manual deployment
 
-1. Create `appsettings.json` and `paymentsettings.yaml` files in project root directory using templates in `./src/AiryPayPay.Presentation` and configure them.
+1. Create `appsettings.json` and `paymentsettings.yaml` files in project root directory using templates in `./src/AiryPayPay.Discord` and configure them.
 2. Add `.env` file using template in project root directory:
 ```js
 DISCORD_TOKEN=""
@@ -33,9 +33,9 @@ docker compose up -d
 
 Create migration
 ```
-dotnet ef migrations add --project src/AiryPayNew.Infrastructure/AiryPayNew.Infrastructure.csproj --startup-project src/AiryPayNew.Presentation/AiryPayNew.Presentation.csproj --context AiryPayNew.Infrastructure.Data.ApplicationDbContext --configuration Debug --verbose <Migration name>
+dotnet ef migrations add --project src/AiryPayNew.Infrastructure/AiryPayNew.Infrastructure.csproj --startup-project src/AiryPayNew.Discord/AiryPayNew.Discord.csproj --context AiryPayNew.Infrastructure.Data.ApplicationDbContext --configuration Debug --verbose <Migration name>
 ```
 Apply migrations
 ```
-dotnet ef database update --project src/AiryPayNew.Infrastructure/AiryPayNew.Infrastructure.csproj --startup-project src/AiryPayNew.Presentation/AiryPayNew.Presentation.csproj --context AiryPayNew.Infrastructure.Data.ApplicationDbContext --configuration Debug --verbose
+dotnet ef database update --project src/AiryPayNew.Infrastructure/AiryPayNew.Infrastructure.csproj --startup-project src/AiryPayNew.Discord/AiryPayNew.Discord.csproj --context AiryPayNew.Infrastructure.Data.ApplicationDbContext --configuration Debug --verbose
 ```

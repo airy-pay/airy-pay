@@ -1,5 +1,5 @@
 ﻿services:
-  airypaynew:
+  airypay-discord:
     image: airypaynew:latest
     environment:
       - "DISCORD_TOKEN=${DISCORD_TOKEN}"
@@ -10,7 +10,7 @@
       - "POSTGRES_PORT=5432"
     build:
       context: .
-      dockerfile: src/AiryPayNew.Presentation/Dockerfile
+      dockerfile: src/AiryPayNew.Discord/Dockerfile
     volumes:
       - ./src:/app/src
       - ./appsettings.json:/app/appsettings.json:ro
