@@ -1,15 +1,16 @@
 ﻿FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build
 WORKDIR /src
+EXPOSE 80
 
-COPY ["src/AiryPayNew.Discord/AiryPayNew.Discord.csproj", "src/AiryPayNew.Discord/"]
+COPY ["src/AiryPayNew.Web/AiryPayNew.Web.csproj", "src/AiryPayNew.Web/"]
 COPY ["src/AiryPayNew.Application/AiryPayNew.Application.csproj", "src/AiryPayNew.Application/"]
 COPY ["src/AiryPayNew.Domain/AiryPayNew.Domain.csproj", "src/AiryPayNew.Domain/"]
 COPY ["src/AiryPayNew.Infrastructure/AiryPayNew.Infrastructure.csproj", "src/AiryPayNew.Infrastructure/"]
 COPY ["src/AiryPayNew.Shared/AiryPayNew.Shared.csproj", "src/AiryPayNew.Shared/"]
-RUN dotnet restore "src/AiryPayNew.Discord/AiryPayNew.Discord.csproj"
+RUN dotnet restore "src/AiryPayNew.Web/AiryPayNew.Web.csproj"
 COPY . .
-WORKDIR "/src/src/AiryPayNew.Discord"
-RUN dotnet build "AiryPayNew.Discord.csproj" -c Release -o /app/build
+WORKDIR "/src/src/AiryPayNew.Web"
+RUN dotnet build "AiryPayNew.Web.csproj" -c Release -o /app/build
 RUN dotnet tool install --global dotnet-ef
 ENV PATH="$PATH:/root/.dotnet/tools"
 
@@ -26,4 +27,4 @@ RUN apt-get update \
     && rm -rf /var/lib/apt/lists/*
 RUN dotnet tool install --global dotnet-ef
 ENV PATH="$PATH:/root/.dotnet/tools"
-ENTRYPOINT ["dotnet", "AiryPayNew.Discord.dll"]
+ENTRYPOINT ["dotnet", "AiryPayNew.Web.dll"]
