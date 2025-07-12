@@ -98,7 +98,7 @@ public class SetupInteractionModule : ShopInteractionModuleBase
     }
 
     [ComponentInteraction("SetupInteractionModule.ChoosePaymentMethod:*")]
-    public async Task ChooseProduct(string selectedProductId, string paymentMethodKey)
+    public async Task ChoosePaymentMethod(string selectedProductId, string paymentMethodKey)
     {
         var shop = await GetShopOrRespondAsync();
         var localizer = new Localizer(shop.Language);
