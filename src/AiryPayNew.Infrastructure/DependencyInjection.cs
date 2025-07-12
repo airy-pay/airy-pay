@@ -49,7 +49,7 @@ public static class DependencyInjection
 
         #region Add health checks
 
-        serviceCollection.AddScoped<IDatabaseHealthCheckService, DatabaseHealthCheckService>();
+        serviceCollection.AddHostedService<DatabaseHealthCheckService>();
 
         #endregion
 
