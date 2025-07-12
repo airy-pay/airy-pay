@@ -1,13 +1,13 @@
-<img src="./assets/banner.png" alt="Banner" width="100%">
-
-![Main workflow](https://github.com/airy-pay/airy-pay-new/actions/workflows/main.yml/badge.svg)
-
 <h1>
     <img height="28" src="./assets/logo.png" alt="Logo">
     AiryPay
 </h1>
 
+![Main workflow](https://github.com/airy-pay/airy-pay-new/actions/workflows/main.yml/badge.svg)
+
 Monetize, manage and sell roles within your Discord community.
+
+<img src="./assets/banner.png" alt="Banner" width="100%">
 
 ### 📦 Manual deployment
 
