@@ -42,12 +42,12 @@ docker compose up -d
 
 6. Update database using EF CLI commands.
 
+> [!NOTE]  
+> Run in project container terminal.
+
 <details>
 
 <summary>Ef Core commands</summary>
-
-> [!NOTE]  
-> Run in Docker container terminal.
 
 Create migration
 ```
