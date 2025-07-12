@@ -60,7 +60,7 @@ namespace AiryPayNew.Discord.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to 🇺🇸.
+        ///   Looks up a localized string similar to 🇬🇧.
         /// </summary>
         internal static string _languageEmoji {
             get {
@@ -326,6 +326,60 @@ namespace AiryPayNew.Discord.Localization {
         internal static string role {
             get {
                 return ResourceManager.GetString("role", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to .
+        /// </summary>
+        internal static string settings {
+            get {
+                return ResourceManager.GetString("settings", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to .
+        /// </summary>
+        internal static string settings_newLanguageSelected {
+            get {
+                return ResourceManager.GetString("settings.newLanguageSelected", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Settings.
+        /// </summary>
+        internal static string settingsButton {
+            get {
+                return ResourceManager.GetString("settingsButton", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Current store settings.
+        /// </summary>
+        internal static string settingsCurrent {
+            get {
+                return ResourceManager.GetString("settingsCurrent", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Change store language.
+        /// </summary>
+        internal static string settingsLanguageDescription {
+            get {
+                return ResourceManager.GetString("settingsLanguageDescription", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Language was successfully changed.
+        /// </summary>
+        internal static string settingsNewLanguageSelected {
+            get {
+                return ResourceManager.GetString("settingsNewLanguageSelected", resourceCulture);
             }
         }
         

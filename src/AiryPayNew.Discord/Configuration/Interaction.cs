@@ -35,7 +35,7 @@ public static class Interaction
 
     private static async void ConfigureFinalHandler(IInteractionContext interactionContext)
     {
-        await interactionContext.Interaction.RespondAsync(":x: Что-то пошло не так", ephemeral: true);
+        await interactionContext.Interaction.RespondAsync(":x: Something went wrong", ephemeral: true);
     }
 
     private static async void ConfigureCommands(InteractionService interactionService, AppSettings appSettings)

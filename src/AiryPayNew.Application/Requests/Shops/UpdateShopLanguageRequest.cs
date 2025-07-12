@@ -5,7 +5,7 @@ using MediatR;
 
 namespace AiryPayNew.Application.Requests.Shops;
 
-public record UpdateShopLanguageRequest(ulong ShopId, Language Language) : IRequest<OperationResult>;
+public record UpdateShopLanguageRequest(ShopId ShopId, Language Language) : IRequest<OperationResult>;
 
 public class UpdateShopLanguageRequestHandler(
     IShopRepository shopRepository,
@@ -13,9 +13,7 @@ public class UpdateShopLanguageRequestHandler(
 {
     public async Task<OperationResult> Handle(UpdateShopLanguageRequest request, CancellationToken cancellationToken)
     {
-        var shopId = new ShopId(request.ShopId);
-        
-        var shop = await shopRepository.GetByIdAsync(shopId, cancellationToken);
+        var shop = await shopRepository.GetByIdAsync(request.ShopId, cancellationToken);
         if (shop is null)
             return new OperationResult(false, "Shop not found");
         
@@ -23,6 +21,6 @@ public class UpdateShopLanguageRequestHandler(
         if (!newLanguageIsSupported)
             return new OperationResult(false, "Language is not supported");
         
-        return await shopRepository.UpdateLanguageAsync(shopId, request.Language, cancellationToken);
+        return await shopRepository.UpdateLanguageAsync(request.ShopId, request.Language, cancellationToken);
     }
 }

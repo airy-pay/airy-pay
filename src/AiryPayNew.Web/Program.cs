@@ -1,4 +1,3 @@
-using AiryPayNew.Discord.Utils;
 using AiryPayNew.Shared.Utils;
 using AiryPayNew.Web.Configuration;
 using AiryPayNew.Web.Http;

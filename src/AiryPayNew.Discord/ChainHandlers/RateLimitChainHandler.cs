@@ -22,7 +22,7 @@ public class RateLimitChainHandler(
         if (rateLimitStatus == RateLimitStatus.Accessible)
             return await base.Handle(interaction);
         
-        await interaction.RespondAsync(":no_entry_sign: Вы отправляете запросы слишком быстро", ephemeral: true);
+        await interaction.RespondAsync(":alarm_clock: You send messages too fast", ephemeral: true);
         return InteractionResult.Success;
     }
 }

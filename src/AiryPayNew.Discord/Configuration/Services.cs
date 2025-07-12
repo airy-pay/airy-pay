@@ -32,7 +32,6 @@ public static class Services
         }));
         
         serviceCollection.AddSingleton(appSettings);
-        serviceCollection.AddSingleton<IShopLanguageService, ShopLanguageService>();
         serviceCollection.AddHostedService<RunHealthCheckService>();
 
         #region Configure messaging consumers

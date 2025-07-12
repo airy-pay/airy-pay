@@ -1,6 +1,6 @@
 ﻿using System.Globalization;
 
-namespace AiryPayNew.Discord.Utils;
+namespace AiryPayNew.Shared.Utils;
 
 public static class LanguageChanger
 {

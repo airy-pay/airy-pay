@@ -29,7 +29,7 @@ public class CommandAuthChainHandler(
             return await base.Handle(interaction);
         }
         
-        await interaction.RespondAsync(":no_entry_sign: Нет прав для выполнения команды", ephemeral: true);
+        await interaction.RespondAsync(":no_entry_sign: No rights for command execution", ephemeral: true);
         return InteractionResult.Success;
     }
 }

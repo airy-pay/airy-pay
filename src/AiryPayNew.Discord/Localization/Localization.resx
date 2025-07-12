@@ -20,7 +20,7 @@
     <value>English</value>
   </data>
   <data name="_languageEmoji" xml:space="preserve">
-    <value>🇺🇸</value>
+    <value>🇬🇧</value>
   </data>
   <data name="shopNotFound" xml:space="preserve">
     <value>Shop not found</value>
@@ -210,5 +210,23 @@
   </data>
     <data name="withdrawal.created.warning" xml:space="preserve">
     <value>-# In case of an error during withdrawal, the funds will be returned to the shop balance.</value>
+  </data>
+  <data name="settings" xml:space="preserve">
+    <value />
+  </data>
+  <data name="settingsButton" xml:space="preserve">
+    <value>Settings</value>
+  </data>
+  <data name="settingsCurrent" xml:space="preserve">
+    <value>Current store settings</value>
+  </data>
+  <data name="settingsLanguageDescription" xml:space="preserve">
+    <value>Change store language</value>
+  </data>
+  <data name="settings.newLanguageSelected" xml:space="preserve">
+    <value />
+  </data>
+  <data name="settingsNewLanguageSelected" xml:space="preserve">
+    <value>Language was successfully changed</value>
   </data>
 </root>

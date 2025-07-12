@@ -1,6 +1,7 @@
 ﻿using AiryPayNew.Application.Requests.Shops;
 using AiryPayNew.Discord.Localization;
 using AiryPayNew.Discord.Utils;
+using AiryPayNew.Domain.Common;
 using AiryPayNew.Domain.Entities.Withdrawals;
 using AiryPayNew.Shared.Settings.AppSettings;
 using Discord;
@@ -16,13 +17,15 @@ public class InfoInteractionModule : ShopInteractionModuleBase
 {
     private readonly IMediator _mediator;
     private readonly Color _embedsColor;
+    private readonly AppSettings _appSettings;
     
     public InfoInteractionModule(
         IMediator mediator,
         AppSettings appSettings) : base(mediator)
     {
         _mediator = mediator;
-        
+        _appSettings = appSettings;
+
         _embedsColor = ColorMapper.Map(appSettings.Discord.EmbedMessageColor);
     }
 
@@ -83,6 +86,12 @@ public class InfoInteractionModule : ShopInteractionModuleBase
             .WithEmote(new Emoji("📦"))
             .WithStyle(ButtonStyle.Primary);
 
+        var settingsButton = new ButtonBuilder()
+            .WithCustomId("InfoInteractionModule.OpenSettings")
+            .WithLabel(localizer.GetString("settingsButton"))
+            .WithEmote(new Emoji("⚙️"))
+            .WithStyle(ButtonStyle.Secondary);
+        
         var supportButton = new ButtonBuilder()
             .WithLabel(localizer.GetString("support"))
             .WithUrl("https://discord.gg/Arn9RsRqD9")
@@ -100,7 +109,8 @@ public class InfoInteractionModule : ShopInteractionModuleBase
                 new ActionRowBuilder()
                     .WithButton(productsButton)
                     .WithButton(withdrawalsButton)
-                    .WithButton(lastPurchasesButton),
+                    .WithButton(lastPurchasesButton)
+                    .WithButton(settingsButton),
                 new ActionRowBuilder()
                     .WithButton(supportButton)
                     .WithButton(termsButton),
@@ -220,5 +230,66 @@ public class InfoInteractionModule : ShopInteractionModuleBase
             .Build();
 
         await RespondAsync(embed: purchasesEmbed, ephemeral: true);
+    }
+    
+    [ComponentInteraction("InfoInteractionModule.OpenSettings")]
+    public async Task OpenSettings()
+    {
+        var shop = await GetShopOrRespondAsync();
+        var localizer = new Localizer(shop.Language);
+        
+        var purchasesEmbed = new EmbedBuilder()
+            .WithTitle($"⚙️ {localizer.GetString("settingsButton")}")
+            .WithDescription($"{localizer.GetString("settingsCurrent")}")
+            .WithFooter($"AiryPay © {DateTime.UtcNow.Year}", Context.Client.CurrentUser.GetAvatarUrl())
+            .WithColor(_embedsColor)
+            .Build();
+        
+        var selectMenuBuilder = new SelectMenuBuilder()
+            .WithCustomId("InfoInteractionModule.OpenSettings.LanguageSelector")
+            .WithType(ComponentType.SelectMenu)
+            .WithPlaceholder($"\ud83c\udf10 {localizer.GetString("settingsLanguageDescription")}");
+        
+        foreach (var lang in _appSettings.BotSupportedLanguages)
+        {
+            var currentLanguage = new Language(lang.Code);
+            
+            localizer = new Localizer(currentLanguage);
+            var emote = new Emoji(localizer.GetString("_languageEmoji"));
+            
+            selectMenuBuilder.AddOption(new SelectMenuOptionBuilder()
+                .WithLabel(localizer.GetString("_languageName"))
+                .WithValue(lang.Code)
+                .WithEmote(emote));
+        }
+
+        // localizer needs to be reset after iteration is complete so localization after uses shop language
+        localizer = new Localizer(shop.Language);
+        
+        var messageComponents = new ComponentBuilder()
+            .WithRows([
+                new ActionRowBuilder().WithSelectMenu(selectMenuBuilder)])
+            .Build();
+
+        await RespondAsync(embed: purchasesEmbed, components: messageComponents, ephemeral: true);
+    }
+
+    [ComponentInteraction("InfoInteractionModule.OpenSettings.LanguageSelector")]
+    public async Task ChooseNewStoreLanguage(string selectedLanguageString)
+    {
+        var shop = await GetShopOrRespondAsync();
+        var localizer = new Localizer(shop.Language);
+        
+        var selectedLanguage = new Language(selectedLanguageString);
+        var updateShopLanguageRequest = new UpdateShopLanguageRequest(shop.Id, selectedLanguage);
+        
+        var operationResult = await _mediator.Send(updateShopLanguageRequest);
+        if (!operationResult.Successful)
+        {
+            await RespondAsync(":no_entry_sign: " + operationResult.ErrorMessage, ephemeral: true);
+            return;
+        }
+        
+        await RespondAsync(":white_check_mark: " + localizer.GetString("settingsNewLanguageSelected"), ephemeral: true);
     }
 }
