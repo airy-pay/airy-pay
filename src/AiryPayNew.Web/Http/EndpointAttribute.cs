@@ -1,4 +1,4 @@
-﻿namespace AiryPayNew.Discord.Http;
+﻿namespace AiryPayNew.Web.Http;
 
 [AttributeUsage(AttributeTargets.Class)]
 public class EndpointAttribute : Attribute

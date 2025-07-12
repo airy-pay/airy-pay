@@ -1,10 +1,10 @@
 ﻿using AiryPayNew.Application.Requests.Payments;
-using AiryPayNew.Discord.Services;
+using AiryPayNew.Web.Services;
 using Discord.WebSocket;
 using FinPay.API.Callbacks.Impl;
 using MediatR;
 
-namespace AiryPayNew.Discord.Http.Endpoints;
+namespace AiryPayNew.Web.Http.Endpoints;
 
 [Endpoint]
 public static class FinPayCallbackEndpoint
@@ -15,10 +15,9 @@ public static class FinPayCallbackEndpoint
             PaymentPaidCallback paymentPaidCallback,
             IMediator mediator,
             DiscordSocketClient discordSocketClient,
-            UserRepositoryService socketUserRepositoryService,
+            InMemoryUserCache socketUserRepositoryService,
             ILogger<WebApplication> logger) =>
         {
-            // FinPay's API is ASS
             paymentPaidCallback.Amount /= 100;
             paymentPaidCallback.InvoiceId -= 100_000;
             

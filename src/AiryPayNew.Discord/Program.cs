@@ -1,5 +1,4 @@
 ﻿using AiryPayNew.Discord.Configuration;
-using AiryPayNew.Discord.Http;
 using AiryPayNew.Discord.Utils;
 using AiryPayNew.Shared.Utils;
 using Serilog;
@@ -27,8 +26,6 @@ try
         .AddServices(appSettings);
     
     var app = builder.Build();
-    
-    app.AddHttpEndpoints();
     
     await app.RunAsync();
 }

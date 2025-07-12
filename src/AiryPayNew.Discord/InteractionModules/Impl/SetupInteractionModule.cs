@@ -2,11 +2,11 @@
 using AiryPayNew.Application.Requests.Payments;
 using AiryPayNew.Application.Requests.Products;
 using AiryPayNew.Discord.Localization;
-using AiryPayNew.Discord.Services;
 using AiryPayNew.Discord.Utils;
 using AiryPayNew.Domain.Common;
 using AiryPayNew.Domain.Entities.Products;
 using AiryPayNew.Shared.Settings.AppSettings;
+using AiryPayNew.Web.Services;
 using Discord;
 using Discord.Interactions;
 using MediatR;
@@ -19,16 +19,16 @@ public class SetupInteractionModule : ShopInteractionModuleBase
 {
     private readonly IMediator _mediator;
     private readonly AppSettings _appSettings;
-    private readonly UserRepositoryService _userRepositoryService;
+    private readonly InMemoryUserCache _inMemoryUserCache;
     private readonly Color _embedsColor;
 
     public SetupInteractionModule(
         IMediator mediator,
         AppSettings appSettings,
-        UserRepositoryService userRepositoryService) : base(mediator)
+        InMemoryUserCache inMemoryUserCache) : base(mediator)
     {
         _appSettings = appSettings;
-        _userRepositoryService = userRepositoryService;
+        _inMemoryUserCache = inMemoryUserCache;
         _mediator = mediator;
         
         _embedsColor = ColorMapper.Map(appSettings.Discord.EmbedMessageColor);
@@ -139,7 +139,7 @@ public class SetupInteractionModule : ShopInteractionModuleBase
             return;
         }
 
-        _userRepositoryService.SetUser(Context.Interaction.User);
+        _inMemoryUserCache.SetUser(Context.Interaction.User);
 
         var payEmbed = new EmbedBuilder()
             .WithTitle(localizer.GetString("setup.paymentEmbed.title"))

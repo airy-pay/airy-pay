@@ -8,8 +8,13 @@
     </PropertyGroup>
 
     <ItemGroup>
+        <PackageReference Include="Discord.Addons.Hosting" Version="6.1.0" />
+        <PackageReference Include="Discord.Net" Version="3.14.1" />
         <PackageReference Include="Microsoft.AspNetCore.OpenApi" Version="8.0.3"/>
         <PackageReference Include="Swashbuckle.AspNetCore" Version="6.4.0"/>
+        <PackageReference Include="Serilog.AspNetCore" Version="8.0.2-dev-00341" />
+        <PackageReference Include="YamlDotNet" Version="15.3.0" />
+        <PackageReference Include="Alexinea.Extensions.Configuration.Yaml" Version="7.0.0" />
     </ItemGroup>
 
     <ItemGroup>
@@ -19,7 +24,9 @@
     </ItemGroup>
 
     <ItemGroup>
-      <Folder Include="Http\" />
+      <ProjectReference Include="..\AiryPayNew.Application\AiryPayNew.Application.csproj" />
+      <ProjectReference Include="..\AiryPayNew.Infrastructure\AiryPayNew.Infrastructure.csproj" />
+      <ProjectReference Include="..\AiryPayNew.Shared\AiryPayNew.Shared.csproj" />
     </ItemGroup>
 
 </Project>

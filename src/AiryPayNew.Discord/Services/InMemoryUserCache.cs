@@ -1,8 +1,8 @@
 ﻿using Discord;
 
-namespace AiryPayNew.Discord.Services;
+namespace AiryPayNew.Web.Services;
 
-public class UserRepositoryService
+public class InMemoryUserCache
 {
     private readonly Dictionary<ulong, IUser> _socketUsers = new();
     

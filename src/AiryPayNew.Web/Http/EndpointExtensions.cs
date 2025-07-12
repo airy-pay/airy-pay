@@ -1,6 +1,6 @@
 ﻿using System.Reflection;
 
-namespace AiryPayNew.Discord.Http;
+namespace AiryPayNew.Web.Http;
 
 public static class EndpointExtensions
 {

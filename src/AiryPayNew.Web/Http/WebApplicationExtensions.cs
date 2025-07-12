@@ -1,7 +1,7 @@
 ﻿using System.Reflection;
-using AiryPayNew.Discord.Http.Middlewares;
+using AiryPayNew.Web.Http.Middlewares;
 
-namespace AiryPayNew.Discord.Http;
+namespace AiryPayNew.Web.Http;
 
 public static class WebApplicationExtensions
 {

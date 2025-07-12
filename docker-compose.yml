@@ -21,6 +21,8 @@
   
   airypay.web:
     image: airypay.web:latest
+    environment:
+      - "DISCORD_TOKEN=${DISCORD_TOKEN}"
     build:
       context: .
       dockerfile: src/AiryPayNew.Web/Dockerfile

@@ -2,6 +2,7 @@
 using AiryPayNew.Discord.Utils;
 using AiryPayNew.Shared.Settings;
 using AiryPayNew.Shared.Settings.AppSettings;
+using AiryPayNew.Shared.Utils;
 using Discord;
 using Discord.Addons.Hosting;
 using Discord.Commands;
@@ -42,7 +43,6 @@ public static class DiscordHost
         });
 
         serviceCollection.AddInteractionHandler(appSettings);
-        serviceCollection.AddSingleton<UserRepositoryService>();
         
         return serviceCollection;
     }
