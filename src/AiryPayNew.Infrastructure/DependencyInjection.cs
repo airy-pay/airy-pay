@@ -7,13 +7,10 @@ using AiryPayNew.Domain.Entities.Shops;
 using AiryPayNew.Domain.Entities.Withdrawals;
 using AiryPayNew.Infrastructure.Data;
 using AiryPayNew.Infrastructure.Data.Repositories;
-using AiryPayNew.Infrastructure.Services;
-using AiryPayNew.Infrastructure.Services.HealthChecks;
 using AiryPayNew.Infrastructure.Services.Messaging;
 using AiryPayNew.Infrastructure.Services.Payment;
 using AiryPayNew.Infrastructure.Utils;
 using AiryPayNew.Shared.Messaging;
-using AiryPayNew.Shared.Settings;
 using AiryPayNew.Shared.Settings.AppSettings;
 using FinPay.API;
 using Microsoft.EntityFrameworkCore;
@@ -44,12 +41,6 @@ public static class DependencyInjection
         serviceCollection.AddScoped<IPurchaseRepository, PurchaseRepository>();
         serviceCollection.AddScoped<IShopRepository, ShopRepository>();
         serviceCollection.AddScoped<IWithdrawalRepository, WithdrawalRepository>();
-
-        #endregion
-
-        #region Add health checks
-
-        serviceCollection.AddHostedService<DatabaseHealthCheckService>();
 
         #endregion
 

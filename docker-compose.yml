@@ -21,8 +21,10 @@
       - ./appsettings.json:/app/appsettings.json:ro
       - ./paymentsettings.yaml:/app/paymentsettings.yaml:ro
     depends_on:
-      - postgres
-      - rabbitmq
+      postgres:
+        condition: service_healthy
+      rabbitmq:
+        condition: service_healthy
     restart: always
   
   airypay.web:
@@ -41,20 +43,27 @@
       - ./appsettings.json:/app/appsettings.json:ro
       - ./paymentsettings.yaml:/app/paymentsettings.yaml:ro
     depends_on:
-      - postgres
-      - rabbitmq
+      postgres:
+        condition: service_healthy
+      rabbitmq:
+        condition: service_healthy
     ports:
       - "80:80"
-    restart: always  
+    restart: always
   
   rabbitmq:
     image: rabbitmq:3.13-management
     ports:
-      - "${RABBITMQ_PORT}:5672" # AMQP port
-      - "${RABBITMQ_WEB_PORT}:15672" # Web management UI
+      - "${RABBITMQ_PORT}:5672"       # AMQP port
+      - "${RABBITMQ_WEB_PORT}:15672"  # Web management UI
     environment:
       RABBITMQ_DEFAULT_USER: ${RABBITMQ_USER}
       RABBITMQ_DEFAULT_PASS: ${RABBITMQ_PASSWORD}
+    healthcheck:
+      test: ["CMD", "rabbitmq-diagnostics", "ping"]
+      interval: 5s
+      timeout: 3s
+      retries: 3
     restart: always
   
   postgres:
@@ -67,6 +76,12 @@
       - "${POSTGRES_OUTER_PORT}:5432"
     volumes:
       - pgdata:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER}"]
+      interval: 5s
+      timeout: 3s
+      retries: 3
+    restart: always
 
 volumes:
   pgdata:
