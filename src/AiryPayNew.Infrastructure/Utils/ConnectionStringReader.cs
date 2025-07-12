@@ -1,4 +1,5 @@
 ﻿using System.Text;
+using AiryPayNew.Shared.Utils;
 
 namespace AiryPayNew.Infrastructure.Utils;
 
@@ -34,15 +35,6 @@ internal static class ConnectionStringReader
 
     private static string GetConnectionStringElement(string connectionStringParameterName, string connectionStringValue)
     {
-        return $"{connectionStringParameterName}={GetDatabaseCredential(connectionStringValue)};";
-    }
-    
-    private static string GetDatabaseCredential(string environmentVariable)
-    {
-        var data = Environment.GetEnvironmentVariable(environmentVariable);
-        if (data is null)
-            throw new InvalidOperationException($"Environment variable {environmentVariable} is missing");
-
-        return data;
+        return $"{connectionStringParameterName}={EnvironmentVariableReader.Get(connectionStringValue)};";
     }
 }

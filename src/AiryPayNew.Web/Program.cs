@@ -22,9 +22,7 @@ try
     
     LanguageChanger.Update(appSettings.Language);
     
-    builder.Services
-        .AddDiscordHost(appSettings)
-        .AddServices(appSettings);
+    builder.Services.AddServices(appSettings);
 
     var app = builder.Build();
     

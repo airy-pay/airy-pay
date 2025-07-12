@@ -8,6 +8,11 @@
       - "POSTGRES_PASSWORD=${POSTGRES_PASSWORD}"
       - "POSTGRES_HOST=postgres"
       - "POSTGRES_PORT=5432"
+      - "RABBITMQ_HOST=rabbitmq"
+      - "RABBITMQ_USER=${RABBITMQ_USER}"
+      - "RABBITMQ_PASSWORD=${RABBITMQ_PASSWORD}"
+      - "RABBITMQ_PORT=${RABBITMQ_PORT}"
+      - "RABBITMQ_WEB_PORT=${RABBITMQ_WEB_PORT}"
     build:
       context: .
       dockerfile: src/AiryPayNew.Discord/Dockerfile
@@ -17,12 +22,17 @@
       - ./paymentsettings.yaml:/app/paymentsettings.yaml:ro
     depends_on:
       - postgres
+      - rabbitmq
     restart: always
   
   airypay.web:
     image: airypay.web:latest
     environment:
-      - "DISCORD_TOKEN=${DISCORD_TOKEN}"
+      - "RABBITMQ_HOST=rabbitmq"
+      - "RABBITMQ_USER=${RABBITMQ_USER}"
+      - "RABBITMQ_PASSWORD=${RABBITMQ_PASSWORD}"
+      - "RABBITMQ_PORT=${RABBITMQ_PORT}"
+      - "RABBITMQ_WEB_PORT=${RABBITMQ_WEB_PORT}"
     build:
       context: .
       dockerfile: src/AiryPayNew.Web/Dockerfile
@@ -32,9 +42,20 @@
       - ./paymentsettings.yaml:/app/paymentsettings.yaml:ro
     depends_on:
       - postgres
+      - rabbitmq
     ports:
       - "80:80"
     restart: always  
+  
+  rabbitmq:
+    image: rabbitmq:3.13-management
+    ports:
+      - "${RABBITMQ_PORT}:5672" # AMQP port
+      - "${RABBITMQ_WEB_PORT}:15672" # Web management UI
+    environment:
+      RABBITMQ_DEFAULT_USER: ${RABBITMQ_USER}
+      RABBITMQ_DEFAULT_PASS: ${RABBITMQ_PASSWORD}
+    restart: always
   
   postgres:
     image: postgres:latest

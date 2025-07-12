@@ -9,8 +9,10 @@ using AiryPayNew.Infrastructure.Data;
 using AiryPayNew.Infrastructure.Data.Repositories;
 using AiryPayNew.Infrastructure.Services;
 using AiryPayNew.Infrastructure.Services.HealthChecks;
-using AiryPayNew.Infrastructure.Services.Payments;
+using AiryPayNew.Infrastructure.Services.Messaging;
+using AiryPayNew.Infrastructure.Services.Payment;
 using AiryPayNew.Infrastructure.Utils;
+using AiryPayNew.Shared.Messaging;
 using AiryPayNew.Shared.Settings;
 using AiryPayNew.Shared.Settings.AppSettings;
 using FinPay.API;
@@ -66,6 +68,15 @@ public static class DependencyInjection
 
         serviceCollection.AddTransient<IPaymentService, RuKassaPaymentService>();
         serviceCollection.AddTransient<IPaymentService, FinPayPaymentService>();
+        
+        #endregion
+
+        #region Add RabbitMQ messaging producers
+
+        serviceCollection.AddSingleton<IRoleAssignmentQueueService, RabbitMqRoleAssignmentQueueService>();
+        serviceCollection.AddHostedService(provider =>
+            (RabbitMqRoleAssignmentQueueService) provider.GetRequiredService<IRoleAssignmentQueueService>());
+        serviceCollection.AddSingleton<IRabbitMqConnectionManager, RabbitMqConnectionManager>();
         
         #endregion
         

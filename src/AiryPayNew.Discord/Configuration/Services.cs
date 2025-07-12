@@ -1,6 +1,7 @@
 ﻿using AiryPayNew.Application;
 using AiryPayNew.Application.Common;
 using AiryPayNew.Discord.Services;
+using AiryPayNew.Discord.Services.Messaging;
 using AiryPayNew.Infrastructure;
 using AiryPayNew.Shared.Settings.AppSettings;
 using GenericRateLimiter.Configuration;
@@ -33,6 +34,13 @@ public static class Services
         serviceCollection.AddSingleton(appSettings);
         serviceCollection.AddSingleton<IShopLanguageService, ShopLanguageService>();
         serviceCollection.AddHostedService<RunHealthCheckService>();
+
+        #region Configure messaging consumers
+
+        serviceCollection.AddSingleton<RoleAssignmentConsumer>();
+        serviceCollection.AddHostedService<RoleAssignmentListenerService>();
+
+        #endregion
         
         return serviceCollection;
     }

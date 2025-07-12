@@ -1,12 +1,10 @@
 ﻿using AiryPayNew.Application.Payments;
 using AiryPayNew.Domain.Common;
 using AiryPayNew.Domain.Entities.Bills;
-using AiryPayNew.Domain.Entities.Bills.BillSecrets;
-using AiryPayNew.Domain.Entities.Bills.BillSecrets.BillSecretGenerators;
 using FinPay.API;
 using FinPay.API.Requests.Impl;
 
-namespace AiryPayNew.Infrastructure.Services.Payments;
+namespace AiryPayNew.Infrastructure.Services.Payment;
 
 public class FinPayPaymentService(FinPayApiClient finPayApiClient) : IPaymentService
 {

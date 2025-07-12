@@ -19,6 +19,11 @@ POSTGRES_DB=""
 POSTGRES_USER=""
 POSTGRES_PASSWORD=""
 POSTGRES_PUBLIC_PORT=""
+RABBITMQ_HOST="localhost"
+RABBITMQ_USER="airypay_user"
+RABBITMQ_PASSWORD="AtCY75F8hoqYcsX9"
+RABBITMQ_PORT="5672"
+RABBITMQ_WEB_PORT="15672"
 ```
 3. Open 80 port to allow payment callbacks.
 4. Update database using [Ef Core commands](https://github.com/airy-pay/airy-pay-new?tab=readme-ov-file#%EF%B8%8F-ef-core-commands)
