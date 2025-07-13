@@ -168,4 +168,7 @@
     <data name="withdrawal.created.warning" xml:space="preserve">
         <value>-# In case of an error during withdrawal, the funds will be returned to the shop balance.</value>
     </data>
+    <data name="setup.createProductsFirst" xml:space="preserve">
+        <value>Store without procucts can't be created. Create products using `/product create`.</value>
+    </data>
 </root>

@@ -2,7 +2,6 @@
 using AiryPayNew.Application.Requests.Payments;
 using AiryPayNew.Application.Requests.Products;
 using AiryPayNew.Discord.Localization;
-using AiryPayNew.Discord.Services;
 using AiryPayNew.Discord.Utils;
 using AiryPayNew.Domain.Common;
 using AiryPayNew.Domain.Entities.Products;
@@ -46,6 +45,13 @@ public class SetupInteractionModule : ShopInteractionModuleBase
                 .WithValue(x.Id.Value.ToString()));
         var selectMenuOptions = await Task.WhenAll(selectMenuOptionsTasks);
 
+        if (selectMenuOptions.Length == 0)
+        {
+            await RespondAsync(
+                localizer.GetString("setup.createProductsFirst"), ephemeral: true);
+            return;
+        }
+        
         var selectMenu = new SelectMenuBuilder()
             .WithCustomId("SetupInteractionModule.ChooseProduct")
             .WithPlaceholder(localizer.GetString("setup.selectProduct.placeholder"))

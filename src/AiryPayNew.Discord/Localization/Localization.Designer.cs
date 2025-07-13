@@ -384,6 +384,15 @@ namespace AiryPayNew.Discord.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Store without procucts can&apos;t be created. Create products using `/product create`..
+        /// </summary>
+        internal static string setup_createProductsFirst {
+            get {
+                return ResourceManager.GetString("setup.createProductsFirst", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to :no_entry_sign: The selected payment method is invalid..
         /// </summary>
         internal static string setup_invalidPaymentMethod {

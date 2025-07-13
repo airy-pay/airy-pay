@@ -226,4 +226,7 @@
   <data name="settingsNewLanguageSelected" xml:space="preserve">
     <value>Язык был изменен</value>
   </data>
+  <data name="setup.createProductsFirst" xml:space="preserve">
+    <value>Сначала создайте продукты для магазина при помощи команды `/product create`.</value>
+  </data>
 </root>

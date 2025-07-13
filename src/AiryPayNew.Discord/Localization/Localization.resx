@@ -229,4 +229,7 @@
   <data name="settingsNewLanguageSelected" xml:space="preserve">
     <value>Language was successfully changed</value>
   </data>
+  <data name="setup.createProductsFirst" xml:space="preserve">
+    <value>Store without procucts can't be created. Create products using `/product create`.</value>
+  </data>
 </root>
