@@ -4,6 +4,9 @@
 </h1>
 
 ![Main workflow](https://github.com/airy-pay/airy-pay-new/actions/workflows/main.yml/badge.svg)
+![Main workflow](https://img.shields.io/github/v/release/airy-pay/airy-pay-new)
+![Main workflow](https://img.shields.io/github/stars/airy-pay/airy-pay-new.png)
+![Main workflow](https://img.shields.io/github/license/airy-pay/airy-pay-new)
 
 Monetize, manage and sell roles within your Discord community.
 
@@ -23,11 +26,11 @@ POSTGRES_DB=""
 POSTGRES_USER=""
 POSTGRES_PASSWORD=""
 POSTGRES_PUBLIC_PORT=""
-RABBITMQ_HOST="localhost"
-RABBITMQ_USER="airypay_user"
-RABBITMQ_PASSWORD="AtCY75F8hoqYcsX9"
-RABBITMQ_PORT="5672"
-RABBITMQ_WEB_PORT="15672"
+RABBITMQ_HOST=""
+RABBITMQ_USER=""
+RABBITMQ_PASSWORD=""
+RABBITMQ_PORT=""
+RABBITMQ_WEB_PORT=""
 ```
 </details>
 
