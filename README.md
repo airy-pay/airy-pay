@@ -4,6 +4,9 @@
 </h1>
 
 ![Main workflow](https://github.com/airy-pay/airy-pay-new/actions/workflows/main.yml/badge.svg)
+![Main workflow](https://img.shields.io/github/v/release/airy-pay/airy-pay-new)
+![Main workflow](https://img.shields.io/github/stars/airy-pay/airy-pay-new.png)
+![Main workflow](https://img.shields.io/github/license/airy-pay/airy-pay-new)
 
 Monetize, manage and sell roles within your Discord community.
 
