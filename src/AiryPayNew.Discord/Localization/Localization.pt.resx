@@ -12,160 +12,160 @@
         <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
     </resheader>
     <data name="_languageName" xml:space="preserve">
-        <value>English</value>
+        <value>Português</value>
     </data>
     <data name="_languageEmoji" xml:space="preserve">
-        <value>🇬🇧</value>
+        <value>🇧🇷</value>
     </data>
-    <data name="infoCommandDescription" xml:space="preserve"><value>Shop information</value></data>
-    <data name="balance" xml:space="preserve"><value>Balance</value></data>
+    <data name="infoCommandDescription" xml:space="preserve"><value>Informações da loja</value></data>
+    <data name="balance" xml:space="preserve"><value>Saldo</value></data>
     <data name="status" xml:space="preserve"><value>Status</value></data>
-    <data name="blocked" xml:space="preserve"><value>Blocked</value></data>
-    <data name="active" xml:space="preserve"><value>Active</value></data>
-    <data name="products" xml:space="preserve"><value>Products</value></data>
+    <data name="blocked" xml:space="preserve"><value>Bloqueado</value></data>
+    <data name="active" xml:space="preserve"><value>Ativo</value></data>
+    <data name="products" xml:space="preserve"><value>Produtos</value></data>
     <data name="guildId" xml:space="preserve"><value>ID</value></data>
-    <data name="support" xml:space="preserve"><value>Support</value></data>
-    <data name="termsOfService" xml:space="preserve"><value>Terms of Service</value></data>
-    <data name="noProducts" xml:space="preserve"><value>It's empty for now. Create a new product with `/product create`</value></data>
-    <data name="productPrice" xml:space="preserve"><value>Price: **{0} ₽**</value></data>
-    <data name="productRole" xml:space="preserve"><value>Role: &lt;@&amp;{0}&gt;</value></data>
-    <data name="noWithdrawals" xml:space="preserve"><value>It's empty for now. Create a withdrawal with `/withdrawal`</value></data>
-    <data name="withdrawalDateCard" xml:space="preserve"><value>{0:dd/MM/yyyy H:mm} Card</value></data>
-    <data name="withdrawalAccountNumber" xml:space="preserve"><value>Account number: ||{0}||</value></data>
-    <data name="withdrawalAmount" xml:space="preserve"><value>Amount: **{0} ₽**</value></data>
+    <data name="support" xml:space="preserve"><value>Suporte</value></data>
+    <data name="termsOfService" xml:space="preserve"><value>Termos de Serviço</value></data>
+    <data name="noProducts" xml:space="preserve"><value>Está vazio por enquanto. Crie um novo produto com `/product create`</value></data>
+    <data name="productPrice" xml:space="preserve"><value>Preço: **{0} ₽**</value></data>
+    <data name="productRole" xml:space="preserve"><value>Cargo: &lt;@&amp;{0}&gt;</value></data>
+    <data name="noWithdrawals" xml:space="preserve"><value>Está vazio por enquanto. Crie um saque com `/withdrawal`</value></data>
+    <data name="withdrawalDateCard" xml:space="preserve"><value>{0:dd/MM/yyyy H:mm} Cartão</value></data>
+    <data name="withdrawalAccountNumber" xml:space="preserve"><value>Número da conta: ||{0}||</value></data>
+    <data name="withdrawalAmount" xml:space="preserve"><value>Valor: **{0} ₽**</value></data>
     <data name="withdrawalStatus" xml:space="preserve"><value>Status: **{0}**</value></data>
-    <data name="withdrawalStatus_inprocess" xml:space="preserve"><value>In process</value></data>
-    <data name="withdrawalStatus_paid" xml:space="preserve"><value>Paid</value></data>
-    <data name="withdrawalStatus_canceled" xml:space="preserve"><value>Canceled</value></data>
-    <data name="noPurchases" xml:space="preserve"><value>It's empty for now. No purchases yet.</value></data>
-    <data name="buyer" xml:space="preserve"><value>Buyer: &lt;@{0}&gt;</value></data>
-    <data name="profit" xml:space="preserve"><value>Profit: **{0} ₽**</value></data>
-    <data name="dateUtc" xml:space="preserve"><value>Date: `{0} (UTC)`</value></data>
+    <data name="withdrawalStatus_inprocess" xml:space="preserve"><value>Em processamento</value></data>
+    <data name="withdrawalStatus_paid" xml:space="preserve"><value>Pago</value></data>
+    <data name="withdrawalStatus_canceled" xml:space="preserve"><value>Cancelado</value></data>
+    <data name="noPurchases" xml:space="preserve"><value>Está vazio por enquanto. Nenhuma compra ainda.</value></data>
+    <data name="buyer" xml:space="preserve"><value>Comprador: &lt;@{0}&gt;</value></data>
+    <data name="profit" xml:space="preserve"><value>Lucro: **{0} ₽**</value></data>
+    <data name="dateUtc" xml:space="preserve"><value>Data: `{0} (UTC)`</value></data>
     <data name="shopInfoTitle" xml:space="preserve"><value>{0}</value></data>
     <data name="shopInformation" xml:space="preserve">
-        <value>Shop Information</value>
+        <value>Informações da Loja</value>
     </data>
     <data name="amount" xml:space="preserve">
-        <value>Amount</value>
+        <value>Valor</value>
     </data>
     <data name="canceled" xml:space="preserve">
-        <value>Canceled</value>
+        <value>Cancelado</value>
     </data>
     <data name="cardNumber" xml:space="preserve">
-        <value>Account Number</value>
+        <value>Número da Conta</value>
     </data>
     <data name="date" xml:space="preserve">
-        <value>Date</value>
+        <value>Data</value>
     </data>
     <data name="inProcess" xml:space="preserve">
-        <value>In process</value>
+        <value>Em processamento</value>
     </data>
     <data name="purchases" xml:space="preserve">
-        <value>Recent Purchases</value>
+        <value>Compras Recentes</value>
     </data>
     <data name="role" xml:space="preserve">
-        <value>Role</value>
+        <value>Cargo</value>
     </data>
     <data name="shopId" xml:space="preserve">
-        <value>Shop ID</value>
+        <value>ID da Loja</value>
     </data>
     <data name="shopNotFound" xml:space="preserve">
-        <value>Shop not found</value>
+        <value>Loja não encontrada</value>
     </data>
     <data name="statusField" xml:space="preserve">
         <value>Status</value>
     </data>
     <data name="terms" xml:space="preserve">
-        <value>Terms of Service</value>
+        <value>Termos de Serviço</value>
     </data>
     <data name="withdrawals" xml:space="preserve">
-        <value>Withdrawals</value>
+        <value>Saques</value>
     </data>
     <data name="paid" xml:space="preserve">
-        <value>Paid</value>
+        <value>Pago</value>
     </data>
     <data name="language" xml:space="preserve">
-        <value>Language</value>
+        <value>Idioma</value>
     </data>
     <data name="invalidEmoji" xml:space="preserve">
-        <value>Use valid emoji</value>
+        <value>Use um emoji válido</value>
     </data>
     <data name="settingsButton" xml:space="preserve">
-        <value>Settings</value>
+        <value>Configurações</value>
     </data>
     <data name="settingsCurrent" xml:space="preserve">
-        <value>Current store settings</value>
+        <value>Configurações atuais da loja</value>
     </data>
     <data name="settingsLanguageDescription" xml:space="preserve">
-        <value>Change store language</value>
+        <value>Alterar idioma da loja</value>
     </data>
     <data name="settingsNewLanguageSelected" xml:space="preserve">
-        <value>Language was successfully changed</value>
+        <value>Idioma alterado com sucesso</value>
     </data>
     <data name="setup.invalidPaymentMethod" xml:space="preserve">
-        <value>:no_entry_sign: The selected payment method is invalid.</value>
+        <value>:no_entry_sign: O método de pagamento selecionado é inválido.</value>
     </data>
     <data name="botRoleTooLow" xml:space="preserve">
-        <value>Bot's role ({0}) is lower than the product's role ({1}).\nFix this in role settings.</value>
+        <value>O cargo do bot ({0}) é inferior ao cargo do produto ({1}).\nCorrija isso nas configurações de cargos.</value>
     </data>
     <data name="productCreated" xml:space="preserve">
-        <value>New product has been created.</value>
+        <value>Novo produto foi criado.</value>
     </data>
     <data name="productDeleted" xml:space="preserve">
-        <value>Product has been deleted.</value>
+        <value>Produto foi excluído.</value>
     </data>
     <data name="productEdited" xml:space="preserve">
-        <value>Product has been updated.</value>
+        <value>Produto foi atualizado.</value>
     </data>
     <data name="setup.invalidProduct" xml:space="preserve">
-        <value>:no_entry_sign: The selected product is invalid.</value>
+        <value>:no_entry_sign: O produto selecionado é inválido.</value>
     </data>
     <data name="setup.paymentButton.label" xml:space="preserve">
-        <value>Pay | {0} ₽</value>
+        <value>Pagar | {0} ₽</value>
     </data>
     <data name="setup.paymentEmbed.description" xml:space="preserve">
-        <value>Pay the [invoice]({0}) within 10 minutes.</value>
+        <value>Pague a [fatura]({0}) em até 10 minutos.</value>
     </data>
     <data name="setup.paymentEmbed.footer" xml:space="preserve">
         <value>AiryPay © {0}</value>
     </data>
     <data name="setup.paymentEmbed.title" xml:space="preserve">
-        <value>💸 Payment</value>
+        <value>💸 Pagamento</value>
     </data>
     <data name="setup.paymentError" xml:space="preserve">
-        <value>:no_entry_sign: Failed to create payment: {0}</value>
+        <value>:no_entry_sign: Falha ao criar pagamento: {0}</value>
     </data>
     <data name="setup.selectPayment.placeholder" xml:space="preserve">
-        <value>💳 Select a payment method</value>
+        <value>💳 Selecione um método de pagamento</value>
     </data>
     <data name="setup.selectProduct.placeholder" xml:space="preserve">
-        <value>🛍️ Select a product to buy</value>
+        <value>🛍️ Selecione um produto para comprar</value>
     </data>
     <data name="setup.selectProduct.warning" xml:space="preserve">
-        <value>:warning: After updating shop products, this message must be deleted and reset using the /setup command.</value>
+        <value>:warning: Após atualizar os produtos da loja, esta mensagem deve ser excluída e redefinida usando o comando /setup.</value>
     </data>
     <data name="withdrawal.cardInvalid" xml:space="preserve">
-        <value>:no_entry_sign: Invalid card number specified.</value>
+        <value>:no_entry_sign: Número de cartão inválido especificado.</value>
     </data>
     <data name="withdrawal.created.amountField" xml:space="preserve">
-        <value>💵 Amount</value>
+        <value>💵 Valor</value>
     </data>
     <data name="withdrawal.create.error" xml:space="preserve">
         <value>:no_entry_sign: {0}</value>
     </data>
     <data name="withdrawal.created.cardField" xml:space="preserve">
-        <value>💳 Card Number</value>
+        <value>💳 Número do Cartão</value>
     </data>
     <data name="withdrawal.created.description" xml:space="preserve">
-        <value>If the funds do not arrive at the specified account within 24 hours, please contact support.</value>
+        <value>Se os fundos não chegarem na conta especificada em 24 horas, por favor entre em contato com o suporte.</value>
     </data>
     <data name="withdrawal.created.footer" xml:space="preserve">
         <value>AiryPay © {0}</value>
     </data>
     <data name="withdrawal.created.title" xml:space="preserve">
-        <value>💸 Withdrawal Created</value>
+        <value>💸 Saque Criado</value>
     </data>
     <data name="withdrawal.created.warning" xml:space="preserve">
-        <value>-# In case of an error during withdrawal, the funds will be returned to the shop balance.</value>
+        <value>-# Em caso de erro durante o saque, os fundos serão devolvidos ao saldo da loja.</value>
     </data>
 </root>
