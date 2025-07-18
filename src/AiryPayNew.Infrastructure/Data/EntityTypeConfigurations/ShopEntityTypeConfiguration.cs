@@ -43,5 +43,8 @@ internal class ShopEntityTypeConfiguration : IEntityTypeConfiguration<Shop>
         builder.HasMany(x => x.Withdrawals)
             .WithOne(x => x.Shop)
             .HasForeignKey(x => x.ShopId);
+        builder.HasMany(x => x.Complaints)
+            .WithOne(x => x.Shop)
+            .HasForeignKey(x => x.ShopId);
     }
 }
