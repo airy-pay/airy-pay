@@ -151,8 +151,55 @@ namespace AiryPayNew.Discord.Localization {
         }
         
         /// <summary>
-        ///   Ищет локализованную строку, похожую на Date.
+        ///   Looks up a localized string similar to Complaint details.
         /// </summary>
+        internal static string complaintDetails {
+            get {
+                return ResourceManager.GetString("complaintDetails", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Send a complaint.
+        /// </summary>
+        internal static string complaintModalTitle {
+            get {
+                return ResourceManager.GetString("complaintModalTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Reason.
+        /// </summary>
+        internal static string complaintReason {
+            get {
+                return ResourceManager.GetString("complaintReason", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Your complaint was registered..
+        /// </summary>
+        internal static string complaintRegistered {
+            get {
+                return ResourceManager.GetString("complaintRegistered", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Thank you for contacting us, your complaint has been sent and will be reviewed soon..
+        /// </summary>
+        internal static string complaintWasSent {
+            get {
+                return ResourceManager.GetString("complaintWasSent", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на Date.
+        ///   Looks up a localized string similar to Date.
+        /// </summary>
+
         internal static string date {
             get {
                 return ResourceManager.GetString("date", resourceCulture);
@@ -386,6 +433,16 @@ namespace AiryPayNew.Discord.Localization {
         
         /// <summary>
         ///   Ищет локализованную строку, похожую на :no_entry_sign: The selected payment method is invalid..
+        ///   Looks up a localized string similar to Store without procucts can&apos;t be created. Create products using `/product create`..
+        /// </summary>
+        internal static string setup_createProductsFirst {
+            get {
+                return ResourceManager.GetString("setup.createProductsFirst", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to :no_entry_sign: The selected payment method is invalid..
         /// </summary>
         internal static string setup_invalidPaymentMethod {
             get {

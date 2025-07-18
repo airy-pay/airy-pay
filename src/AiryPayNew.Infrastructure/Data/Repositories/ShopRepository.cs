@@ -1,5 +1,6 @@
 ﻿using AiryPayNew.Domain.Common;
 using AiryPayNew.Domain.Entities.Purchases;
+using AiryPayNew.Domain.Entities.ShopComplaints;
 using AiryPayNew.Domain.Entities.Shops;
 using AiryPayNew.Domain.Entities.Withdrawals;
 using Microsoft.EntityFrameworkCore;
@@ -48,6 +49,31 @@ internal class ShopRepository(ApplicationDbContext dbContext)
             .OrderByDescending(x => x.DateTime)
             .Take(amount)
             .ToListAsync(cancellationToken: cancellationToken); 
+    }
+
+    public async Task<IList<ShopComplaint>> GetShopComplaintsAsync(
+        ShopId id, CancellationToken cancellationToken, ulong userId = 0)
+    {
+        var shop = await _dbContext.Shops
+            .AsNoTracking()
+            .Include(shop => shop.Complaints)
+            .FirstOrDefaultAsync(
+                shop => shop.Id == id,
+                cancellationToken: cancellationToken);
+        if (shop is null)
+            return new List<ShopComplaint>();
+        
+        return shop.Complaints
+            .Where(c =>
+            {
+                if (userId > 0)
+                {
+                    return c.CreatorDiscordUserId == userId;
+                }
+
+                return true;
+            })
+            .ToList(); 
     }
 
     public async Task BlockAsync(ShopId shopId, CancellationToken cancellationToken)

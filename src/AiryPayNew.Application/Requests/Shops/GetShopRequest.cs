@@ -13,7 +13,7 @@ public class GetShopRequestHandler(IShopRepository shopRepository) : IRequestHan
         var shopId = new ShopId(request.ShopId);
         var shop = await shopRepository.GetByIdNoTrackingAsync(shopId, cancellationToken);
         return shop is null
-            ? OperationResult<Shop>.Error(null!, "Магазин не найден")
+            ? OperationResult<Shop>.Error(null!, "Shop was not found")
             : OperationResult<Shop>.Success(shop);
     }
 }
