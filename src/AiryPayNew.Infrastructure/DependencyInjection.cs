@@ -3,6 +3,7 @@ using AiryPayNew.Application.Payments;
 using AiryPayNew.Domain.Entities.Bills;
 using AiryPayNew.Domain.Entities.Products;
 using AiryPayNew.Domain.Entities.Purchases;
+using AiryPayNew.Domain.Entities.ShopComplaints;
 using AiryPayNew.Domain.Entities.Shops;
 using AiryPayNew.Domain.Entities.Withdrawals;
 using AiryPayNew.Infrastructure.Data;
@@ -41,6 +42,7 @@ public static class DependencyInjection
         serviceCollection.AddScoped<IPurchaseRepository, PurchaseRepository>();
         serviceCollection.AddScoped<IShopRepository, ShopRepository>();
         serviceCollection.AddScoped<IWithdrawalRepository, WithdrawalRepository>();
+        serviceCollection.AddScoped<IShopComplaintRepository, ShopComplaintRepository>();
 
         #endregion
 

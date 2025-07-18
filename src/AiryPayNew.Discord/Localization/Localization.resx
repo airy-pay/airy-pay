@@ -229,4 +229,22 @@
   <data name="settingsNewLanguageSelected" xml:space="preserve">
     <value>Language was successfully changed</value>
   </data>
+  <data name="setup.createProductsFirst" xml:space="preserve">
+    <value>Store without procucts can't be created. Create products using `/product create`.</value>
+  </data>
+  <data name="complaintRegistered" xml:space="preserve">
+    <value>Your complaint was registered.</value>
+  </data>
+  <data name="complaintModalTitle" xml:space="preserve">
+    <value>Send a complaint</value>
+  </data>
+  <data name="complaintReason" xml:space="preserve">
+    <value>Reason</value>
+  </data>
+  <data name="complaintDetails" xml:space="preserve">
+    <value>Complaint details</value>
+  </data>
+  <data name="complaintWasSent" xml:space="preserve">
+    <value>Thank you for contacting us, your complaint has been sent and will be reviewed soon.</value>
+  </data>
 </root>

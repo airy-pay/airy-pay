@@ -42,8 +42,9 @@ public class CreateProductRequestHandler(
         
         newProduct.Id = await productRepository.CreateAsync(newProduct, cancellationToken);
         logger.LogInformation(string.Format(
-            "Created a new product with id #{0}",
-            newProduct.Id.Value));
+            "Created a new product with id #{0} in shop #{1}",
+            newProduct.Id.Value,
+            shop.Id.Value));
         
         return OperationResult.Success();
     }

@@ -1,6 +1,7 @@
 ﻿using AiryPayNew.Domain.Common;
 using AiryPayNew.Domain.Common.Repositories;
 using AiryPayNew.Domain.Entities.Purchases;
+using AiryPayNew.Domain.Entities.ShopComplaints;
 using AiryPayNew.Domain.Entities.Withdrawals;
 
 namespace AiryPayNew.Domain.Entities.Shops;
@@ -11,6 +12,8 @@ public interface IShopRepository : IDefaultRepository<ShopId, Shop>, INoTrackRep
         ShopId shopId, int amount, CancellationToken cancellationToken);
     public Task<IList<Withdrawal>> GetShopWithdrawalsAsync(
         ShopId shopId, int amount, CancellationToken cancellationToken);
+    public Task<IList<ShopComplaint>> GetShopComplaintsAsync(
+        ShopId id, CancellationToken cancellationToken, ulong userId = 0);
     public Task BlockAsync(
         ShopId shopId, CancellationToken cancellationToken);
     public Task UnblockAsync(
