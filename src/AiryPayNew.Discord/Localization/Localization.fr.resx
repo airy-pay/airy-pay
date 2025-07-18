@@ -1,0 +1,171 @@
+﻿<root>
+    <resheader name="resmimetype">
+        <value>text/microsoft-resx</value>
+    </resheader>
+    <resheader name="version">
+        <value>1.3</value>
+    </resheader>
+    <resheader name="reader">
+        <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    </resheader>
+    <resheader name="writer">
+        <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    </resheader>
+    <data name="_languageName" xml:space="preserve">
+        <value>Français</value>
+    </data>
+    <data name="_languageEmoji" xml:space="preserve">
+        <value>🇫🇷</value>
+    </data>
+    <data name="infoCommandDescription" xml:space="preserve"><value>Informations sur la boutique</value></data>
+    <data name="balance" xml:space="preserve"><value>Solde</value></data>
+    <data name="status" xml:space="preserve"><value>Statut</value></data>
+    <data name="blocked" xml:space="preserve"><value>Bloqué</value></data>
+    <data name="active" xml:space="preserve"><value>Actif</value></data>
+    <data name="products" xml:space="preserve"><value>Produits</value></data>
+    <data name="guildId" xml:space="preserve"><value>ID</value></data>
+    <data name="support" xml:space="preserve"><value>Support</value></data>
+    <data name="termsOfService" xml:space="preserve"><value>Conditions d'utilisation</value></data>
+    <data name="noProducts" xml:space="preserve"><value>C'est vide pour le moment. Créez un nouveau produit avec `/product create`</value></data>
+    <data name="productPrice" xml:space="preserve"><value>Prix : **{0} ₽**</value></data>
+    <data name="productRole" xml:space="preserve"><value>Rôle : &lt;@&amp;{0}&gt;</value></data>
+    <data name="noWithdrawals" xml:space="preserve"><value>C'est vide pour le moment. Créez un retrait avec `/withdrawal`</value></data>
+    <data name="withdrawalDateCard" xml:space="preserve"><value>{0:dd/MM/yyyy H:mm} Carte</value></data>
+    <data name="withdrawalAccountNumber" xml:space="preserve"><value>Numéro de compte : ||{0}||</value></data>
+    <data name="withdrawalAmount" xml:space="preserve"><value>Montant : **{0} ₽**</value></data>
+    <data name="withdrawalStatus" xml:space="preserve"><value>Statut : **{0}**</value></data>
+    <data name="withdrawalStatus_inprocess" xml:space="preserve"><value>En traitement</value></data>
+    <data name="withdrawalStatus_paid" xml:space="preserve"><value>Payé</value></data>
+    <data name="withdrawalStatus_canceled" xml:space="preserve"><value>Annulé</value></data>
+    <data name="noPurchases" xml:space="preserve"><value>C'est vide pour le moment. Aucun achat pour l'instant.</value></data>
+    <data name="buyer" xml:space="preserve"><value>Acheteur : &lt;@{0}&gt;</value></data>
+    <data name="profit" xml:space="preserve"><value>Bénéfice : **{0} ₽**</value></data>
+    <data name="dateUtc" xml:space="preserve"><value>Date : `{0} (UTC)`</value></data>
+    <data name="shopInfoTitle" xml:space="preserve"><value>{0}</value></data>
+    <data name="shopInformation" xml:space="preserve">
+        <value>Informations sur la boutique</value>
+    </data>
+    <data name="amount" xml:space="preserve">
+        <value>Montant</value>
+    </data>
+    <data name="canceled" xml:space="preserve">
+        <value>Annulé</value>
+    </data>
+    <data name="cardNumber" xml:space="preserve">
+        <value>Numéro de compte</value>
+    </data>
+    <data name="date" xml:space="preserve">
+        <value>Date</value>
+    </data>
+    <data name="inProcess" xml:space="preserve">
+        <value>En traitement</value>
+    </data>
+    <data name="purchases" xml:space="preserve">
+        <value>Achats récents</value>
+    </data>
+    <data name="role" xml:space="preserve">
+        <value>Rôle</value>
+    </data>
+    <data name="shopId" xml:space="preserve">
+        <value>ID de la boutique</value>
+    </data>
+    <data name="shopNotFound" xml:space="preserve">
+        <value>Boutique introuvable</value>
+    </data>
+    <data name="statusField" xml:space="preserve">
+        <value>Statut</value>
+    </data>
+    <data name="terms" xml:space="preserve">
+        <value>Conditions d'utilisation</value>
+    </data>
+    <data name="withdrawals" xml:space="preserve">
+        <value>Retraits</value>
+    </data>
+    <data name="paid" xml:space="preserve">
+        <value>Payé</value>
+    </data>
+    <data name="language" xml:space="preserve">
+        <value>Langue</value>
+    </data>
+    <data name="invalidEmoji" xml:space="preserve">
+        <value>Utilisez un emoji valide</value>
+    </data>
+    <data name="settingsButton" xml:space="preserve">
+        <value>Paramètres</value>
+    </data>
+    <data name="settingsCurrent" xml:space="preserve">
+        <value>Paramètres actuels de la boutique</value>
+    </data>
+    <data name="settingsLanguageDescription" xml:space="preserve">
+        <value>Changer la langue de la boutique</value>
+    </data>
+    <data name="settingsNewLanguageSelected" xml:space="preserve">
+        <value>La langue a été changée avec succès</value>
+    </data>
+    <data name="setup.invalidPaymentMethod" xml:space="preserve">
+        <value>:no_entry_sign: Le mode de paiement sélectionné est invalide.</value>
+    </data>
+    <data name="botRoleTooLow" xml:space="preserve">
+        <value>Le rôle du bot ({0}) est inférieur au rôle du produit ({1}).\nCorrigez ceci dans les paramètres de rôles.</value>
+    </data>
+    <data name="productCreated" xml:space="preserve">
+        <value>Un nouveau produit a été créé.</value>
+    </data>
+    <data name="productDeleted" xml:space="preserve">
+        <value>Le produit a été supprimé.</value>
+    </data>
+    <data name="productEdited" xml:space="preserve">
+        <value>Le produit a été mis à jour.</value>
+    </data>
+    <data name="setup.invalidProduct" xml:space="preserve">
+        <value>:no_entry_sign: Le produit sélectionné est invalide.</value>
+    </data>
+    <data name="setup.paymentButton.label" xml:space="preserve">
+        <value>Payer | {0} ₽</value>
+    </data>
+    <data name="setup.paymentEmbed.description" xml:space="preserve">
+        <value>Payez la [facture]({0}) dans les 10 minutes.</value>
+    </data>
+    <data name="setup.paymentEmbed.footer" xml:space="preserve">
+        <value>AiryPay © {0}</value>
+    </data>
+    <data name="setup.paymentEmbed.title" xml:space="preserve">
+        <value>💸 Paiement</value>
+    </data>
+    <data name="setup.paymentError" xml:space="preserve">
+        <value>:no_entry_sign: Échec de la création du paiement : {0}</value>
+    </data>
+    <data name="setup.selectPayment.placeholder" xml:space="preserve">
+        <value>💳 Sélectionnez un mode de paiement</value>
+    </data>
+    <data name="setup.selectProduct.placeholder" xml:space="preserve">
+        <value>🛍️ Sélectionnez un produit à acheter</value>
+    </data>
+    <data name="setup.selectProduct.warning" xml:space="preserve">
+        <value>:warning: Après avoir mis à jour les produits de la boutique, ce message doit être supprimé et réinitialisé avec la commande /setup.</value>
+    </data>
+    <data name="withdrawal.cardInvalid" xml:space="preserve">
+        <value>:no_entry_sign: Numéro de carte invalide spécifié.</value>
+    </data>
+    <data name="withdrawal.created.amountField" xml:space="preserve">
+        <value>💵 Montant</value>
+    </data>
+    <data name="withdrawal.create.error" xml:space="preserve">
+        <value>:no_entry_sign: {0}</value>
+    </data>
+    <data name="withdrawal.created.cardField" xml:space="preserve">
+        <value>💳 Numéro de carte</value>
+    </data>
+    <data name="withdrawal.created.description" xml:space="preserve">
+        <value>Si les fonds n'arrivent pas sur le compte spécifié dans les 24 heures, veuillez contacter le support.</value>
+    </data>
+    <data name="withdrawal.created.footer" xml:space="preserve">
+        <value>AiryPay © {0}</value>
+    </data>
+    <data name="withdrawal.created.title" xml:space="preserve">
+        <value>💸 Retrait créé</value>
+    </data>
+    <data name="withdrawal.created.warning" xml:space="preserve">
+        <value>-# En cas d'erreur lors du retrait, les fonds seront retournés au solde de la boutique.</value>
+    </data>
+</root>
