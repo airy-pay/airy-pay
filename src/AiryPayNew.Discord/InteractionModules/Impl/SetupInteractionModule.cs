@@ -1,7 +1,9 @@
 ﻿using System.Globalization;
 using AiryPayNew.Application.Requests.Payments;
 using AiryPayNew.Application.Requests.Products;
+using AiryPayNew.Application.Requests.ShopComplaints;
 using AiryPayNew.Discord.Localization;
+using AiryPayNew.Discord.Modals;
 using AiryPayNew.Discord.Utils;
 using AiryPayNew.Domain.Common;
 using AiryPayNew.Domain.Entities.Products;
@@ -57,10 +59,35 @@ public class SetupInteractionModule : ShopInteractionModuleBase
             .WithPlaceholder(localizer.GetString("setup.selectProduct.placeholder"))
             .WithOptions(selectMenuOptions.ToList());
 
-        var messageComponents = new ComponentBuilder()
-            .WithSelectMenu(selectMenu)
-            .Build();
+        var openComplaintModalButton = new ButtonBuilder()
+            .WithCustomId("SetupInteractionModule.OpenComplaintModal")
+            .WithLabel("Complaint")
+            .WithEmote(new Emoji("\ud83d\udea8"))
+            .WithStyle(ButtonStyle.Secondary);
+        
+        var supportButton = new ButtonBuilder()
+            .WithLabel(localizer.GetString("support"))
+            .WithUrl("https://discord.gg/Arn9RsRqD9") // TODO: Move to config
+            .WithEmote(new Emoji("💬"))
+            .WithStyle(ButtonStyle.Link);
 
+        var termsButton = new ButtonBuilder()
+            .WithUrl("https://airypay.ru/terms") // TODO: Move to config
+            .WithLabel(localizer.GetString("terms"))
+            .WithEmote(new Emoji("📃"))
+            .WithStyle(ButtonStyle.Link);
+
+        var messageComponents = new ComponentBuilder()
+            .WithRows([
+                new ActionRowBuilder()
+                    .WithSelectMenu(selectMenu),
+                new ActionRowBuilder()
+                    .WithButton(supportButton)
+                    .WithButton(termsButton)
+                    .WithButton(openComplaintModalButton)
+            ])
+            .Build();
+        
         await Context.Channel.SendMessageAsync(" ", components: messageComponents);
 
         await RespondAsync(localizer.GetString("setup.selectProduct.warning"), ephemeral: true);
@@ -203,5 +230,40 @@ public class SetupInteractionModule : ShopInteractionModuleBase
         }
 
         return OperationResult<Product>.Success(getProductOperationResult.Entity);
+    }
+
+    [ComponentInteraction("SetupInteractionModule.OpenComplaintModal")]
+    public async Task OpenComplaintModal()
+    {
+        var shop = await GetShopOrRespondAsync();
+        var localizer = new Localizer(shop.Language);
+        
+        await Context.Interaction.RespondWithModalAsync(
+            "SetupInteractionModule.ComplaintModal",
+            new ComplaintModal(
+                "\ud83d\udea8 " + localizer.GetString("complaintRegistered"),
+                localizer.GetString("complaintReason"), 
+                localizer.GetString("complaintDetails")));
+    }
+
+    [ModalInteraction("SetupInteractionModule.ComplaintModal")]
+    public async Task UpdateBanner(ComplaintModal complaintModal)
+    {
+        var shop = await GetShopOrRespondAsync();
+        var localizer = new Localizer(shop.Language);
+    
+        var createShopComplaintRequest = new CreateShopComplaintRequest(
+            shop.Id, Context.Interaction.User.Id, complaintModal.Reason, complaintModal.Details);
+    
+        var operationResult = await _mediator.Send(createShopComplaintRequest);
+        if (!operationResult.Successful)
+        {
+            await RespondAsync(":no_entry_sign: " + operationResult.ErrorMessage, ephemeral: true);
+            return;
+        }
+        
+        await RespondAsync(
+            ":white_check_mark: " + localizer.GetString("complaintRegistered"),
+            ephemeral: true);
     }
 }
