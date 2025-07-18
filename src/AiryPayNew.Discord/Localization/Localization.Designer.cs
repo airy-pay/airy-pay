@@ -150,6 +150,51 @@ namespace AiryPayNew.Discord.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Complaint details.
+        /// </summary>
+        internal static string complaintDetails {
+            get {
+                return ResourceManager.GetString("complaintDetails", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Send a complaint.
+        /// </summary>
+        internal static string complaintModalTitle {
+            get {
+                return ResourceManager.GetString("complaintModalTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Reason.
+        /// </summary>
+        internal static string complaintReason {
+            get {
+                return ResourceManager.GetString("complaintReason", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Your complaint was registered..
+        /// </summary>
+        internal static string complaintRegistered {
+            get {
+                return ResourceManager.GetString("complaintRegistered", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Thank you for contacting us, your complaint has been sent and will be reviewed soon..
+        /// </summary>
+        internal static string complaintWasSent {
+            get {
+                return ResourceManager.GetString("complaintWasSent", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Date.
         /// </summary>
         internal static string date {

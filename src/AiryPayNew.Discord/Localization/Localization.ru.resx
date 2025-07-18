@@ -229,4 +229,19 @@
   <data name="setup.createProductsFirst" xml:space="preserve">
     <value>Сначала создайте продукты для магазина при помощи команды `/product create`.</value>
   </data>
+  <data name="complaintRegistered" xml:space="preserve">
+    <value>Ваша жалоба была принята.</value>
+  </data>
+  <data name="complaintModalTitle" xml:space="preserve">
+    <value>Отправить жалобу</value>
+  </data>
+  <data name="complaintReason" xml:space="preserve">
+    <value>Причина</value>
+  </data>
+  <data name="complaintDetails" xml:space="preserve">
+    <value>Подробности жалобы</value>
+  </data>
+  <data name="complaintWasSent" xml:space="preserve">
+    <value>Спасибо за обращение, ваша жалоба была отправлена и будет рассмотрена в ближайшее время.</value>
+  </data>
 </root>
