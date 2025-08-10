@@ -12,6 +12,11 @@ finPay:
   key1: "key1"
   key2: "key2"
 
+payPal:
+  "clientId": 1
+  "secret": "123456"
+  "sandbox": true
+
 paymentMethods:
   -
     serviceName: "Checkout"
