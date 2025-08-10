@@ -67,7 +67,7 @@ public class ProductInteractionModule : ShopInteractionModuleBase
         }
 
         var createProductRequest = new CreateProductRequest(
-            Context.Guild.Id,
+            ShopId,
             new ProductModel(validEmojiText, name, price, discordRole.Id));
         var operationResult = await _mediator.Send(createProductRequest);
         if (operationResult.Successful)
@@ -134,7 +134,7 @@ public class ProductInteractionModule : ShopInteractionModuleBase
         var productId = new ProductId(_sqidsEncoder.Decode(productHashId).Single());
 
         var editProductRequest = new EditProductRequest(
-            Context.Guild.Id,
+            ShopId,
             productId,
             new ProductModel(validEmojiText, name, price, discordRole.Id));
         var operationResult = await _mediator.Send(editProductRequest);

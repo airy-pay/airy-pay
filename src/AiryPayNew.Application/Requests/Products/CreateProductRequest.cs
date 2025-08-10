@@ -10,7 +10,7 @@ namespace AiryPayNew.Application.Requests.Products;
 
 using RequestError = CreateProductRequest.Error;
 
-public record CreateProductRequest(ulong ShopId, ProductModel ProductModel)
+public record CreateProductRequest(ShopId ShopId, ProductModel ProductModel)
     : IRequest<Result<CreateProductRequest.Error>>
 {
     public enum Error
@@ -37,9 +37,8 @@ public class CreateProductRequestHandler(
         var validationResult = await productValidator.ValidateAsync(request.ProductModel, cancellationToken);
         if (!validationResult.IsValid)
             return resultBuilder.WithError(RequestError.ValidationFailed);
-
-        var shopId = new ShopId(request.ShopId);
-        var shop = await shopRepository.GetByIdNoTrackingAsync(shopId, cancellationToken);
+        
+        var shop = await shopRepository.GetByIdNoTrackingAsync(request.ShopId, cancellationToken);
         if (shop is null)
             return resultBuilder.WithError(RequestError.ShopNotFound);
         if (shop.Products.Count > 25)
@@ -53,7 +52,7 @@ public class CreateProductRequestHandler(
             Name = request.ProductModel.Name,
             Price = request.ProductModel.Price,
             DiscordRoleId = request.ProductModel.DiscordRoleId,
-            ShopId = shopId
+            ShopId = request.ShopId
         };
         
         newProduct.Id = await productRepository.CreateAsync(newProduct, cancellationToken);

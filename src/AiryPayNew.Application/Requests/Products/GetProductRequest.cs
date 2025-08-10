@@ -7,7 +7,7 @@ namespace AiryPayNew.Application.Requests.Products;
 
 using Error = GetProductRequest.Error;
 
-public record GetProductRequest(ulong ShopId, long ProductId)
+public record GetProductRequest(ShopId ShopId, long ProductId)
     : IRequest<Result<Product, GetProductRequest.Error>>
 {
     public enum Error
@@ -27,12 +27,11 @@ public class GetProductRequestHandler(
         var resultBuilder = new ResultBuilder<Product, Error>(null!);
         
         var productId = new ProductId(request.ProductId);
-        var shopId = new ShopId(request.ShopId);
         var product = await productRepository.GetByIdNoTrackingAsync(productId, cancellationToken);
         
         if (product is null)
             return resultBuilder.WithError(Error.ProductNotFound);
-        if (product.ShopId != shopId)
+        if (product.ShopId != request.ShopId)
             return resultBuilder.WithError(Error.Unauthorized);
 
         return resultBuilder.WithSuccess(product);

@@ -161,7 +161,7 @@ public class InfoInteractionModule : ShopInteractionModuleBase
         var shop = await GetShopOrRespondAsync();
         var localizer = new Localizer(shop.Language);
         
-        var getShopWithdrawalsRequest = new GetShopWithdrawalsRequest(Context.Guild.Id);
+        var getShopWithdrawalsRequest = new GetShopWithdrawalsRequest(ShopId);
         var withdrawals = await _mediator.Send(getShopWithdrawalsRequest);
 
         var withdrawalStatusesGetter = new Dictionary<WithdrawalStatus, string>()
@@ -200,7 +200,7 @@ public class InfoInteractionModule : ShopInteractionModuleBase
         var shop = await GetShopOrRespondAsync();
         var localizer = new Localizer(shop.Language);
         
-        var getShopPurchasesRequest = new GetShopPurchasesRequest(Context.Guild.Id);
+        var getShopPurchasesRequest = new GetShopPurchasesRequest(ShopId);
         var purchases = await _mediator.Send(getShopPurchasesRequest);
 
         var fieldsTasks = purchases.Select(async x =>

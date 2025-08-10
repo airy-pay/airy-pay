@@ -4,7 +4,7 @@ using MediatR;
 
 namespace AiryPayNew.Application.Requests.Shops;
 
-public record GetShopWithdrawalsRequest(ulong ShopId) : IRequest<IList<Withdrawal>>;
+public record GetShopWithdrawalsRequest(ShopId ShopId) : IRequest<IList<Withdrawal>>;
 
 public class GetShopWithdrawalsRequestHandler(
     IShopRepository shopRepository) : IRequestHandler<GetShopWithdrawalsRequest, IList<Withdrawal>>
@@ -12,7 +12,6 @@ public class GetShopWithdrawalsRequestHandler(
     public async Task<IList<Withdrawal>> Handle(
         GetShopWithdrawalsRequest request, CancellationToken cancellationToken)
     {
-        var shopId = new ShopId(request.ShopId);
-        return await shopRepository.GetShopWithdrawalsAsync(shopId, 10, cancellationToken);
+        return await shopRepository.GetShopWithdrawalsAsync(request.ShopId, 10, cancellationToken);
     }
 }

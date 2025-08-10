@@ -24,7 +24,7 @@ public class CreateWithdrawalRequestHandlerTests
     {
         // Arrange
         var request = new CreateWithdrawalRequest(
-            1, 0, "card", "account123");
+            new ShopId(1), 0, "card", "account123");
 
         // Act
         var result = await _handler.Handle(request, CancellationToken.None);
@@ -38,9 +38,9 @@ public class CreateWithdrawalRequestHandlerTests
     {
         // Arrange
         var request1 = new CreateWithdrawalRequest(
-            1, 100, "", "account123");
+            new ShopId(1), 100, "", "account123");
         var request2 = new CreateWithdrawalRequest(
-            1, 100, "card", "");
+            new ShopId(1), 100, "card", "");
 
         // Act
         var result1 = await _handler.Handle(request1, CancellationToken.None);
@@ -56,7 +56,7 @@ public class CreateWithdrawalRequestHandlerTests
     {
         // Arrange
         var request = new CreateWithdrawalRequest(
-            1, 100, "invalid_way", "account123");
+            new ShopId(1), 100, "invalid_way", "account123");
 
         // Act
         var result = await _handler.Handle(request, CancellationToken.None);
@@ -70,7 +70,7 @@ public class CreateWithdrawalRequestHandlerTests
     {
         // Arrange
         var request = new CreateWithdrawalRequest(
-            1, 100, "card", "account123");
+            new ShopId(1), 100, "card", "account123");
         _mockShopRepository.Setup(
                 repo =>
                     repo.GetByIdNoTrackingAsync(
@@ -89,7 +89,7 @@ public class CreateWithdrawalRequestHandlerTests
     public async Task Handle_ShouldReturnError_WhenAmountIsLessThanMinimalWithdrawalAmount()
     {
         // Arrange
-        var request = new CreateWithdrawalRequest(1, 400, "card", "account123");
+        var request = new CreateWithdrawalRequest(new ShopId(1), 400, "card", "account123");
         var shop = new Shop { Id = new ShopId(1), Balance = 1000, Language = new Language("en") };
         _mockShopRepository.Setup(repo => repo.GetByIdNoTrackingAsync(It.IsAny<ShopId>(), It.IsAny<CancellationToken>()))
             .ReturnsAsync(shop);
@@ -105,7 +105,7 @@ public class CreateWithdrawalRequestHandlerTests
     public async Task Handle_ShouldReturnError_WhenShopBalanceIsInsufficient()
     {
         // Arrange
-        var request = new CreateWithdrawalRequest(1, 1000, "card", "account123");
+        var request = new CreateWithdrawalRequest(new ShopId(1), 1000, "card", "account123");
         var shop = new Shop { Id = new ShopId(1), Balance = 500, Language = new Language("en") };
         _mockShopRepository.Setup(repo => repo.GetByIdNoTrackingAsync(It.IsAny<ShopId>(), It.IsAny<CancellationToken>()))
             .ReturnsAsync(shop);

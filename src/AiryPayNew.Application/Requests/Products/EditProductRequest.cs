@@ -9,7 +9,7 @@ namespace AiryPayNew.Application.Requests.Products;
 using Error = EditProductRequest.Error;
 
 public record EditProductRequest(
-    ulong ShopId,
+    ShopId ShopId,
     ProductId ProductId,
     ProductModel ProductModel)
     : IRequest<Result<EditProductRequest.Error>>
@@ -38,9 +38,8 @@ public class EditProductRequestHandler(
         var validationResult = await productValidator.ValidateAsync(request.ProductModel, cancellationToken);
         if (!validationResult.IsValid)
             return resultBuilder.WithError(Error.ValidationFailed);
-
-        var shopId = new ShopId(request.ShopId);
-        var shop = await shopRepository.GetByIdNoTrackingAsync(shopId, cancellationToken);
+        
+        var shop = await shopRepository.GetByIdNoTrackingAsync(request.ShopId, cancellationToken);
         if (shop is null)
             return resultBuilder.WithError(Error.ShopNotFound);
         if (shop.Blocked)
@@ -49,7 +48,7 @@ public class EditProductRequestHandler(
         var product = await productRepository.GetByIdNoTrackingAsync(request.ProductId, cancellationToken);
         if (product is null)
             return resultBuilder.WithError(Error.ProductNotFound);
-        if (product.ShopId != shopId)
+        if (product.ShopId != request.ShopId)
             return resultBuilder.WithError(Error.InvalidShopId);
         
         await productRepository.UpdateAsync(

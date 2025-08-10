@@ -8,7 +8,7 @@ namespace AiryPayNew.Application.Requests.Withdrawals;
 using Error = CreateWithdrawalRequest.Error;
 
 public record CreateWithdrawalRequest(
-    ulong ServerId,
+    ShopId ShopId,
     decimal Amount,
     string Way,
     string ReceivingAccountNumber)
@@ -46,8 +46,7 @@ public class CreateWithdrawalRequestHandler(
         if (!_withdrawalWays.Contains(request.Way))
             return resultBuilder.WithError(Error.InvalidWithdrawalMethod);
         
-        var shopId = new ShopId(request.ServerId);
-        var shop = await shopRepository.GetByIdNoTrackingAsync(shopId, cancellationToken);
+        var shop = await shopRepository.GetByIdNoTrackingAsync(request.ShopId, cancellationToken);
         if (shop is null)
             return resultBuilder.WithError(Error.ShopNotFound);
         

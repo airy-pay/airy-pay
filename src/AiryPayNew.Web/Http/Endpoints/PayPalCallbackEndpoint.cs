@@ -1,5 +1,6 @@
 ﻿using AiryPayNew.Application.Common;
 using AiryPayNew.Application.Requests.Payments;
+using AiryPayNew.Domain.Entities.Bills;
 using AiryPayNew.Shared.Messaging.Contracts;
 using MediatR;
 
@@ -35,7 +36,8 @@ public static class PayPalCallbackEndpoint
                 return;
             }
 
-            var getBillRequest = new GetBillRequest(billId);
+            var getBillRequest = new GetBillRequest(
+                new BillId(billId));
             var bill = await mediator.Send(getBillRequest);
             if (bill is null || bill.Product.Price > callback.Amount)
                 return;

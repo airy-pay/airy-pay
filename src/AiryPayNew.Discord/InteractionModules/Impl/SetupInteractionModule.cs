@@ -270,7 +270,7 @@ public class SetupInteractionModule : ShopInteractionModuleBase
             return null;
         }
 
-        var getProductRequest = new GetProductRequest(Context.Guild.Id, productId);
+        var getProductRequest = new GetProductRequest(ShopId, productId);
         var getProductOperationResult = await _mediator.Send(getProductRequest);
         if (getProductOperationResult.Failed)
         {

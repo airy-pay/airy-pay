@@ -39,7 +39,7 @@ public class WithdrawalInteractionModule : ShopInteractionModuleBase
         }
 
         var createWithdrawalRequest = new CreateWithdrawalRequest(
-            Context.Guild.Id, withdrawalSum, "card", withdrawalAccount.ToString());
+            ShopId, withdrawalSum, "card", withdrawalAccount.ToString());
         var createWithdrawalRequestResult = await _mediator.Send(createWithdrawalRequest);
 
         if (!createWithdrawalRequestResult.Successful)

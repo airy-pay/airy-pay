@@ -11,6 +11,7 @@ public abstract class ShopInteractionModuleBase(
     private Shop? _shop;
 
     public Task<Shop> Shop => GetShopOrRespondAsync();
+    public ShopId ShopId;
 
     /// <summary>
     /// The shop associated with the current Discord guild. Throws if not available.
@@ -20,7 +21,9 @@ public abstract class ShopInteractionModuleBase(
         if (_shop is not null)
             return _shop;
 
-        var result = await mediator.Send(new GetShopRequest(Context.Guild.Id));
+        var getShopRequest = new GetShopRequest(
+            new ShopId(Context.Guild.Id));
+        var result = await mediator.Send(getShopRequest);
         if (result.Failed)
         {
             await RespondAsync(":no_entry_sign: Shop not found", ephemeral: true);
@@ -29,6 +32,7 @@ public abstract class ShopInteractionModuleBase(
         }
 
         _shop = result.Entity;
+        ShopId = _shop.Id;
         
         return _shop;
     }

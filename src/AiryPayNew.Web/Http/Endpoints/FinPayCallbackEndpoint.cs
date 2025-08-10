@@ -1,5 +1,6 @@
 ﻿using AiryPayNew.Application.Common;
 using AiryPayNew.Application.Requests.Payments;
+using AiryPayNew.Domain.Entities.Bills;
 using AiryPayNew.Shared.Messaging.Contracts;
 using FinPay.API.Callbacks.Impl;
 using MediatR;
@@ -23,7 +24,8 @@ public static class FinPayCallbackEndpoint
             logger.LogInformation(
                 $"Received a callback for bill #{paymentPaidCallback.InvoiceId} in shop {paymentPaidCallback.ShopId}");
 
-            var getBillRequest = new GetBillRequest(paymentPaidCallback.InvoiceId);
+            var getBillRequest = new GetBillRequest(
+                new BillId(paymentPaidCallback.InvoiceId));
             var bill = await mediator.Send(getBillRequest);
             if (bill is null || bill.Product.Price > paymentPaidCallback.Amount)
                 return;
