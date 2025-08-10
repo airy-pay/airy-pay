@@ -7,7 +7,7 @@ namespace AiryPayNew.Application.Requests.Products;
 
 using Error = GetProductsFromShopRequest.Error;
 
-public record GetProductsFromShopRequest(ulong ServerId)
+public record GetProductsFromShopRequest(ShopId ShopId)
     : IRequest<Result<IList<Product>, GetProductsFromShopRequest.Error>>
 {
     public enum Error
@@ -22,8 +22,7 @@ public class GetProductsFromShopRequestHandler(IShopRepository shopRepository)
     public async Task<Result<IList<Product>, Error>> Handle(
         GetProductsFromShopRequest request, CancellationToken cancellationToken)
     {
-        var shopId = new ShopId(request.ServerId);
-        var shop = await shopRepository.GetByIdNoTrackingAsync(shopId, cancellationToken);
+        var shop = await shopRepository.GetByIdNoTrackingAsync(request.ShopId, cancellationToken);
         if (shop is null)
         {
             return Result<IList<Product>, Error>.Fail(

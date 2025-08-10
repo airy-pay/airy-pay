@@ -3,6 +3,7 @@ using AiryPayNew.Discord.AutocompleteHandlers;
 using AiryPayNew.Discord.Localization;
 using AiryPayNew.Discord.Utils;
 using AiryPayNew.Domain.Entities.Products;
+using AiryPayNew.Domain.Entities.Shops;
 using Discord;
 using Discord.Interactions;
 using MediatR;
@@ -99,7 +100,9 @@ public class ProductInteractionModule : ShopInteractionModuleBase
 
         var productId = new ProductId(_sqidsEncoder.Decode(productHashId).Single());
 
-        var removeProductRequest = new RemoveProductRequest(Context.Guild.Id, productId);
+        var removeProductRequest = new RemoveProductRequest(
+            new ShopId(Context.Guild.Id),
+            productId);
         await _mediator.Send(removeProductRequest);
 
         await RespondAsync(

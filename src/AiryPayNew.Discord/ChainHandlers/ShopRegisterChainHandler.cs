@@ -1,4 +1,5 @@
 ﻿using AiryPayNew.Application.Requests.Shops;
+using AiryPayNew.Domain.Entities.Shops;
 using Discord.Addons.ChainHandlers.ChainHandlers;
 using Discord.Interactions;
 using Discord.WebSocket;
@@ -22,7 +23,8 @@ public class ShopRegisterChainHandler(
         using var scope = serviceScopeFactory.CreateScope();
         var mediator = scope.ServiceProvider.GetRequiredService<IMediator>();
 
-        var createShop = new CreateShopRequest(interaction.GuildId.Value);
+        var createShop = new CreateShopRequest(
+            new ShopId(interaction.GuildId.Value));
         await mediator.Send(createShop);
         
         return await base.Handle(interaction);

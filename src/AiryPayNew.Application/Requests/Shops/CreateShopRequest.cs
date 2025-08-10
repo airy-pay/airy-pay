@@ -1,11 +1,10 @@
-﻿using AiryPayNew.Domain.Common;
-using AiryPayNew.Domain.Entities.Shops;
+﻿using AiryPayNew.Domain.Entities.Shops;
 using AiryPayNew.Shared.Settings.AppSettings;
 using MediatR;
 
 namespace AiryPayNew.Application.Requests.Shops;
 
-public record CreateShopRequest(ulong ServerId) : IRequest;
+public record CreateShopRequest(ShopId ShopId) : IRequest;
 
 public class CreateShopRequestHandler(
     IShopRepository shopRepository,
@@ -13,14 +12,13 @@ public class CreateShopRequestHandler(
 {
     public async Task Handle(CreateShopRequest request, CancellationToken cancellationToken)
     {
-        var shopId = new ShopId(request.ServerId);
-        var shop = await shopRepository.GetByIdNoTrackingAsync(shopId, cancellationToken);
+        var shop = await shopRepository.GetByIdNoTrackingAsync(request.ShopId, cancellationToken);
         if (shop is not null)
             return;
 
         shop = new Shop
         {
-            Id = shopId,
+            Id = request.ShopId,
             Balance = 0,
             Blocked = false,
             Commission = new Commission(appSettings.PaymentSettings.DefaultShopCommission),

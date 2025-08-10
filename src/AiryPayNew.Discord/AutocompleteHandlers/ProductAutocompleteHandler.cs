@@ -1,4 +1,5 @@
 ﻿using AiryPayNew.Application.Requests.Products;
+using AiryPayNew.Domain.Entities.Shops;
 using Discord;
 using Discord.Interactions;
 using MediatR;
@@ -19,7 +20,8 @@ public class ProductAutocompleteHandler : AutocompleteHandler
         var mediator = scope.ServiceProvider.GetRequiredService<IMediator>();
         var sqidsEncoder = scope.ServiceProvider.GetRequiredService<SqidsEncoder<long>>();
 
-        var getProductsFromShop = new GetProductsFromShopRequest(context.Guild.Id);
+        var getProductsFromShop = new GetProductsFromShopRequest(
+            new ShopId(context.Guild.Id));
         var productsOperationResult = await mediator.Send(getProductsFromShop);
         if (productsOperationResult.Failed)
         {

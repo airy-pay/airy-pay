@@ -5,7 +5,7 @@ using Microsoft.Extensions.Logging;
 
 namespace AiryPayNew.Application.Requests.Products;
 
-public record RemoveProductRequest(ulong ServerId, ProductId ProductId) : IRequest;
+public record RemoveProductRequest(ShopId ShopId, ProductId ProductId) : IRequest;
 
 public class RemoveProductRequestHandler(
     IProductRepository productRepository,
@@ -17,8 +17,7 @@ public class RemoveProductRequestHandler(
         if (product is null)
             return;
         
-        var shopId = new ShopId(request.ServerId);
-        if (product.ShopId != shopId)
+        if (product.ShopId != request.ShopId)
             return;
         
         logger.LogInformation(string.Format(
