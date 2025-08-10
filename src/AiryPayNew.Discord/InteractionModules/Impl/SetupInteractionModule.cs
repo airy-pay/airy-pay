@@ -175,7 +175,7 @@ public class SetupInteractionModule : ShopInteractionModuleBase
             
             var error = string.Format(
                 localizer.GetString("setup.paymentError"),
-                localizer.GetString("localizedMessageCode"));
+                localizer.GetString(localizedMessageCode));
             await RespondAsync(":no_entry_sign: " + error, ephemeral: true);
             return;
         }
