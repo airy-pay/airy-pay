@@ -1,5 +1,6 @@
 ﻿using AiryPayNew.Domain.Common;
 using AiryPayNew.Domain.Common.Repositories;
+using AiryPayNew.Domain.Common.Result;
 using AiryPayNew.Domain.Entities.Purchases;
 using AiryPayNew.Domain.Entities.ShopComplaints;
 using AiryPayNew.Domain.Entities.Withdrawals;
@@ -18,8 +19,8 @@ public interface IShopRepository : IDefaultRepository<ShopId, Shop>, INoTrackRep
         ShopId shopId, CancellationToken cancellationToken);
     public Task UnblockAsync(
         ShopId shopId, CancellationToken cancellationToken);
-    public Task<OperationResult<ShopId>> UpdateBalanceAsync(
+    public Task<Result> UpdateBalanceAsync(
         ShopId shopId, decimal change, CancellationToken cancellationToken);
-    public Task<OperationResult> UpdateLanguageAsync(
+    public Task<Result> UpdateLanguageAsync(
         ShopId shopId, Language language, CancellationToken cancellationToken);
 }
