@@ -1,4 +1,4 @@
-﻿using AiryPayNew.Domain.Common;
+﻿using AiryPayNew.Domain.Common.Result;
 using AiryPayNew.Domain.Entities.Products;
 using AiryPayNew.Domain.Entities.Shops;
 using FluentValidation;
@@ -6,32 +6,51 @@ using MediatR;
 
 namespace AiryPayNew.Application.Requests.Products;
 
+using Error = EditProductRequest.Error;
+
 public record EditProductRequest(
-    ulong ShopId, ProductId ProductId, ProductModel ProductModel) : IRequest<OperationResult>;
+    ulong ShopId,
+    ProductId ProductId,
+    ProductModel ProductModel)
+    : IRequest<Result<EditProductRequest.Error>>
+{
+    public enum Error
+    {
+        ValidationFailed,
+        ShopNotFound,
+        ShopIsBlocked,
+        ProductNotFound,
+        InvalidShopId
+    }
+}
 
 public class EditProductRequestHandler(
     IShopRepository shopRepository,
     IProductRepository productRepository,
-    IValidator<ProductModel> productValidator) : IRequestHandler<EditProductRequest, OperationResult>
+    IValidator<ProductModel> productValidator)
+    : IRequestHandler<EditProductRequest, Result<Error>>
 {
-    public async Task<OperationResult> Handle(EditProductRequest request, CancellationToken cancellationToken)
+    public async Task<Result<Error>> Handle(
+        EditProductRequest request, CancellationToken cancellationToken)
     {
+        var resultBuilder = new ResultBuilder<Error>();
+        
         var validationResult = await productValidator.ValidateAsync(request.ProductModel, cancellationToken);
         if (!validationResult.IsValid)
-            return OperationResult.Error(validationResult.Errors.First().ToString());
+            return resultBuilder.WithError(Error.ValidationFailed);
 
         var shopId = new ShopId(request.ShopId);
         var shop = await shopRepository.GetByIdNoTrackingAsync(shopId, cancellationToken);
         if (shop is null)
-            return OperationResult.Error("Shop not found.");
+            return resultBuilder.WithError(Error.ShopNotFound);
         if (shop.Blocked)
-            return OperationResult.Error("Shop is blocked.");
+            return resultBuilder.WithError(Error.ShopIsBlocked);
         
         var product = await productRepository.GetByIdNoTrackingAsync(request.ProductId, cancellationToken);
         if (product is null)
-            return OperationResult.Error("Product not found.");
+            return resultBuilder.WithError(Error.ProductNotFound);
         if (product.ShopId != shopId)
-            return OperationResult.Error("Invalid shop Id.");
+            return resultBuilder.WithError(Error.InvalidShopId);
         
         await productRepository.UpdateAsync(
             request.ProductId,
@@ -40,6 +59,7 @@ public class EditProductRequestHandler(
             request.ProductModel.Price,
             request.ProductModel.DiscordRoleId,
             cancellationToken);
-        return OperationResult.Success();
+        
+        return Result<Error>.Success();
     }
 }

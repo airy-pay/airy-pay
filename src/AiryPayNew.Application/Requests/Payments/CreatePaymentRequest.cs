@@ -1,5 +1,5 @@
 ﻿using AiryPayNew.Application.Payments;
-using AiryPayNew.Domain.Common;
+using AiryPayNew.Domain.Common.Result;
 using AiryPayNew.Domain.Entities.Bills;
 using AiryPayNew.Domain.Entities.Products;
 using AiryPayNew.Domain.Entities.Shops;
@@ -8,35 +8,56 @@ using Microsoft.Extensions.Logging;
 
 namespace AiryPayNew.Application.Requests.Payments;
 
+using RequestError = CreatePaymentRequest.Error;
+
 public record CreatePaymentRequest(
-    ProductId ProductId, string PaymentServiceName, string PaymentMethodId, ulong BuyerId, ulong ShopId)
-    : IRequest<OperationResult<string>>;
+    ProductId ProductId,
+    string PaymentServiceName,
+    string PaymentMethodId,
+    ulong BuyerId,
+    ulong ShopId)
+    : IRequest<Result<string, CreatePaymentRequest.Error>>
+{
+    public enum Error
+    {
+        ShopNotFound,
+        ShopIsBlocked,
+        PaymentServiceNotFound,
+        ProductNotFound,
+        AccessDenied,
+        FailedToCreate
+    }
+}
 
 public class CreatePaymentRequestHandler(
     IBillRepository billRepository,
     IProductRepository productRepository,
     IShopRepository shopRepository,
     IEnumerable<IPaymentService> paymentServices,
-    ILogger<CreatePaymentRequestHandler> logger) : IRequestHandler<CreatePaymentRequest, OperationResult<string>>
+    ILogger<CreatePaymentRequestHandler> logger)
+    : IRequestHandler<CreatePaymentRequest, Result<string, RequestError>>
 {
-    public async Task<OperationResult<string>> Handle(CreatePaymentRequest request, CancellationToken cancellationToken)
+    public async Task<Result<string, RequestError>> Handle(
+        CreatePaymentRequest request, CancellationToken cancellationToken)
     {
+        var resultBuilder = new ResultBuilder<string, RequestError>(string.Empty);
+        
         var shop = await shopRepository.GetByIdNoTrackingAsync(new ShopId(request.ShopId), cancellationToken);
         if (shop is null)
-            return Error("Shop not found.");
+            return resultBuilder.WithError(RequestError.ShopNotFound);
         if (shop.Blocked)
-            return Error("Shop is blocked.");
+            return resultBuilder.WithError(RequestError.ShopIsBlocked);
         
         var paymentService = paymentServices.FirstOrDefault(x =>
             x.GetServiceName() == request.PaymentServiceName);
         if (paymentService is null)
-            return Error("Payment service not found.");
+            return resultBuilder.WithError(RequestError.PaymentServiceNotFound);
         
         var product = await productRepository.GetByIdNoTrackingAsync(request.ProductId, cancellationToken);
         if (product is null)
-            return Error("Product not found.");
+            return resultBuilder.WithError(RequestError.ProductNotFound);
         if (product.ShopId != shop.Id)
-            return Error("Access denied.");
+            return resultBuilder.WithError(RequestError.AccessDenied);
         
         var newBill = new Bill
         {
@@ -50,19 +71,14 @@ public class CreatePaymentRequestHandler(
 
         var bill = await billRepository.GetByIdNoTrackingAsync(newBill.Id, cancellationToken);
         if (bill is null)
-            return Error("Failed to create payment.");
+            return resultBuilder.WithError(RequestError.FailedToCreate);
         
-        var paymentUrl = await paymentService.CreateAsync(bill, request.PaymentMethodId);
+        var paymentUrlResult = await paymentService.CreateAsync(bill, request.PaymentMethodId);
 
         logger.LogInformation(string.Format(
             "Successfully created a new payment for bill #{0}",
             newBill.Id));
         
-        return OperationResult<string>.Success(paymentUrl.Entity);
-    }
-
-    private static OperationResult<string> Error(string message)
-    {
-        return OperationResult<string>.Error(string.Empty, message);
+        return Result<string, RequestError>.Success(paymentUrlResult.Entity);
     }
 }

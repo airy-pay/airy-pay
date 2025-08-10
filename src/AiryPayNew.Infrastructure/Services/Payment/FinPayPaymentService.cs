@@ -1,5 +1,5 @@
 ﻿using AiryPayNew.Application.Payments;
-using AiryPayNew.Domain.Common;
+using AiryPayNew.Domain.Common.Result;
 using AiryPayNew.Domain.Entities.Bills;
 using FinPay.API;
 using FinPay.API.Requests.Impl;
@@ -12,7 +12,7 @@ public class FinPayPaymentService(FinPayApiClient finPayApiClient) : IPaymentSer
 
     public string GetServiceName() => Name; 
     
-    public async Task<OperationResult<string>> CreateAsync(Bill bill, string paymentMethod)
+    public async Task<Result<string, IPaymentService.Error>> CreateAsync(Bill bill, string paymentMethod)
     {
         var payment = new CreatePaymentRequest
         {
@@ -27,9 +27,9 @@ public class FinPayPaymentService(FinPayApiClient finPayApiClient) : IPaymentSer
         var result = await finPayApiClient.CreatePaymentAsync(payment);
         if (!result.Success)
         {
-            return OperationResult<string>.Error("", result.ErrorCode!);
+            return Result<string, IPaymentService.Error>.Fail("", IPaymentService.Error.Failed);
         }
 
-        return OperationResult<string>.Success(result.Url);
+        return Result<string, IPaymentService.Error>.Success(result.Url);
     }
 }

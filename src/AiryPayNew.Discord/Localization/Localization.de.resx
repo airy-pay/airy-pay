@@ -168,4 +168,53 @@
     <data name="withdrawal.created.warning" xml:space="preserve">
         <value>-# Bei einem Fehler während der Auszahlung werden die Mittel dem Shop-Kontostand gutgeschrieben.</value>
     </data>
+  <data name="languageNotValid" xml:space="preserve">
+    <value>Sprache ist ungültig</value>
+  </data>
+  <data name="validationFailed" xml:space="preserve">
+    <value>Validierung fehlgeschlagen</value>
+  </data>
+  <data name="shopIsBlocked" xml:space="preserve">
+    <value>Shop ist gesperrt</value>
+  </data>
+  <data name="productNotFound" xml:space="preserve">
+    <value>Produkt nicht gefunden</value>
+  </data>
+  <data name="invalidShopId" xml:space="preserve">
+    <value>Ungültige Shop-ID</value>
+  </data>
+  <data name="tooManyProductsCreated" xml:space="preserve">
+    <value>Zu viele Produkte erstellt</value>
+  </data>
+  <data name="paymentServiceNotFound" xml:space="preserve">
+    <value>Zahlungsdienst nicht gefunden</value>
+  </data>
+  <data name="accessDenied" xml:space="preserve">
+    <value>Zugriff verweigert</value>
+  </data>
+  <data name="failedToCreate" xml:space="preserve">
+    <value>Konnte nicht erstellt werden</value>
+  </data>
+  <data name="noReasonAndDetails" xml:space="preserve">
+    <value>Kein Grund und keine Details</value>
+  </data>
+  <data name="tooManyComplaints" xml:space="preserve">
+    <value>Zu viele Beschwerden</value>
+  </data>
+  <data name="invalidWithdrawalAmount" xml:space="preserve">
+    <value>Ungültiger Auszahlungsbetrag</value>
+  </data>
+  <data name="invalidWithdrawalDetails" xml:space="preserve">
+    <value>Ungültige Auszahlungsdetails</value>
+  </data>
+  <data name="invalidWithdrawalMethod" xml:space="preserve">
+    <value>Ungültige Auszahlungsmethode</value>
+  </data>
+  <data name="withdrawalAmountTooLow" xml:space="preserve">
+    <value>Auszahlungsbetrag zu niedrig</value>
+  </data>
+  <data name="insufficientFunds" xml:space="preserve">
+    <value>Unzureichende Mittel</value>
+  </data>
+
 </root>

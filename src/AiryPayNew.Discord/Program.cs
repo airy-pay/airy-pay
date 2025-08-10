@@ -1,5 +1,5 @@
 ﻿using AiryPayNew.Discord.Configuration;
-using AiryPayNew.Discord.Utils;
+using AiryPayNew.Discord.Localization;
 using AiryPayNew.Shared.Utils;
 using Serilog;
 

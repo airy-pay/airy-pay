@@ -1,22 +1,35 @@
-﻿using AiryPayNew.Domain.Common;
+﻿using AiryPayNew.Domain.Common.Result;
 using AiryPayNew.Domain.Entities.Products;
 using AiryPayNew.Domain.Entities.Shops;
 using MediatR;
 
 namespace AiryPayNew.Application.Requests.Products;
 
-public record GetProductsFromShopRequest(ulong ServerId) : IRequest<OperationResult<IList<Product>>>;
+using Error = GetProductsFromShopRequest.Error;
+
+public record GetProductsFromShopRequest(ulong ServerId)
+    : IRequest<Result<IList<Product>, GetProductsFromShopRequest.Error>>
+{
+    public enum Error
+    {
+        ShopNotFound
+    }
+}
 
 public class GetProductsFromShopRequestHandler(IShopRepository shopRepository)
-    : IRequestHandler<GetProductsFromShopRequest, OperationResult<IList<Product>>>
+    : IRequestHandler<GetProductsFromShopRequest, Result<IList<Product>, Error>>
 {
-    public async Task<OperationResult<IList<Product>>> Handle(GetProductsFromShopRequest request, CancellationToken cancellationToken)
+    public async Task<Result<IList<Product>, Error>> Handle(
+        GetProductsFromShopRequest request, CancellationToken cancellationToken)
     {
         var shopId = new ShopId(request.ServerId);
         var shop = await shopRepository.GetByIdNoTrackingAsync(shopId, cancellationToken);
         if (shop is null)
-            return OperationResult<IList<Product>>.Error([], "Магазин не найден");
+        {
+            return Result<IList<Product>, Error>.Fail(
+                new List<Product>(), Error.ShopNotFound);
+        }
 
-        return OperationResult<IList<Product>>.Success(shop.Products);
+        return Result<IList<Product>, Error>.Success(shop.Products);
     }
 }

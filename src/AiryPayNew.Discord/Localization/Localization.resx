@@ -212,7 +212,7 @@
     <value>-# In case of an error during withdrawal, the funds will be returned to the shop balance.</value>
   </data>
   <data name="settings" xml:space="preserve">
-    <value />
+    <value>Settings</value>
   </data>
   <data name="settingsButton" xml:space="preserve">
     <value>Settings</value>
@@ -224,7 +224,7 @@
     <value>Change store language</value>
   </data>
   <data name="settings.newLanguageSelected" xml:space="preserve">
-    <value />
+    <value>Language was changed</value>
   </data>
   <data name="settingsNewLanguageSelected" xml:space="preserve">
     <value>Language was successfully changed</value>
@@ -246,5 +246,56 @@
   </data>
   <data name="complaintWasSent" xml:space="preserve">
     <value>Thank you for contacting us, your complaint has been sent and will be reviewed soon.</value>
+  </data>
+  <data name="languageNotValid" xml:space="preserve">
+    <value>Language is not valid</value>
+  </data>
+  <data name="validationFailed" xml:space="preserve">
+    <value>Validation failed</value>
+  </data>
+  <data name="shopIsBlocked" xml:space="preserve">
+    <value>Shop is blocked</value>
+  </data>
+  <data name="productNotFound" xml:space="preserve">
+    <value>Product not found</value>
+  </data>
+  <data name="invalidShopId" xml:space="preserve">
+    <value>Invalid shop ID</value>
+  </data>
+  <data name="tooManyProductsCreated" xml:space="preserve">
+    <value>Too many products created</value>
+  </data>
+  <data name="paymentServiceNotFound" xml:space="preserve">
+    <value>Payment service not found</value>
+  </data>
+  <data name="accessDenied" xml:space="preserve">
+    <value>Access denied</value>
+  </data>
+  <data name="failedToCreate" xml:space="preserve">
+    <value>Failed to create</value>
+  </data>
+  <data name="noReasonAndDetails" xml:space="preserve">
+    <value>No reason and details</value>
+  </data>
+  <data name="tooManyComplaints" xml:space="preserve">
+    <value>Too many complaints</value>
+  </data>
+  <data name="invalidWithdrawalAmount" xml:space="preserve">
+    <value>Invalid withdrawal amount</value>
+  </data>
+  <data name="invalidWithdrawalDetails" xml:space="preserve">
+    <value>Invalid withdrawal details</value>
+  </data>
+  <data name="invalidWithdrawalMethod" xml:space="preserve">
+    <value>Invalid withdrawal method</value>
+  </data>
+  <data name="withdrawalAmountTooLow" xml:space="preserve">
+    <value>Withdrawal amount too low</value>
+  </data>
+  <data name="insufficientFunds" xml:space="preserve">
+    <value>Insufficient funds</value>
+  </data>
+  <data name="complaint" xml:space="preserve">
+    <value>Complaint</value>
   </data>
 </root>

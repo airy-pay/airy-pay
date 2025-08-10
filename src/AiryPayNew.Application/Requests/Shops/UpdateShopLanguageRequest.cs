@@ -1,26 +1,42 @@
 ﻿using AiryPayNew.Domain.Common;
+using AiryPayNew.Domain.Common.Result;
 using AiryPayNew.Domain.Entities.Shops;
 using AiryPayNew.Shared.Settings.AppSettings;
 using MediatR;
 
 namespace AiryPayNew.Application.Requests.Shops;
 
-public record UpdateShopLanguageRequest(ShopId ShopId, Language Language) : IRequest<OperationResult>;
+using Error = UpdateShopLanguageRequest.Error;
+
+public record UpdateShopLanguageRequest(ShopId ShopId, Language Language)
+    : IRequest<Result<UpdateShopLanguageRequest.Error>>
+{
+    public enum Error
+    {
+        ShopNotFound,
+        LanguageNotSupported,
+    }
+}
 
 public class UpdateShopLanguageRequestHandler(
     IShopRepository shopRepository,
-    AppSettings appSettings) : IRequestHandler<UpdateShopLanguageRequest, OperationResult>
+    AppSettings appSettings)
+    : IRequestHandler<UpdateShopLanguageRequest, Result<Error>>
 {
-    public async Task<OperationResult> Handle(UpdateShopLanguageRequest request, CancellationToken cancellationToken)
+    public async Task<Result<Error>> Handle(UpdateShopLanguageRequest request, CancellationToken cancellationToken)
     {
+        var resultBuilder = new ResultBuilder<Error>();
+        
         var shop = await shopRepository.GetByIdAsync(request.ShopId, cancellationToken);
         if (shop is null)
-            return new OperationResult(false, "Shop not found");
+            return resultBuilder.WithError(Error.ShopNotFound);
         
         bool newLanguageIsSupported = appSettings.BotSupportedLanguages.Contains(request.Language);
         if (!newLanguageIsSupported)
-            return new OperationResult(false, "Language is not supported");
+            return resultBuilder.WithError(Error.LanguageNotSupported);
         
-        return await shopRepository.UpdateLanguageAsync(request.ShopId, request.Language, cancellationToken);
+        await shopRepository.UpdateLanguageAsync(request.ShopId, request.Language, cancellationToken);
+
+        return resultBuilder.WithSuccess();
     }
 }

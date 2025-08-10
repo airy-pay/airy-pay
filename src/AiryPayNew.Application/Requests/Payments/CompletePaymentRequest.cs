@@ -1,4 +1,4 @@
-﻿using AiryPayNew.Domain.Common;
+﻿using AiryPayNew.Domain.Common.Result;
 using AiryPayNew.Domain.Entities.Bills;
 using AiryPayNew.Domain.Entities.Purchases;
 using AiryPayNew.Domain.Entities.Shops;
@@ -7,15 +7,24 @@ using Microsoft.Extensions.Logging;
 
 namespace AiryPayNew.Application.Requests.Payments;
 
-public record CompletePaymentRequest(BillId BillId) : IRequest<OperationResult>;
+public record CompletePaymentRequest(BillId BillId)
+    : IRequest<Result<CompletePaymentRequest.Error>>
+{
+    public enum Error
+    {
+        BillNotFound
+    }
+}
 
 public class CompletePaymentRequestHandler(
     IBillRepository billRepository,
     IPurchaseRepository purchaseRepository,
     IShopRepository shopRepository,
-    ILogger<CompletePaymentRequestHandler> logger) : IRequestHandler<CompletePaymentRequest, OperationResult>
+    ILogger<CompletePaymentRequestHandler> logger)
+    : IRequestHandler<CompletePaymentRequest, Result<CompletePaymentRequest.Error>>
 {
-    public async Task<OperationResult> Handle(CompletePaymentRequest request, CancellationToken cancellationToken)
+    public async Task<Result<CompletePaymentRequest.Error>> Handle(
+        CompletePaymentRequest request, CancellationToken cancellationToken)
     {
         var bill = await billRepository.GetByIdNoTrackingAsync(request.BillId, cancellationToken);
         if (bill is null)
@@ -23,7 +32,8 @@ public class CompletePaymentRequestHandler(
             logger.LogInformation(
                 string.Format("Tried to complete payment, but bill with id {0} was not found.",
                 request.BillId.Value));
-            return OperationResult.Error("Bill not found");
+            
+            return Result<CompletePaymentRequest.Error>.Fail(CompletePaymentRequest.Error.BillNotFound);
         }
 
         await billRepository.PayBillAsync(bill.Id, cancellationToken);
@@ -46,6 +56,6 @@ public class CompletePaymentRequestHandler(
                 request.BillId.Value,
                 purchaseId.Value));
         
-        return OperationResult.Success();
+        return Result<CompletePaymentRequest.Error>.Success();
     }
 }

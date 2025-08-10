@@ -25,7 +25,7 @@ internal class ShopEntityTypeConfiguration : IEntityTypeConfiguration<Shop>
                 language => language.Code,
                 value => new Language(value))
             .HasMaxLength(2)
-            .HasDefaultValue(new Language("en"))
+            .HasDefaultValue(Language.English)
             .IsRequired();
         
         builder.Property(x => x.Commission)

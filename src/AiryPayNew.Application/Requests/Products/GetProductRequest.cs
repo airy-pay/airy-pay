@@ -1,27 +1,40 @@
-﻿using AiryPayNew.Domain.Common;
+﻿using AiryPayNew.Domain.Common.Result;
 using AiryPayNew.Domain.Entities.Products;
 using AiryPayNew.Domain.Entities.Shops;
 using MediatR;
 
 namespace AiryPayNew.Application.Requests.Products;
 
-public record GetProductRequest(ulong ShopId, long ProductId) : IRequest<OperationResult<Product?>>;
+using Error = GetProductRequest.Error;
+
+public record GetProductRequest(ulong ShopId, long ProductId)
+    : IRequest<Result<Product, GetProductRequest.Error>>
+{
+    public enum Error
+    {
+        ProductNotFound,
+        Unauthorized
+    }
+}
 
 public class GetProductRequestHandler(
-    IProductRepository productRepository) : IRequestHandler<GetProductRequest, OperationResult<Product?>>
+    IProductRepository productRepository)
+    : IRequestHandler<GetProductRequest, Result<Product, Error>>
 {
-    public async Task<OperationResult<Product?>> Handle(
+    public async Task<Result<Product, Error>> Handle(
         GetProductRequest request, CancellationToken cancellationToken)
     {
+        var resultBuilder = new ResultBuilder<Product, Error>(null!);
+        
         var productId = new ProductId(request.ProductId);
         var shopId = new ShopId(request.ShopId);
         var product = await productRepository.GetByIdNoTrackingAsync(productId, cancellationToken);
- 
+        
         if (product is null)
-            return OperationResult<Product?>.Error(null, "Товар не найден.");
+            return resultBuilder.WithError(Error.ProductNotFound);
         if (product.ShopId != shopId)
-            return OperationResult<Product?>.Error(product, "Нет доступа.");
+            return resultBuilder.WithError(Error.Unauthorized);
 
-        return OperationResult<Product?>.Success(product);
+        return resultBuilder.WithSuccess(product);
     }
 }

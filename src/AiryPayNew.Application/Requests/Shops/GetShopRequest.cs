@@ -1,19 +1,30 @@
-﻿using AiryPayNew.Domain.Common;
+﻿using AiryPayNew.Domain.Common.Result;
 using AiryPayNew.Domain.Entities.Shops;
 using MediatR;
 
 namespace AiryPayNew.Application.Requests.Shops;
 
-public record GetShopRequest(ulong ShopId) : IRequest<OperationResult<Shop>>;
+using Error = GetShopRequest.Error;
 
-public class GetShopRequestHandler(IShopRepository shopRepository) : IRequestHandler<GetShopRequest, OperationResult<Shop>>
+public record GetShopRequest(ulong ShopId)
+    : IRequest<Result<Shop, GetShopRequest.Error>>
 {
-    public async Task<OperationResult<Shop>> Handle(GetShopRequest request, CancellationToken cancellationToken)
+    public enum Error
+    {
+        ShopNotFound
+    }
+}
+
+public class GetShopRequestHandler(IShopRepository shopRepository)
+    : IRequestHandler<GetShopRequest, Result<Shop, Error>>
+{
+    public async Task<Result<Shop, Error>> Handle(GetShopRequest request, CancellationToken cancellationToken)
     {
         var shopId = new ShopId(request.ShopId);
         var shop = await shopRepository.GetByIdNoTrackingAsync(shopId, cancellationToken);
-        return shop is null
-            ? OperationResult<Shop>.Error(null!, "Shop was not found")
-            : OperationResult<Shop>.Success(shop);
+        if (shop is null)
+            return Result<Shop, Error>.Fail(null!, Error.ShopNotFound);
+        
+        return Result<Shop, Error>.Success(shop);
     }
 }

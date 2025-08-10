@@ -244,4 +244,58 @@
   <data name="complaintWasSent" xml:space="preserve">
     <value>Спасибо за обращение, ваша жалоба была отправлена и будет рассмотрена в ближайшее время.</value>
   </data>
+  <data name="shopNotFound" xml:space="preserve">
+    <value>Магазин не найден</value>
+  </data>
+  <data name="languageNotValid" xml:space="preserve">
+    <value>Неверный язык</value>
+  </data>
+  <data name="validationFailed" xml:space="preserve">
+    <value>Ошибка проверки</value>
+  </data>
+  <data name="shopIsBlocked" xml:space="preserve">
+    <value>Магазин заблокирован</value>
+  </data>
+  <data name="productNotFound" xml:space="preserve">
+    <value>Товар не найден</value>
+  </data>
+  <data name="invalidShopId" xml:space="preserve">
+    <value>Неверный идентификатор магазина</value>
+  </data>
+  <data name="tooManyProductsCreated" xml:space="preserve">
+    <value>Создано слишком много товаров</value>
+  </data>
+  <data name="paymentServiceNotFound" xml:space="preserve">
+    <value>Сервис оплаты не найден</value>
+  </data>
+  <data name="accessDenied" xml:space="preserve">
+    <value>Доступ запрещен</value>
+  </data>
+  <data name="failedToCreate" xml:space="preserve">
+    <value>Не удалось создать</value>
+  </data>
+  <data name="noReasonAndDetails" xml:space="preserve">
+    <value>Нет причины и деталей</value>
+  </data>
+  <data name="tooManyComplaints" xml:space="preserve">
+    <value>Слишком много жалоб</value>
+  </data>
+  <data name="invalidWithdrawalAmount" xml:space="preserve">
+    <value>Неверная сумма вывода</value>
+  </data>
+  <data name="invalidWithdrawalDetails" xml:space="preserve">
+    <value>Неверные реквизиты вывода</value>
+  </data>
+  <data name="invalidWithdrawalMethod" xml:space="preserve">
+    <value>Неверный метод вывода</value>
+  </data>
+  <data name="withdrawalAmountTooLow" xml:space="preserve">
+    <value>Сумма вывода слишком мала</value>
+  </data>
+  <data name="insufficientFunds" xml:space="preserve">
+    <value>Недостаточно средств</value>
+  </data>
+  <data name="complaint" xml:space="preserve">
+    <value>Жалоба</value>
+  </data>
 </root>

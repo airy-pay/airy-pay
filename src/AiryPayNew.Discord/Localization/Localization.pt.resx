@@ -168,4 +168,53 @@
     <data name="withdrawal.created.warning" xml:space="preserve">
         <value>-# Em caso de erro durante o saque, os fundos serão devolvidos ao saldo da loja.</value>
     </data>
+  <data name="languageNotValid" xml:space="preserve">
+    <value>Idioma inválido</value>
+  </data>
+  <data name="validationFailed" xml:space="preserve">
+    <value>Falha na validação</value>
+  </data>
+  <data name="shopIsBlocked" xml:space="preserve">
+    <value>Loja bloqueada</value>
+  </data>
+  <data name="productNotFound" xml:space="preserve">
+    <value>Produto não encontrado</value>
+  </data>
+  <data name="invalidShopId" xml:space="preserve">
+    <value>ID de loja inválido</value>
+  </data>
+  <data name="tooManyProductsCreated" xml:space="preserve">
+    <value>Produtos demais criados</value>
+  </data>
+  <data name="paymentServiceNotFound" xml:space="preserve">
+    <value>Serviço de pagamento não encontrado</value>
+  </data>
+  <data name="accessDenied" xml:space="preserve">
+    <value>Acesso negado</value>
+  </data>
+  <data name="failedToCreate" xml:space="preserve">
+    <value>Falha ao criar</value>
+  </data>
+  <data name="noReasonAndDetails" xml:space="preserve">
+    <value>Sem motivo e sem detalhes</value>
+  </data>
+  <data name="tooManyComplaints" xml:space="preserve">
+    <value>Reclamações demais</value>
+  </data>
+  <data name="invalidWithdrawalAmount" xml:space="preserve">
+    <value>Valor de saque inválido</value>
+  </data>
+  <data name="invalidWithdrawalDetails" xml:space="preserve">
+    <value>Detalhes de saque inválidos</value>
+  </data>
+  <data name="invalidWithdrawalMethod" xml:space="preserve">
+    <value>Método de saque inválido</value>
+  </data>
+  <data name="withdrawalAmountTooLow" xml:space="preserve">
+    <value>Valor de saque muito baixo</value>
+  </data>
+  <data name="insufficientFunds" xml:space="preserve">
+    <value>Fundos insuficientes</value>
+  </data>
+
 </root>

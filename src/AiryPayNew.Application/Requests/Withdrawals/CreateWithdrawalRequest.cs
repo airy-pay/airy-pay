@@ -1,43 +1,61 @@
-﻿using AiryPayNew.Domain.Common;
+﻿using AiryPayNew.Domain.Common.Result;
 using AiryPayNew.Domain.Entities.Shops;
 using AiryPayNew.Domain.Entities.Withdrawals;
 using MediatR;
 
 namespace AiryPayNew.Application.Requests.Withdrawals;
 
+using Error = CreateWithdrawalRequest.Error;
+
 public record CreateWithdrawalRequest(
-    ulong ServerId, decimal Amount, string Way, string ReceivingAccountNumber)
-    : IRequest<OperationResult>;
+    ulong ServerId,
+    decimal Amount,
+    string Way,
+    string ReceivingAccountNumber)
+    : IRequest<Result<CreateWithdrawalRequest.Error>>
+{
+    public enum Error
+    {
+        InvalidWithdrawalAmount,
+        InvalidWithdrawalDetails,
+        InvalidWithdrawalMethod,
+        ShopNotFound,
+        WithdrawalAmountTooLow,
+        InsufficientFunds
+    }
+}
 
 public class CreateWithdrawalRequestHandler(
     IWithdrawalRepository withdrawalRepository,
     IShopRepository shopRepository)
-    : IRequestHandler<CreateWithdrawalRequest, OperationResult>
+    : IRequestHandler<CreateWithdrawalRequest, Result<Error>>
 {
-    private readonly List<string> _withdrawalWays = new() { "card" };
+    private readonly List<string> _withdrawalWays = ["card"];
     
-    public async Task<OperationResult> Handle(
+    public async Task<Result<Error>> Handle(
         CreateWithdrawalRequest request,
         CancellationToken cancellationToken)
     {
+        var resultBuilder = new ResultBuilder<Error>();
+        
         if (request.Amount <= 0)
-            return OperationResult.Error("Invalid withdrawal amount.");
+            return resultBuilder.WithError(Error.InvalidWithdrawalAmount);
         if (string.IsNullOrEmpty(request.Way)
             || string.IsNullOrEmpty(request.ReceivingAccountNumber))
-            return OperationResult.Error("Invalid withdrawal details.");
+            return resultBuilder.WithError(Error.InvalidWithdrawalDetails);
         if (!_withdrawalWays.Contains(request.Way))
-            return OperationResult.Error("Invalid withdrawal method.");
+            return resultBuilder.WithError(Error.InvalidWithdrawalMethod);
         
         var shopId = new ShopId(request.ServerId);
         var shop = await shopRepository.GetByIdNoTrackingAsync(shopId, cancellationToken);
         if (shop is null)
-            return OperationResult.Error("Shop not found.");
+            return resultBuilder.WithError(Error.ShopNotFound);
         
         const int minimalWithdrawalAmount = 500;
         if (request.Amount < minimalWithdrawalAmount)
-            return OperationResult.Error($"Minimum withdrawal amount: {minimalWithdrawalAmount} \u20bd");
+            return resultBuilder.WithError(Error.WithdrawalAmountTooLow);
         if (shop.Balance < request.Amount)
-            return OperationResult.Error("Insufficient funds.");
+            return resultBuilder.WithError(Error.InsufficientFunds);
 
         await shopRepository.UpdateBalanceAsync(shop.Id, -request.Amount, cancellationToken);
         
@@ -52,6 +70,6 @@ public class CreateWithdrawalRequestHandler(
         };
         await withdrawalRepository.CreateAsync(newWithdrawal, cancellationToken);
 
-        return OperationResult.Success();
+        return resultBuilder.WithSuccess();
     }
 }
