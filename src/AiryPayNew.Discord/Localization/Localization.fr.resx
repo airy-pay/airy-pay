@@ -168,4 +168,53 @@
     <data name="withdrawal.created.warning" xml:space="preserve">
         <value>-# En cas d'erreur lors du retrait, les fonds seront retournés au solde de la boutique.</value>
     </data>
+  <data name="languageNotValid" xml:space="preserve">
+    <value>Langue non valide</value>
+  </data>
+  <data name="validationFailed" xml:space="preserve">
+    <value>Échec de la validation</value>
+  </data>
+  <data name="shopIsBlocked" xml:space="preserve">
+    <value>Boutique bloquée</value>
+  </data>
+  <data name="productNotFound" xml:space="preserve">
+    <value>Produit introuvable</value>
+  </data>
+  <data name="invalidShopId" xml:space="preserve">
+    <value>ID de boutique invalide</value>
+  </data>
+  <data name="tooManyProductsCreated" xml:space="preserve">
+    <value>Trop de produits créés</value>
+  </data>
+  <data name="paymentServiceNotFound" xml:space="preserve">
+    <value>Service de paiement introuvable</value>
+  </data>
+  <data name="accessDenied" xml:space="preserve">
+    <value>Accès refusé</value>
+  </data>
+  <data name="failedToCreate" xml:space="preserve">
+    <value>Échec de la création</value>
+  </data>
+  <data name="noReasonAndDetails" xml:space="preserve">
+    <value>Aucune raison et aucun détail</value>
+  </data>
+  <data name="tooManyComplaints" xml:space="preserve">
+    <value>Trop de plaintes</value>
+  </data>
+  <data name="invalidWithdrawalAmount" xml:space="preserve">
+    <value>Montant de retrait invalide</value>
+  </data>
+  <data name="invalidWithdrawalDetails" xml:space="preserve">
+    <value>Détails de retrait invalides</value>
+  </data>
+  <data name="invalidWithdrawalMethod" xml:space="preserve">
+    <value>Méthode de retrait invalide</value>
+  </data>
+  <data name="withdrawalAmountTooLow" xml:space="preserve">
+    <value>Montant de retrait trop bas</value>
+  </data>
+  <data name="insufficientFunds" xml:space="preserve">
+    <value>Fonds insuffisants</value>
+  </data>
+
 </root>

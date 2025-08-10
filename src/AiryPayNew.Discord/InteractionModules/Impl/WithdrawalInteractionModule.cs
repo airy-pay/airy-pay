@@ -44,10 +44,21 @@ public class WithdrawalInteractionModule : ShopInteractionModuleBase
 
         if (!createWithdrawalRequestResult.Successful)
         {
+            var localizedMessageCode = createWithdrawalRequestResult.ErrorType switch
+            {
+                CreateWithdrawalRequest.Error.InvalidWithdrawalAmount => "invalidWithdrawalAmount",
+                CreateWithdrawalRequest.Error.InvalidWithdrawalDetails => "invalidWithdrawalDetails",
+                CreateWithdrawalRequest.Error.InvalidWithdrawalMethod => "invalidWithdrawalMethod",
+                CreateWithdrawalRequest.Error.ShopNotFound => "shopNotFound",
+                CreateWithdrawalRequest.Error.WithdrawalAmountTooLow => "withdrawalAmountTooLow",
+                CreateWithdrawalRequest.Error.InsufficientFunds => "insufficientFunds",
+                _ => "validationFailed",
+            };
+            
             await RespondAsync(
                 string.Format(
                     localizer.GetString("withdrawal.create.error"),
-                    createWithdrawalRequestResult.ErrorMessage), ephemeral: true);
+                    localizer.GetString(localizedMessageCode)), ephemeral: true);
             return;
         }
 

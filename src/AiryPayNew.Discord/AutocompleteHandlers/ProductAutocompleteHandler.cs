@@ -21,9 +21,9 @@ public class ProductAutocompleteHandler : AutocompleteHandler
 
         var getProductsFromShop = new GetProductsFromShopRequest(context.Guild.Id);
         var productsOperationResult = await mediator.Send(getProductsFromShop);
-        if (!productsOperationResult.Successful)
+        if (productsOperationResult.Failed)
         {
-            throw new InvalidOperationException(productsOperationResult.ErrorMessage);
+            throw new InvalidOperationException(productsOperationResult.ToString());
         }
         
         var autocompleteResults = productsOperationResult.Entity

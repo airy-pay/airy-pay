@@ -1,7 +1,18 @@
 ﻿using AiryPayNew.Discord.Configuration;
-using AiryPayNew.Discord.Utils;
+using AiryPayNew.Discord.Localization;
 using AiryPayNew.Shared.Utils;
 using Serilog;
+
+// TODO:
+// 1. Add localization strings for new error messages
+// 2. User operationResult.Failed instead of !operationResult.Success everywhere
+// 3. Create a separate class for creating localizedMessageCode values:
+//  var localizedMessageCode = operationResult.ErrorType switch
+//  {
+//      UpdateShopLanguageRequest.Error.ShopNotFound => "shopNotFound",
+//      UpdateShopLanguageRequest.Error.LanguageNotSupported => "languageNotValid",
+//         _ => "unknownError"
+//  };
 
 Log.Logger = new LoggerConfiguration()
     .WriteTo.Console()

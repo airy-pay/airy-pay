@@ -75,8 +75,18 @@ public class ProductInteractionModule : ShopInteractionModuleBase
             return;
         }
 
+        var localizedMessageCode = operationResult.ErrorType switch
+        {
+            CreateProductRequest.Error.ValidationFailed => "validationFailed",
+            CreateProductRequest.Error.ShopNotFound => "shopNotFound",
+            CreateProductRequest.Error.TooManyProductsCreated => "tooManyProductsCreated",
+            CreateProductRequest.Error.ShopIsBlocked => "shopIsBlocked",
+            _ => "validationFailed",
+        };
+        
         await RespondAsync(
-            ":no_entry_sign: " + operationResult.ErrorMessage, ephemeral: true);
+            ":no_entry_sign: " + localizer.GetString(localizedMessageCode),
+            ephemeral: true);
     }
 
     [SlashCommand("delete", "🚫 Delete product")]
@@ -133,7 +143,17 @@ public class ProductInteractionModule : ShopInteractionModuleBase
             return;
         }
 
+        var localizedMessageCode = operationResult.ErrorType switch
+        {
+            EditProductRequest.Error.ValidationFailed => "validationFailed",
+            EditProductRequest.Error.ShopNotFound => "shopNotFound",
+            EditProductRequest.Error.ShopIsBlocked => "shopIsBlocked",
+            EditProductRequest.Error.ProductNotFound => "productNotFound",
+            EditProductRequest.Error.InvalidShopId => "invalidShopId",
+            _ => "validationFailed",
+        };
+        
         await RespondAsync(
-            ":no_entry_sign: " + operationResult.ErrorMessage, ephemeral: true);
+            ":no_entry_sign: " + localizer.GetString(localizedMessageCode), ephemeral: true);
     }
 }

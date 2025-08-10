@@ -264,7 +264,7 @@ public class InfoInteractionModule : ShopInteractionModuleBase
         }
 
         // localizer needs to be reset after iteration is complete so localization after uses shop language
-        localizer = new Localizer(shop.Language);
+        // localizer = new Localizer(shop.Language);
         
         var messageComponents = new ComponentBuilder()
             .WithRows([
@@ -280,16 +280,34 @@ public class InfoInteractionModule : ShopInteractionModuleBase
         var shop = await GetShopOrRespondAsync();
         var localizer = new Localizer(shop.Language);
         
-        var selectedLanguage = new Language(selectedLanguageString);
-        var updateShopLanguageRequest = new UpdateShopLanguageRequest(shop.Id, selectedLanguage);
-        
-        var operationResult = await _mediator.Send(updateShopLanguageRequest);
-        if (!operationResult.Successful)
+        if (!Language.TryParse(selectedLanguageString, out var selectedLanguage))
         {
-            await RespondAsync(":no_entry_sign: " + operationResult.ErrorMessage, ephemeral: true);
+            await RespondAsync(
+                ":no_entry_sign: " + localizer.GetString("languageNotValid"),
+                ephemeral: true);
             return;
         }
         
-        await RespondAsync(":white_check_mark: " + localizer.GetString("settingsNewLanguageSelected"), ephemeral: true);
+        var updateShopLanguageRequest = new UpdateShopLanguageRequest(shop.Id, selectedLanguage);
+        
+        var operationResult = await _mediator.Send(updateShopLanguageRequest);
+        if (operationResult.Failed)
+        {
+            var localizedMessageCode = operationResult.ErrorType switch
+            {
+                UpdateShopLanguageRequest.Error.ShopNotFound => "shopNotFound",
+                UpdateShopLanguageRequest.Error.LanguageNotSupported => "languageNotValid",
+                _ => "unknownError"
+            };
+
+            await RespondAsync(
+                ":no_entry_sign: " + localizer.GetString(localizedMessageCode),
+                ephemeral: true);
+            return;
+        }
+        
+        await RespondAsync(
+            ":white_check_mark: " + localizer.GetString("settingsNewLanguageSelected"),
+            ephemeral: true);
     }
 }

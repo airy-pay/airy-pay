@@ -1,7 +1,5 @@
 ﻿using AiryPayNew.Application.Requests.Shops;
 using AiryPayNew.Domain.Entities.Shops;
-using AiryPayNew.Shared.Settings.AppSettings;
-using Discord;
 using Discord.Interactions;
 using MediatR;
 
@@ -23,9 +21,9 @@ public abstract class ShopInteractionModuleBase(
             return _shop;
 
         var result = await mediator.Send(new GetShopRequest(Context.Guild.Id));
-        if (!result.Successful)
+        if (result.Failed)
         {
-            await RespondAsync(":no_entry_sign: " + result.ErrorMessage, ephemeral: true);
+            await RespondAsync(":no_entry_sign: Shop not found", ephemeral: true);
             
             throw new InvalidOperationException("Shop retrieval failed or already responded.");
         }
