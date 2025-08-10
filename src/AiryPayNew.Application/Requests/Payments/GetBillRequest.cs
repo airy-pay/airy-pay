@@ -5,7 +5,8 @@ namespace AiryPayNew.Application.Requests.Payments;
 
 public record GetBillRequest(int BillId) : IRequest<Bill?>;
 
-public class GetBillRequestHandler(IBillRepository billRepository) : IRequestHandler<GetBillRequest, Bill?>
+public class GetBillRequestHandler(IBillRepository billRepository)
+    : IRequestHandler<GetBillRequest, Bill?>
 {
     public async Task<Bill?> Handle(GetBillRequest request, CancellationToken cancellationToken)
     {

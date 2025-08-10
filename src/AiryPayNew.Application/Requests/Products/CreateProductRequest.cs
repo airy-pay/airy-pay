@@ -1,5 +1,5 @@
 ﻿using AiryPayNew.Application.Requests.Payments;
-using AiryPayNew.Domain.Common;
+using AiryPayNew.Domain.Common.Result;
 using AiryPayNew.Domain.Entities.Products;
 using AiryPayNew.Domain.Entities.Shops;
 using FluentValidation;
@@ -8,28 +8,44 @@ using Microsoft.Extensions.Logging;
 
 namespace AiryPayNew.Application.Requests.Products;
 
-public record CreateProductRequest(ulong ShopId, ProductModel ProductModel) : IRequest<OperationResult>;
+using RequestError = CreateProductRequest.Error;
+
+public record CreateProductRequest(ulong ShopId, ProductModel ProductModel)
+    : IRequest<Result<CreateProductRequest.Error>>
+{
+    public enum Error
+    {
+        ValidationFailed,
+        ShopNotFound,
+        TooManyProductsCreated,
+        ShopIsBlocked
+    }
+}
 
 public class CreateProductRequestHandler(
     IProductRepository productRepository,
     IShopRepository shopRepository,
     IValidator<ProductModel> productValidator,
-    ILogger<CreatePaymentRequestHandler> logger) : IRequestHandler<CreateProductRequest, OperationResult>
+    ILogger<CreatePaymentRequestHandler> logger)
+    : IRequestHandler<CreateProductRequest, Result<RequestError>>
 {
-    public async Task<OperationResult> Handle(CreateProductRequest request, CancellationToken cancellationToken)
+    public async Task<Result<RequestError>> Handle(
+        CreateProductRequest request, CancellationToken cancellationToken)
     {
+        var resultBuilder = new ResultBuilder<RequestError>();
+        
         var validationResult = await productValidator.ValidateAsync(request.ProductModel, cancellationToken);
         if (!validationResult.IsValid)
-            return OperationResult.Error(validationResult.Errors.First().ToString());
+            return resultBuilder.WithError(RequestError.ValidationFailed);
 
         var shopId = new ShopId(request.ShopId);
         var shop = await shopRepository.GetByIdNoTrackingAsync(shopId, cancellationToken);
         if (shop is null)
-            return OperationResult.Error("Shop not found.");
+            return resultBuilder.WithError(RequestError.ShopNotFound);
         if (shop.Products.Count > 25)
-            return OperationResult.Error("The number of products cannot exceed 25.");
+            return resultBuilder.WithError(RequestError.TooManyProductsCreated);
         if (shop.Blocked)
-            return OperationResult.Error("Shop is blocked.");
+            return resultBuilder.WithError(RequestError.ShopIsBlocked);
         
         var newProduct = new Product
         {
@@ -46,6 +62,6 @@ public class CreateProductRequestHandler(
             newProduct.Id.Value,
             shop.Id.Value));
         
-        return OperationResult.Success();
+        return resultBuilder.WithSuccess();
     }
 }

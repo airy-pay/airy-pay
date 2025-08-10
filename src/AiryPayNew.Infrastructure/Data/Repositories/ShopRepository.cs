@@ -1,4 +1,5 @@
 ﻿using AiryPayNew.Domain.Common;
+using AiryPayNew.Domain.Common.Result;
 using AiryPayNew.Domain.Entities.Purchases;
 using AiryPayNew.Domain.Entities.ShopComplaints;
 using AiryPayNew.Domain.Entities.Shops;
@@ -86,31 +87,32 @@ internal class ShopRepository(ApplicationDbContext dbContext)
         await ChangeBlockedStatus(shopId, false, cancellationToken);
     }
 
-    public async Task<OperationResult<ShopId>> UpdateBalanceAsync(
+    public async Task<Result> UpdateBalanceAsync(
         ShopId shopId, decimal change, CancellationToken cancellationToken)
     {
         var shop = await GetByIdAsync(shopId, cancellationToken);
         if (shop is null)
-            return new OperationResult<ShopId>(false, "Entity not found", shopId);
+            return Result.Fail();
         if (shop.Balance + change < 0)
-            return new OperationResult<ShopId>(false, "Balance can't go below zero", shopId);
+            return Result.Fail();
 
         shop.Balance += change;
         await _dbContext.SaveChangesAsync(cancellationToken);
-        return OperationResult<ShopId>.Success(shopId);
+        
+        return Result.Success();
     }
 
-    public async Task<OperationResult> UpdateLanguageAsync(
+    public async Task<Result> UpdateLanguageAsync(
         ShopId shopId, Language language, CancellationToken cancellationToken)
     {
         var shop = await GetByIdAsync(shopId, cancellationToken);
         if (shop is null)
-            return new OperationResult(false, "Entity not found");
+            return Result.Fail();
         
         shop.Language = language;
         
         await _dbContext.SaveChangesAsync(cancellationToken);
-        return OperationResult.Success();
+        return Result.Success();
     }
 
     private async Task ChangeBlockedStatus(ShopId shopId, bool blocked, CancellationToken cancellationToken)

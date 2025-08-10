@@ -1,5 +1,5 @@
 ﻿using AiryPayNew.Application.Payments;
-using AiryPayNew.Domain.Common;
+using AiryPayNew.Domain.Common.Result;
 using AiryPayNew.Domain.Entities.Bills;
 using Ru.Kassa;
 using Ru.Kassa.Models;
@@ -13,7 +13,7 @@ public class RuKassaPaymentService(RuKassaClient ruKassaClient) : IPaymentServic
 
     public string GetServiceName() => Name;
 
-    public async Task<OperationResult<string>> CreateAsync(Bill bill, string paymentMethod)
+    public async Task<Result<string, IPaymentService.Error>> CreateAsync(Bill bill, string paymentMethod)
     {
         var payment = await ruKassaClient.CreatePaymentAsync(
             new PaymentMerchantRequest
@@ -26,10 +26,10 @@ public class RuKassaPaymentService(RuKassaClient ruKassaClient) : IPaymentServic
             });
 
         if (!string.IsNullOrEmpty(payment.Error))
-            return OperationResult<string>.Error(
+            return Result<string, IPaymentService.Error>.Fail(
                 string.Empty, 
-                "RuKassa payment creation error: " + payment.Error);
+                IPaymentService.Error.Failed);
         
-        return OperationResult<string>.Success(payment.Url);
+        return Result<string, IPaymentService.Error>.Success(payment.Url);
     }
 }
