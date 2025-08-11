@@ -64,7 +64,8 @@ public class CreatePaymentRequestHandler(
             BillStatus = BillStatus.Unpaid,
             BuyerDiscordId = request.BuyerId,
             ProductId = product.Id,
-            ShopId = shop.Id
+            ShopId = shop.Id,
+            Payment = new Payment()
         };
         
         newBill.Id = await billRepository.CreateAsync(newBill, cancellationToken);

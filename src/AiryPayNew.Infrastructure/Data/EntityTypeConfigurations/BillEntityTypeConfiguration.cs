@@ -21,10 +21,20 @@ internal class BillEntityTypeConfiguration : IEntityTypeConfiguration<Bill>
             .HasValueGenerator<IdValueGenerator<BillId>>()
             .ValueGeneratedOnAdd();
 
-        builder.Property(x => x.PaymentSystemName)
-            .HasMaxLength(128);
-        builder.Property(x => x.PaymentMethodId)
-            .HasMaxLength(128);
+        builder.OwnsOne(x => x.Payment, payment =>
+        {
+            payment.Property(p => p.SystemId)
+                .HasColumnName("system_id");
+            payment.Property(p => p.MethodId)
+                .HasColumnName("method_id")
+                .HasMaxLength(128);;
+            payment.Property(p => p.SystemName)
+                .HasColumnName("system_name")
+                .HasMaxLength(128);;
+        });
+
+        builder.Navigation(b => b.Payment)
+            .IsRequired();
         
         builder.Property(x => x.BillSecret)
             .HasConversion(
