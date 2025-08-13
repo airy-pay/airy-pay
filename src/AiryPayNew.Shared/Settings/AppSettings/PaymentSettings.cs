@@ -19,6 +19,9 @@ public class PaymentSettings
     [YamlMember(typeof(FinPay), Alias = "finPay")]
     public required FinPay FinPay { get; set; }
     
+    [YamlMember(typeof(FinPay), Alias = "stripe")]
+    public required Stripe Stripe { get; set; }
+    
     [YamlMember(typeof(IList<PaymentMethod>), Alias = "paymentMethods")]
     public required IList<PaymentMethod> PaymentMethods { get; set; }
 }
