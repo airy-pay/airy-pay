@@ -1,6 +1,6 @@
 ﻿using YamlDotNet.Serialization;
 
-namespace AiryPayNew.Shared.Settings.AppSettingsNested;
+namespace AiryPayNew.Shared.Settings.AppSettingsNested.PaymentSystems;
 
 public class FinPay
 {
