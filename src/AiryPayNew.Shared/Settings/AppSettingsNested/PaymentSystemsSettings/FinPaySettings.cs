@@ -1,8 +1,8 @@
 ﻿using YamlDotNet.Serialization;
 
-namespace AiryPayNew.Shared.Settings.AppSettingsNested.PaymentSystems;
+namespace AiryPayNew.Shared.Settings.AppSettingsNested.PaymentSystemsSettings;
 
-public class FinPay
+public class FinPaySettings
 {
     [YamlMember(typeof(int), Alias = "shopId")]
     public required int ShopId { get; set; }

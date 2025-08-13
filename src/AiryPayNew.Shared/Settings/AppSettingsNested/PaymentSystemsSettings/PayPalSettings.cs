@@ -1,8 +1,8 @@
 ﻿using YamlDotNet.Serialization;
 
-namespace AiryPayNew.Shared.Settings.AppSettingsNested.PaymentSystems;
+namespace AiryPayNew.Shared.Settings.AppSettingsNested.PaymentSystemsSettings;
 
-public class PayPal
+public class PayPalSettings
 {
     [YamlMember(typeof(int), Alias = "clientId")]
     public string ClientId { get; set; } = string.Empty;

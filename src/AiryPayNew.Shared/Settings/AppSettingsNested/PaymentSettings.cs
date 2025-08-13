@@ -1,4 +1,4 @@
-﻿using AiryPayNew.Shared.Settings.AppSettingsNested.PaymentSystems;
+﻿using AiryPayNew.Shared.Settings.AppSettingsNested.PaymentSystemsSettings;
 using YamlDotNet.Serialization;
 
 namespace AiryPayNew.Shared.Settings.AppSettingsNested;
@@ -14,14 +14,14 @@ public class PaymentSettings
     [YamlMember(typeof(decimal), Alias = "defaultShopCommission")]
     public required decimal DefaultShopCommission { get; set; }
 
-    [YamlMember(typeof(RuKassa), Alias = "ruKassa")]
-    public required RuKassa RuKassa { get; set; }
+    [YamlMember(typeof(RuKassaSettings), Alias = "ruKassa")]
+    public required RuKassaSettings RuKassaSettings { get; set; }
     
-    [YamlMember(typeof(FinPay), Alias = "finPay")]
-    public required FinPay FinPay { get; set; }
+    [YamlMember(typeof(FinPaySettings), Alias = "finPay")]
+    public required FinPaySettings FinPaySettings { get; set; }
     
-    [YamlMember(typeof(FinPay), Alias = "stripe")]
-    public required Stripe Stripe { get; set; }
+    [YamlMember(typeof(FinPaySettings), Alias = "stripe")]
+    public required StripeSettings StripeSettings { get; set; }
     
     [YamlMember(typeof(IList<PaymentMethod>), Alias = "paymentMethods")]
     public required IList<PaymentMethod> PaymentMethods { get; set; }

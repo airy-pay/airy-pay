@@ -1,4 +1,6 @@
-﻿namespace AiryPayNew.Infrastructure.Services.Payment;
+﻿using AiryPayNew.Shared.Settings.AppSettingsNested.PaymentSystemsSettings;
+
+namespace AiryPayNew.Infrastructure.Services.Payment;
 
 using Application.Payments;
 using Domain.Common.Result;
@@ -11,11 +13,11 @@ using Stripe.Checkout;
 public class StripePaymentService : IPaymentService
 {
     private const string NameConst = "Stripe";
-    private readonly Shared.Settings.AppSettingsNested.PaymentSystems.Stripe _settings;
+    private readonly StripeSettings _settings;
     private readonly ILogger<StripePaymentService> _logger;
 
     public StripePaymentService(
-        IOptions<Shared.Settings.AppSettingsNested.PaymentSystems.Stripe> settings,
+        IOptions<StripeSettings> settings,
         ILogger<StripePaymentService> logger)
     {
         _settings = settings.Value;

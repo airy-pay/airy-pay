@@ -4,8 +4,7 @@ using System.Text.Json;
 using AiryPayNew.Application.Payments;
 using AiryPayNew.Domain.Common.Result;
 using AiryPayNew.Domain.Entities.Bills;
-using AiryPayNew.Shared.Settings.AppSettingsNested;
-using AiryPayNew.Shared.Settings.AppSettingsNested.PaymentSystems;
+using AiryPayNew.Shared.Settings.AppSettingsNested.PaymentSystemsSettings;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 
@@ -14,12 +13,12 @@ namespace AiryPayNew.Infrastructure.Services.Payment;
 public class PayPalPaymentService : IPaymentService
     {
         private const string NameConst = "PayPal";
-        private readonly PayPal _settings;
+        private readonly PayPalSettings _settings;
         private readonly HttpClient _http;
         private readonly ILogger<PayPalPaymentService> _logger;
 
         public PayPalPaymentService(
-            IOptions<PayPal> settings,
+            IOptions<PayPalSettings> settings,
             HttpClient httpClient,
             ILogger<PayPalPaymentService> logger)
         {
