@@ -17,6 +17,11 @@ payPal:
   "secret": "123456"
   "sandbox": true
 
+stripe:
+  "apiKey": "key1"
+  "successUrl": ""
+  "cancelUrl": ""
+
 paymentMethods:
   -
     serviceName: "Checkout"
