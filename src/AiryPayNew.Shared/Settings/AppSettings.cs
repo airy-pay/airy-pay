@@ -1,6 +1,7 @@
 ﻿using AiryPayNew.Domain.Common;
+using AiryPayNew.Shared.Settings.AppSettingsNested;
 
-namespace AiryPayNew.Shared.Settings.AppSettings;
+namespace AiryPayNew.Shared.Settings;
 
 public class AppSettings
 {

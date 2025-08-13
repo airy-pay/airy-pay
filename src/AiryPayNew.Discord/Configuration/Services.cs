@@ -1,9 +1,7 @@
 ﻿using AiryPayNew.Application;
-using AiryPayNew.Application.Common;
-using AiryPayNew.Discord.Services;
 using AiryPayNew.Discord.Services.Messaging;
 using AiryPayNew.Infrastructure;
-using AiryPayNew.Shared.Settings.AppSettings;
+using AiryPayNew.Shared.Settings;
 using GenericRateLimiter.Configuration;
 using Sqids;
 

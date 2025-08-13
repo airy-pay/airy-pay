@@ -1,6 +1,6 @@
 ﻿using AiryPayNew.Application;
 using AiryPayNew.Infrastructure;
-using AiryPayNew.Shared.Settings.AppSettings;
+using AiryPayNew.Shared.Settings;
 
 namespace AiryPayNew.Web.Configuration;
 

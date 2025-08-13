@@ -1,4 +1,4 @@
-﻿namespace AiryPayNew.Shared.Settings.AppSettings;
+﻿namespace AiryPayNew.Shared.Settings.AppSettingsNested;
 
 public class Kestrel
 {

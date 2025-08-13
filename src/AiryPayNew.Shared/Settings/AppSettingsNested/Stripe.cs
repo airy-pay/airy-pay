@@ -1,6 +1,6 @@
 ﻿using YamlDotNet.Serialization;
 
-namespace AiryPayNew.Shared.Settings.AppSettings;
+namespace AiryPayNew.Shared.Settings.AppSettingsNested;
 
 public class Stripe
 {

@@ -12,7 +12,7 @@ using AiryPayNew.Infrastructure.Services.Messaging;
 using AiryPayNew.Infrastructure.Services.Payment;
 using AiryPayNew.Infrastructure.Utils;
 using AiryPayNew.Shared.Messaging;
-using AiryPayNew.Shared.Settings.AppSettings;
+using AiryPayNew.Shared.Settings;
 using FinPay.API;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;

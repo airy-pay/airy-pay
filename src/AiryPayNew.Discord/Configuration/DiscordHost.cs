@@ -1,13 +1,9 @@
-﻿using AiryPayNew.Discord.Services;
-using AiryPayNew.Discord.Utils;
-using AiryPayNew.Shared.Settings;
-using AiryPayNew.Shared.Settings.AppSettings;
+﻿using AiryPayNew.Shared.Settings;
 using AiryPayNew.Shared.Utils;
 using Discord;
 using Discord.Addons.Hosting;
 using Discord.Commands;
 using Discord.WebSocket;
-using Microsoft.Extensions.DependencyInjection;
 
 namespace AiryPayNew.Discord.Configuration;
 

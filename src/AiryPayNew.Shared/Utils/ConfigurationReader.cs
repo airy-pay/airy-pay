@@ -1,5 +1,6 @@
 ﻿using AiryPayNew.Domain.Common;
-using AiryPayNew.Shared.Settings.AppSettings;
+using AiryPayNew.Shared.Settings;
+using AiryPayNew.Shared.Settings.AppSettingsNested;
 using Microsoft.Extensions.Configuration;
 
 namespace AiryPayNew.Shared.Utils;

@@ -1,5 +1,5 @@
 ﻿using System.Net;
-using AiryPayNew.Shared.Settings.AppSettings;
+using AiryPayNew.Shared.Settings;
 
 namespace AiryPayNew.Web.Http.Middlewares;
 

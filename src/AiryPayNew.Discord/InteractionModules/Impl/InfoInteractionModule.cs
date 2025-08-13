@@ -3,7 +3,7 @@ using AiryPayNew.Discord.Localization;
 using AiryPayNew.Discord.Utils;
 using AiryPayNew.Domain.Common;
 using AiryPayNew.Domain.Entities.Withdrawals;
-using AiryPayNew.Shared.Settings.AppSettings;
+using AiryPayNew.Shared.Settings;
 using Discord;
 using Discord.Interactions;
 using MediatR;

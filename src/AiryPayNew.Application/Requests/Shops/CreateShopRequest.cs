@@ -1,5 +1,5 @@
 ﻿using AiryPayNew.Domain.Entities.Shops;
-using AiryPayNew.Shared.Settings.AppSettings;
+using AiryPayNew.Shared.Settings;
 using MediatR;
 
 namespace AiryPayNew.Application.Requests.Shops;

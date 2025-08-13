@@ -1,6 +1,6 @@
 ﻿using AiryPayNew.Shared.Settings.Models;
 
-namespace AiryPayNew.Shared.Settings.AppSettings;
+namespace AiryPayNew.Shared.Settings.AppSettingsNested;
 
 public class Discord
 {

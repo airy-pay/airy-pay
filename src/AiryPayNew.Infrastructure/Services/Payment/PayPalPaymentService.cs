@@ -4,7 +4,7 @@ using System.Text.Json;
 using AiryPayNew.Application.Payments;
 using AiryPayNew.Domain.Common.Result;
 using AiryPayNew.Domain.Entities.Bills;
-using AiryPayNew.Shared.Settings.AppSettings;
+using AiryPayNew.Shared.Settings.AppSettingsNested;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 

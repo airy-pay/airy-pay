@@ -11,11 +11,11 @@ using Stripe.Checkout;
 public class StripePaymentService : IPaymentService
 {
     private const string NameConst = "Stripe";
-    private readonly Shared.Settings.AppSettings.Stripe _settings;
+    private readonly Shared.Settings.AppSettingsNested.Stripe _settings;
     private readonly ILogger<StripePaymentService> _logger;
 
     public StripePaymentService(
-        IOptions<Shared.Settings.AppSettings.Stripe> settings,
+        IOptions<Shared.Settings.AppSettingsNested.Stripe> settings,
         ILogger<StripePaymentService> logger)
     {
         _settings = settings.Value;

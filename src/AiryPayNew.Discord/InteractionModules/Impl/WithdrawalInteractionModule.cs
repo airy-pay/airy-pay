@@ -1,7 +1,7 @@
 ﻿using AiryPayNew.Application.Requests.Withdrawals;
 using AiryPayNew.Discord.Localization;
 using AiryPayNew.Discord.Utils;
-using AiryPayNew.Shared.Settings.AppSettings;
+using AiryPayNew.Shared.Settings;
 using Discord;
 using Discord.Interactions;
 using MediatR;
