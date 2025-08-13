@@ -49,18 +49,20 @@ public static class DependencyInjection
         #region Add payment services
 
         serviceCollection.AddSingleton(new RuKassaClient(
-            appSettings.PaymentSettings.RuKassa.MerchantId,
-            appSettings.PaymentSettings.RuKassa.Token,
-            appSettings.PaymentSettings.RuKassa.UserEmail,
-            appSettings.PaymentSettings.RuKassa.UserPassword));
+            appSettings.PaymentSettings.RuKassaSettings.MerchantId,
+            appSettings.PaymentSettings.RuKassaSettings.Token,
+            appSettings.PaymentSettings.RuKassaSettings.UserEmail,
+            appSettings.PaymentSettings.RuKassaSettings.UserPassword));
         serviceCollection.AddSingleton(new FinPayApiClient(
-            appSettings.PaymentSettings.FinPay.ShopId,
-            appSettings.PaymentSettings.FinPay.Key1,
-            appSettings.PaymentSettings.FinPay.Key2
+            appSettings.PaymentSettings.FinPaySettings.ShopId,
+            appSettings.PaymentSettings.FinPaySettings.Key1,
+            appSettings.PaymentSettings.FinPaySettings.Key2
             ));
 
         serviceCollection.AddTransient<IPaymentService, RuKassaPaymentService>();
         serviceCollection.AddTransient<IPaymentService, FinPayPaymentService>();
+        serviceCollection.AddTransient<IPaymentService, PayPalPaymentService>();
+        serviceCollection.AddTransient<IPaymentService, StripePaymentService>();
         
         #endregion
 
