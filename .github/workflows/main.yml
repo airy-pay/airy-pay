@@ -26,8 +26,8 @@ jobs:
 
       - name: Run tests
         run: |
-          dotnet test ./tests/AiryPayNew.Tests.Application/AiryPayNew.Tests.Application.csproj
-          dotnet test ./tests/AiryPayNew.Tests.Architecture/AiryPayNew.Tests.Architecture.csproj
+          dotnet test ./tests/AiryPay.Tests.Application/AiryPay.Tests.Application.csproj
+          dotnet test ./tests/AiryPay.Tests.Architecture/AiryPay.Tests.Architecture.csproj
 
       - name: Deploy to Server
         if: success()

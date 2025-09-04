@@ -15,7 +15,7 @@
       - "RABBITMQ_WEB_PORT=${RABBITMQ_WEB_PORT}"
     build:
       context: .
-      dockerfile: src/AiryPayNew.Discord/Dockerfile
+      dockerfile: src/AiryPay.Discord/Dockerfile
     volumes:
       - ./src:/app/src
       - ./appsettings.json:/app/appsettings.json:ro
@@ -37,7 +37,7 @@
       - "RABBITMQ_WEB_PORT=${RABBITMQ_WEB_PORT}"
     build:
       context: .
-      dockerfile: src/AiryPayNew.Web/Dockerfile
+      dockerfile: src/AiryPay.Web/Dockerfile
     volumes:
       - ./src:/app/src
       - ./appsettings.json:/app/appsettings.json:ro

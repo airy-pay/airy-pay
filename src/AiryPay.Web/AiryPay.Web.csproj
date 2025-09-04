@@ -1,0 +1,32 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+
+    <PropertyGroup>
+        <TargetFramework>net8.0</TargetFramework>
+        <Nullable>enable</Nullable>
+        <ImplicitUsings>enable</ImplicitUsings>
+        <DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>
+    </PropertyGroup>
+
+    <ItemGroup>
+        <PackageReference Include="Discord.Addons.Hosting" Version="6.1.0" />
+        <PackageReference Include="Discord.Net" Version="3.14.1" />
+        <PackageReference Include="Microsoft.AspNetCore.OpenApi" Version="8.0.3"/>
+        <PackageReference Include="Swashbuckle.AspNetCore" Version="6.4.0"/>
+        <PackageReference Include="Serilog.AspNetCore" Version="8.0.2-dev-00341" />
+        <PackageReference Include="YamlDotNet" Version="15.3.0" />
+        <PackageReference Include="Alexinea.Extensions.Configuration.Yaml" Version="7.0.0" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <Content Include="..\..\.dockerignore">
+        <Link>.dockerignore</Link>
+      </Content>
+    </ItemGroup>
+
+    <ItemGroup>
+      <ProjectReference Include="..\AiryPay.Application\AiryPay.Application.csproj" />
+      <ProjectReference Include="..\AiryPay.Infrastructure\AiryPay.Infrastructure.csproj" />
+      <ProjectReference Include="..\AiryPay.Shared\AiryPay.Shared.csproj" />
+    </ItemGroup>
+
+</Project>

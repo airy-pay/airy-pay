@@ -54,11 +54,11 @@ docker compose up -d
 
 Create migration
 ```
-dotnet ef migrations add --project src/AiryPayNew.Infrastructure/AiryPayNew.Infrastructure.csproj --startup-project src/AiryPayNew.Discord/AiryPayNew.Discord.csproj --context AiryPayNew.Infrastructure.Data.ApplicationDbContext --configuration Debug --verbose <Migration name>
+dotnet ef migrations add --project src/AiryPay.Infrastructure/AiryPay.Infrastructure.csproj --startup-project src/AiryPay.Discord/AiryPay.Discord.csproj --context AiryPay.Infrastructure.Data.ApplicationDbContext --configuration Debug --verbose <Migration name>
 ```
 Apply migrations
 ```
-dotnet ef database update --project src/AiryPayNew.Infrastructure/AiryPayNew.Infrastructure.csproj --startup-project src/AiryPayNew.Discord/AiryPayNew.Discord.csproj --context AiryPayNew.Infrastructure.Data.ApplicationDbContext --configuration Debug --verbose
+dotnet ef database update --project src/AiryPay.Infrastructure/AiryPay.Infrastructure.csproj --startup-project src/AiryPay.Discord/AiryPay.Discord.csproj --context AiryPay.Infrastructure.Data.ApplicationDbContext --configuration Debug --verbose
 ```
 
 </details>

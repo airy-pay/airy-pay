@@ -1,7 +1,7 @@
-﻿using AiryPayNew.Shared.Settings.AppSettingsNested.PaymentSystemsSettings;
+﻿using AiryPay.Shared.Settings.AppSettingsNested.PaymentSystemsSettings;
 using YamlDotNet.Serialization;
 
-namespace AiryPayNew.Shared.Settings.AppSettingsNested;
+namespace AiryPay.Shared.Settings.AppSettingsNested;
 
 public class PaymentSettings
 {

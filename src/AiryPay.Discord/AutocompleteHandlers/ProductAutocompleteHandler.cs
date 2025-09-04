@@ -1,0 +1,37 @@
+﻿using AiryPay.Application.Requests.Products;
+using AiryPay.Domain.Entities.Shops;
+using Discord;
+using Discord.Interactions;
+using MediatR;
+using Sqids;
+
+namespace AiryPay.Discord.AutocompleteHandlers;
+
+public class ProductAutocompleteHandler : AutocompleteHandler
+{
+    public override async Task<AutocompletionResult> GenerateSuggestionsAsync(
+        IInteractionContext context,
+        IAutocompleteInteraction autocompleteInteraction,
+        IParameterInfo parameter,
+        IServiceProvider services)
+    {
+        using var scope = services.CreateScope();
+        var mediator = scope.ServiceProvider.GetRequiredService<IMediator>();
+        var sqidsEncoder = scope.ServiceProvider.GetRequiredService<SqidsEncoder<long>>();
+
+        var getProductsFromShop = new GetProductsFromShopRequest(
+            new ShopId(context.Guild.Id));
+        var productsOperationResult = await mediator.Send(getProductsFromShop);
+        if (productsOperationResult.Failed)
+        {
+            throw new InvalidOperationException(productsOperationResult.ToString());
+        }
+        
+        var autocompleteResults = productsOperationResult.Entity
+            .Select(p =>
+                new AutocompleteResult($"{p.Name} - {p.Price}\u20bd",
+                sqidsEncoder.Encode(p.Id.Value)));
+
+        return AutocompletionResult.FromSuccess(autocompleteResults.Take(25));
+    }
+}
