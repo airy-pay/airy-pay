@@ -14,14 +14,17 @@ public class PaymentSettings
     [YamlMember(typeof(decimal), Alias = "defaultShopCommission")]
     public required decimal DefaultShopCommission { get; set; }
 
-    [YamlMember(typeof(RuKassaSettings), Alias = "ruKassa")]
+    [YamlMember(typeof(RuKassaSettings), Alias = "ruKassaSettings")]
     public required RuKassaSettings RuKassaSettings { get; set; }
     
-    [YamlMember(typeof(FinPaySettings), Alias = "finPay")]
+    [YamlMember(typeof(FinPaySettings), Alias = "finPaySettings")]
     public required FinPaySettings FinPaySettings { get; set; }
     
-    [YamlMember(typeof(FinPaySettings), Alias = "stripe")]
+    [YamlMember(typeof(StripeSettings), Alias = "stripeSettings")]
     public required StripeSettings StripeSettings { get; set; }
+    
+    [YamlMember(typeof(PayPalSettings), Alias = "payPalSettings")]
+    public required PayPalSettings PayPalSettings { get; set; }
     
     [YamlMember(typeof(IList<PaymentMethod>), Alias = "paymentMethods")]
     public required IList<PaymentMethod> PaymentMethods { get; set; }
