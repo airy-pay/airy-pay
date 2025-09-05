@@ -26,9 +26,6 @@
       <None Update="appsettings.json">
         <CopyToOutputDirectory>Always</CopyToOutputDirectory>
       </None>
-      <None Update="paymentsettings.yaml">
-        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-      </None>
       <None Remove="logs\**" />
     </ItemGroup>
 

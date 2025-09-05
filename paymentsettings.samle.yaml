@@ -1,24 +1,24 @@
 # Positive decimal numbers 
-defaultShopCommission: 12.0
+defaultShopCommission: 10.0
 
 ruKassaSettings:
-  merchantId: 1
-  token: "token goes here"
-  userEmail: "user@gmail.com"
-  userPassword: "123456"
+  merchantId: 0
+  token: ""
+  userEmail: ""
+  userPassword: ""
 
 finPaySettings:
   shopId: 1
-  key1: "key1"
-  key2: "key2"
+  key1: ""
+  key2: ""
 
 payPalSettings:
-  "clientId": 1
-  "secret": "123456"
+  "clientId": 0
+  "secret": ""
   "sandbox": true
 
 stripeSettings:
-  "apiKey": "key1"
+  "apiKey": ""
   "successUrl": ""
   "cancelUrl": ""
 
@@ -27,6 +27,6 @@ paymentMethods:
     serviceName: "Checkout"
     methodId: "card"
     discordEmoji: ":credit_card:"
-    name: "Card"
-    description: "Visa/Mastercard"
+    name: ""
+    description: ""
     minimalSum: 999.00

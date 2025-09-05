@@ -6,6 +6,6 @@ riderModule.iml
 .env
 /appsettings.json
 *.Test.cs
-/paymentsettings.yaml
+paymentsettings.yaml
 log_*.txt
 *.DotSettings.user
