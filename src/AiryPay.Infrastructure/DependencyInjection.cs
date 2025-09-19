@@ -1,13 +1,7 @@
 ﻿using AiryPay.Application.Common;
 using AiryPay.Application.Payments;
-using AiryPay.Domain.Entities.Bills;
-using AiryPay.Domain.Entities.Products;
-using AiryPay.Domain.Entities.Purchases;
-using AiryPay.Domain.Entities.ShopComplaints;
-using AiryPay.Domain.Entities.Shops;
-using AiryPay.Domain.Entities.Withdrawals;
+using AiryPay.Domain.Common;
 using AiryPay.Infrastructure.Data;
-using AiryPay.Infrastructure.Data.Repositories;
 using AiryPay.Infrastructure.Services.Messaging;
 using AiryPay.Infrastructure.Services.Payment;
 using AiryPay.Infrastructure.Utils;
@@ -17,6 +11,7 @@ using FinPay.API;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using Ru.Kassa;
+using Scrutor;
 
 namespace AiryPay.Infrastructure;
 
@@ -37,17 +32,22 @@ public static class DependencyInjection
 
         #region Add repositories
 
-        serviceCollection.AddScoped<IBillRepository, BillRepository>();
-        serviceCollection.AddScoped<IProductRepository, ProductRepository>();
-        serviceCollection.AddScoped<IPurchaseRepository, PurchaseRepository>();
-        serviceCollection.AddScoped<IShopRepository, ShopRepository>();
-        serviceCollection.AddScoped<IWithdrawalRepository, WithdrawalRepository>();
-        serviceCollection.AddScoped<IShopComplaintRepository, ShopComplaintRepository>();
-
+        serviceCollection.Scan(selector => selector
+            .FromAssemblies(typeof(DependencyInjection).Assembly)
+            .AddClasses(filter => filter
+                .InNamespaces(nameof(Data.Repositories))
+                .AssignableTo(typeof(IRepository))
+            )
+            .UsingRegistrationStrategy(RegistrationStrategy.Throw)
+            .AsMatchingInterface()
+            .WithScopedLifetime());
+        
         #endregion
 
         #region Add payment services
 
+        #region Add payment services dependencies
+        
         serviceCollection.AddSingleton(new RuKassaClient(
             appSettings.PaymentSettings.RuKassaSettings.MerchantId,
             appSettings.PaymentSettings.RuKassaSettings.Token,
@@ -57,12 +57,14 @@ public static class DependencyInjection
             appSettings.PaymentSettings.FinPaySettings.ShopId,
             appSettings.PaymentSettings.FinPaySettings.Key1,
             appSettings.PaymentSettings.FinPaySettings.Key2
-            ));
+        ));
 
         serviceCollection.AddHttpClient<IPaymentService, PayPalPaymentService>();
         serviceCollection.AddHttpClient<IPaymentService, StripePaymentService>();
         serviceCollection.AddHttpClient<IPaymentService, SquarePaymentService>();
-
+        
+        #endregion
+        
         serviceCollection.AddTransient<IPaymentService, RuKassaPaymentService>();
         serviceCollection.AddTransient<IPaymentService, FinPayPaymentService>();
         serviceCollection.AddTransient<IPaymentService, PayPalPaymentService>();
