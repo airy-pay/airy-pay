@@ -64,12 +64,16 @@ public static class DependencyInjection
         serviceCollection.AddHttpClient<IPaymentService, SquarePaymentService>();
         
         #endregion
-        
-        serviceCollection.AddTransient<IPaymentService, RuKassaPaymentService>();
-        serviceCollection.AddTransient<IPaymentService, FinPayPaymentService>();
-        serviceCollection.AddTransient<IPaymentService, PayPalPaymentService>();
-        serviceCollection.AddTransient<IPaymentService, StripePaymentService>();
-        serviceCollection.AddTransient<IPaymentService, SquarePaymentService>();
+
+        serviceCollection.Scan(selector => selector
+            .FromAssemblies(typeof(DependencyInjection).Assembly)
+            .AddClasses(filter => filter
+                .InNamespaces(nameof(Services.Payment))
+                .AssignableTo(typeof(IPaymentService))
+            )
+            .UsingRegistrationStrategy(RegistrationStrategy.Throw)
+            .AsMatchingInterface()
+            .WithTransientLifetime());
         
         #endregion
 
