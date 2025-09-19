@@ -59,9 +59,12 @@ public static class DependencyInjection
             appSettings.PaymentSettings.FinPaySettings.Key2
         ));
 
-        serviceCollection.AddHttpClient<IPaymentService, PayPalPaymentService>();
-        serviceCollection.AddHttpClient<IPaymentService, StripePaymentService>();
-        serviceCollection.AddHttpClient<IPaymentService, SquarePaymentService>();
+        serviceCollection.AddHttpClient<IPaymentService, PayPalPaymentService>()
+            .AddPaymentResilience();
+        serviceCollection.AddHttpClient<IPaymentService, StripePaymentService>()
+            .AddPaymentResilience();
+        serviceCollection.AddHttpClient<IPaymentService, SquarePaymentService>()
+            .AddPaymentResilience();
         
         #endregion
 
