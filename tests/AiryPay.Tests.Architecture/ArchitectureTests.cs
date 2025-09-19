@@ -16,6 +16,7 @@ public class ArchitectureTests
         {
             RootNamespace + nameof(AiryPay.Application),
             RootNamespace + nameof(AiryPay.Discord),
+            RootNamespace + nameof(AiryPay.Web),
             RootNamespace + nameof(AiryPay.Infrastructure)
         };
 
@@ -35,7 +36,28 @@ public class ArchitectureTests
         var otherLayers = new[]
         {
             RootNamespace + nameof(AiryPay.Discord),
+            RootNamespace + nameof(AiryPay.Web),
             RootNamespace + nameof(AiryPay.Infrastructure)
+        };
+
+        var result = Types
+            .InAssembly(layer)
+            .ShouldNot()
+            .HaveDependencyOnAll(otherLayers)
+            .GetResult();
+
+        result.IsSuccessful.Should().BeTrue();
+    }
+    
+    [Fact]
+    public void Web_Should_Not_HaveDependencyOnOtherProjects()
+    {
+        var layer = Assembly.Load(RootNamespace + nameof(AiryPay.Web));
+        var otherLayers = new[]
+        {
+            RootNamespace + nameof(AiryPay.Infrastructure),
+            RootNamespace + nameof(AiryPay.Discord),
+            RootNamespace + nameof(AiryPay.Domain)
         };
 
         var result = Types
@@ -54,6 +76,7 @@ public class ArchitectureTests
         var otherLayers = new[]
         {
             RootNamespace + nameof(AiryPay.Infrastructure),
+            RootNamespace + nameof(AiryPay.Web),
             RootNamespace + nameof(AiryPay.Domain)
         };
 
