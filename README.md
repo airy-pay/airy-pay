@@ -3,24 +3,24 @@
     AiryPay
 </h1>
 
-![Main workflow](https://github.com/airy-pay/airy-pay-new/actions/workflows/main.yml/badge.svg)
-![Main workflow](https://img.shields.io/github/v/release/airy-pay/airy-pay-new)
-![Main workflow](https://img.shields.io/github/stars/airy-pay/airy-pay-new.png)
-![Main workflow](https://img.shields.io/github/license/airy-pay/airy-pay-new)
+[![.NET Version](https://img.shields.io/badge/.NET-8.0-512BD)](https://docs.abblix.com/docs/technical-requirements)
+![WorkFlow](https://github.com/airy-pay/airy-pay-new/actions/workflows/main.yml/badge.svg)
+![Version](https://img.shields.io/github/v/release/airy-pay/airy-pay-new)
+![Stars](https://img.shields.io/github/stars/airy-pay/airy-pay-new.png)
+![License](https://img.shields.io/github/license/airy-pay/airy-pay-new)
 
 Monetize, manage and sell roles within your Discord community.
 
-<img src="./assets/banner.png" alt="Banner" width="100%">
+## Starting the project
 
-### Manual deployment
+1. Create `appsettings.json` and `paymentsettings.yaml` files in project root directory.
+Template for `appsettings.json`: `/src/AiryPay.Discord/appsettings.json`
+Template for `paymentsettings.yaml`: `/paymentsettings.samle.yaml`
+Then configure these files.
 
-1. Create `appsettings.json` and `paymentsettings.yaml` files in project root directory using templates in `./src/AiryPayPay.Discord` and configure them.
-2. Add `.env` file using template in project root directory:
+2. Add `.env` file in project root directory:
 
-<details>
-<summary>Environment file sample</summary>
-
-```js
+```shell
 DISCORD_TOKEN=""
 POSTGRES_DB=""
 POSTGRES_USER=""
@@ -32,33 +32,54 @@ RABBITMQ_PASSWORD=""
 RABBITMQ_PORT=""
 RABBITMQ_WEB_PORT=""
 ```
-</details>
 
-3. Open 80 port to allow payment callbacks.
+3. If you run in release environment open `80` and `443` ports to allow incoming payment callbacks.
 
-4. Update database using [Ef Core commands](https://github.com/airy-pay/airy-pay-new?tab=readme-ov-file#%EF%B8%8F-ef-core-commands)
+4. Update database using Entity Framework commands:
+```cs
+dotnet ef database update \
+    --project src/AiryPay.Infrastructure/AiryPay.Infrastructure.csproj \
+    --startup-project src/AiryPay.Discord/AiryPay.Discord.csproj \
+    --context AiryPay.Infrastructure.Data.ApplicationDbContext \
+    --configuration Debug \
+    --verbose \
+/
+```
+
+> [!NOTE]  
+> Run in project container terminal.
 
 5. Start the project:
 ```shell
 docker compose up -d
 ```
 
-6. Update database using EF CLI commands.
+## Basic bot setup
 
-> [!NOTE]  
-> Run in project container terminal.
+> [!IMPORTANT]  
+> Payment systems need to be configured in `paymentsettings.yaml` before setup.
 
-<details>
+<img src="./assets/setup-instruction.gif" alt="Setup">
 
-<summary>Ef Core commands</summary>
+## Commands
 
-Create migration
+Create Entity Framework migration 
 ```
-dotnet ef migrations add --project src/AiryPay.Infrastructure/AiryPay.Infrastructure.csproj --startup-project src/AiryPay.Discord/AiryPay.Discord.csproj --context AiryPay.Infrastructure.Data.ApplicationDbContext --configuration Debug --verbose <Migration name>
+dotnet ef migrations add \
+    --project src/AiryPay.Infrastructure/AiryPay.Infrastructure.csproj \
+    --startup-project src/AiryPay.Discord/AiryPay.Discord.csproj \
+    --context AiryPay.Infrastructure.Data.ApplicationDbContext \
+    --configuration Debug \
+    --verbose <Migration name> \
+/
 ```
-Apply migrations
+Apply Entity Framework migration
 ```
-dotnet ef database update --project src/AiryPay.Infrastructure/AiryPay.Infrastructure.csproj --startup-project src/AiryPay.Discord/AiryPay.Discord.csproj --context AiryPay.Infrastructure.Data.ApplicationDbContext --configuration Debug --verbose
+dotnet ef database update \
+    --project src/AiryPay.Infrastructure/AiryPay.Infrastructure.csproj \
+    --startup-project src/AiryPay.Discord/AiryPay.Discord.csproj \
+    --context AiryPay.Infrastructure.Data.ApplicationDbContext \
+    --configuration Debug \
+    --verbose \
+/
 ```
-
-</details>
