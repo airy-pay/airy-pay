@@ -61,11 +61,13 @@ public static class DependencyInjection
 
         serviceCollection.AddHttpClient<IPaymentService, PayPalPaymentService>();
         serviceCollection.AddHttpClient<IPaymentService, StripePaymentService>();
+        serviceCollection.AddHttpClient<IPaymentService, SquarePaymentService>();
 
         serviceCollection.AddTransient<IPaymentService, RuKassaPaymentService>();
         serviceCollection.AddTransient<IPaymentService, FinPayPaymentService>();
         serviceCollection.AddTransient<IPaymentService, PayPalPaymentService>();
         serviceCollection.AddTransient<IPaymentService, StripePaymentService>();
+        serviceCollection.AddTransient<IPaymentService, SquarePaymentService>();
         
         #endregion
 
