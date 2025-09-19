@@ -23,6 +23,9 @@ public class PaymentSettings
     [YamlMember(typeof(StripeSettings), Alias = "stripeSettings")]
     public required StripeSettings StripeSettings { get; set; }
     
+    [YamlMember(typeof(SquareSettings), Alias = "squareSettings")]
+    public required SquareSettings SquareSettings { get; set; }
+    
     [YamlMember(typeof(PayPalSettings), Alias = "payPalSettings")]
     public required PayPalSettings PayPalSettings { get; set; }
     

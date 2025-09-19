@@ -17,6 +17,10 @@ payPalSettings:
   "secret": ""
   "sandbox": true
 
+squareSettings:
+  "accessToken": ""
+  "sandbox": true
+
 stripeSettings:
   "apiKey": ""
   "successUrl": ""
