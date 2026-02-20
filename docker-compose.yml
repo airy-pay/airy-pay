@@ -67,7 +67,7 @@
     restart: always
   
   postgres:
-    image: postgres:latest
+    image: postgres:17
     environment:
       - POSTGRES_DB=${POSTGRES_DB}
       - POSTGRES_USER=${POSTGRES_USER}

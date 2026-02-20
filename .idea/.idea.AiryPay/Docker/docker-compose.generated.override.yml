@@ -2,7 +2,7 @@
 services:
   airypay.discord:
     build:
-      context: "C:\\Users\\oqo0\\RiderProjects\\AiryPayNew"
+      context: "C:\\Users\\oqrom\\RiderProjects\\airy-pay"
       dockerfile: "src/AiryPay.Discord/Dockerfile"
       target: "build"
     command: []
@@ -14,13 +14,13 @@ services:
     image: "airypay.discord:dev"
     ports: []
     volumes:
-    - "C:\\Users\\oqo0\\.nuget\\packages:/root/.nuget/packages"
-    - "C:\\Users\\oqo0\\RiderProjects\\AiryPayNew\\src\\AiryPay.Discord:/app:rw"
-    - "C:\\Users\\oqo0\\RiderProjects\\AiryPayNew:/src:rw"
+    - "C:\\Users\\oqrom\\RiderProjects\\airy-pay\\src\\AiryPay.Discord:/app:rw"
+    - "C:\\Users\\oqrom\\RiderProjects\\airy-pay:/src:rw"
+    - "C:\\Users\\oqrom\\.nuget\\packages:/root/.nuget/packages"
     working_dir: "/app"
   airypay.web:
     build:
-      context: "C:\\Users\\oqo0\\RiderProjects\\AiryPayNew"
+      context: "C:\\Users\\oqrom\\RiderProjects\\airy-pay"
       dockerfile: "src/AiryPay.Web/Dockerfile"
       target: "build"
     command: []
@@ -32,7 +32,7 @@ services:
     image: "airypay.web:dev"
     ports: []
     volumes:
-    - "C:\\Users\\oqo0\\.nuget\\packages:/root/.nuget/packages"
-    - "C:\\Users\\oqo0\\RiderProjects\\AiryPayNew\\src\\AiryPay.Web:/app:rw"
-    - "C:\\Users\\oqo0\\RiderProjects\\AiryPayNew:/src:rw"
+    - "C:\\Users\\oqrom\\RiderProjects\\airy-pay\\src\\AiryPay.Web:/app:rw"
+    - "C:\\Users\\oqrom\\RiderProjects\\airy-pay:/src:rw"
+    - "C:\\Users\\oqrom\\.nuget\\packages:/root/.nuget/packages"
     working_dir: "/app"
