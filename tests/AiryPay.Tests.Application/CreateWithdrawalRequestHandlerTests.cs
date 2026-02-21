@@ -1,4 +1,4 @@
-﻿using AiryPay.Application.Requests.Withdrawals;
+using AiryPay.Application.Requests.Withdrawals;
 using AiryPay.Domain.Common;
 using AiryPay.Domain.Entities.Shops;
 using AiryPay.Domain.Entities.Withdrawals;
@@ -115,5 +115,36 @@ public class CreateWithdrawalRequestHandlerTests
 
         // Assert
         result.Successful.Should().BeFalse();
+    }
+
+    [Fact]
+    public async Task Handle_WhenValid_ShouldUpdateBalanceAndCreateWithdrawal()
+    {
+        // Arrange
+        var shopId = new ShopId(1);
+        var request = new CreateWithdrawalRequest(shopId, 1000, "card", "account123");
+        var shop = new Shop { Id = shopId, Balance = 5000, Language = new Language("en") };
+        Mock<IWithdrawalRepository> mockWithdrawalRepository = new();
+        _mockShopRepository.Setup(repo => repo.GetByIdNoTrackingAsync(shopId, It.IsAny<CancellationToken>()))
+            .ReturnsAsync(shop);
+
+        var handler = new CreateWithdrawalRequestHandler(mockWithdrawalRepository.Object, _mockShopRepository.Object);
+
+        // Act
+        var result = await handler.Handle(request, CancellationToken.None);
+
+        // Assert
+        result.Successful.Should().BeTrue();
+        _mockShopRepository.Verify(
+            repo => repo.UpdateBalanceAsync(shopId, -1000, It.IsAny<CancellationToken>()),
+            Times.Once);
+        mockWithdrawalRepository.Verify(
+            repo => repo.CreateAsync(It.Is<Withdrawal>(w =>
+                w.Amount == 1000 &&
+                w.Way == "card" &&
+                w.ReceivingAccountNumber == "account123" &&
+                w.ShopId == shopId),
+                It.IsAny<CancellationToken>()),
+            Times.Once);
     }
 }

@@ -4,32 +4,29 @@
         <TargetFramework>net8.0</TargetFramework>
         <ImplicitUsings>enable</ImplicitUsings>
         <Nullable>enable</Nullable>
-
         <IsPackable>false</IsPackable>
         <IsTestProject>true</IsTestProject>
+        <RootNamespace>AiryPay.Tests.Infrastructure</RootNamespace>
     </PropertyGroup>
 
     <ItemGroup>
+        <ProjectReference Include="..\..\src\AiryPay.Infrastructure\AiryPay.Infrastructure.csproj"/>
+    </ItemGroup>
+
+    <ItemGroup>
         <PackageReference Include="coverlet.collector" Version="6.0.0"/>
-        <PackageReference Include="FluentAssertions" Version="7.0.0-alpha.4" />
+        <PackageReference Include="FluentAssertions" Version="7.0.0-alpha.4"/>
+        <PackageReference Include="Microsoft.Extensions.Http" Version="8.0.1"/>
+        <PackageReference Include="Microsoft.Extensions.Http.Resilience" Version="8.10.0"/>
         <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.8.0"/>
-        <PackageReference Include="Moq" Version="4.20.70" />
+        <PackageReference Include="Moq" Version="4.20.70"/>
         <PackageReference Include="xunit" Version="2.5.3"/>
         <PackageReference Include="xunit.runner.visualstudio" Version="2.5.3"/>
     </ItemGroup>
 
     <ItemGroup>
         <Using Include="Xunit"/>
-    </ItemGroup>
-
-    <ItemGroup>
-      <ProjectReference Include="..\..\src\AiryPay.Application\AiryPay.Application.csproj" />
-      <ProjectReference Include="..\..\src\AiryPay.Domain\AiryPay.Domain.csproj" />
-      <ProjectReference Include="..\..\src\AiryPay.Shared\AiryPay.Shared.csproj" />
-    </ItemGroup>
-
-    <ItemGroup>
-      <Using Include="FluentAssertions"/>
+        <Using Include="FluentAssertions"/>
     </ItemGroup>
 
 </Project>

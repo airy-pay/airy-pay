@@ -7,7 +7,12 @@
 
         <IsPackable>false</IsPackable>
         <IsTestProject>true</IsTestProject>
+        <RootNamespace>AiryPay.Tests.Domain</RootNamespace>
     </PropertyGroup>
+
+    <ItemGroup>
+        <ProjectReference Include="..\..\src\AiryPay.Domain\AiryPay.Domain.csproj"/>
+    </ItemGroup>
 
     <ItemGroup>
         <PackageReference Include="coverlet.collector" Version="6.0.0"/>
@@ -20,16 +25,7 @@
 
     <ItemGroup>
         <Using Include="Xunit"/>
-    </ItemGroup>
-
-    <ItemGroup>
-      <ProjectReference Include="..\..\src\AiryPay.Application\AiryPay.Application.csproj" />
-      <ProjectReference Include="..\..\src\AiryPay.Domain\AiryPay.Domain.csproj" />
-      <ProjectReference Include="..\..\src\AiryPay.Shared\AiryPay.Shared.csproj" />
-    </ItemGroup>
-
-    <ItemGroup>
-      <Using Include="FluentAssertions"/>
+        <Using Include="FluentAssertions"/>
     </ItemGroup>
 
 </Project>
