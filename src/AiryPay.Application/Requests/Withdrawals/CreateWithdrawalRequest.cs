@@ -1,6 +1,7 @@
 ﻿using AiryPay.Domain.Common.Result;
 using AiryPay.Domain.Entities.Shops;
 using AiryPay.Domain.Entities.Withdrawals;
+using AiryPay.Shared.Settings;
 using MediatR;
 
 namespace AiryPay.Application.Requests.Withdrawals;
@@ -27,7 +28,8 @@ public record CreateWithdrawalRequest(
 
 public class CreateWithdrawalRequestHandler(
     IWithdrawalRepository withdrawalRepository,
-    IShopRepository shopRepository)
+    IShopRepository shopRepository,
+    AppSettings appSettings)
     : IRequestHandler<CreateWithdrawalRequest, Result<Error>>
 {
     private readonly List<string> _withdrawalWays = ["card"];
@@ -50,8 +52,7 @@ public class CreateWithdrawalRequestHandler(
         if (shop is null)
             return resultBuilder.WithError(Error.ShopNotFound);
         
-        const int minimalWithdrawalAmount = 500;
-        if (request.Amount < minimalWithdrawalAmount)
+        if (request.Amount < appSettings.PaymentSettings.MinimalWithdrawalAmount)
             return resultBuilder.WithError(Error.WithdrawalAmountTooLow);
         if (shop.Balance < request.Amount)
             return resultBuilder.WithError(Error.InsufficientFunds);

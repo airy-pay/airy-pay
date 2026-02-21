@@ -2,7 +2,8 @@ using AiryPay.Application.Requests.Withdrawals;
 using AiryPay.Domain.Common;
 using AiryPay.Domain.Entities.Shops;
 using AiryPay.Domain.Entities.Withdrawals;
-using FluentAssertions;
+using AiryPay.Shared.Settings;
+using AiryPay.Shared.Settings.AppSettingsNested;
 using Moq;
 
 namespace AiryPay.Tests.Application;
@@ -10,13 +11,37 @@ namespace AiryPay.Tests.Application;
 public class CreateWithdrawalRequestHandlerTests
 {
     private readonly Mock<IShopRepository> _mockShopRepository;
+    private readonly AppSettings _appSettings;
     private readonly CreateWithdrawalRequestHandler _handler;
 
     public CreateWithdrawalRequestHandlerTests()
     {
         Mock<IWithdrawalRepository> mockWithdrawalRepository = new();
         _mockShopRepository = new Mock<IShopRepository>();
-        _handler = new CreateWithdrawalRequestHandler(mockWithdrawalRepository.Object, _mockShopRepository.Object);
+
+        _appSettings = new AppSettings
+        {
+            PaymentSettings = new PaymentSettings
+            {
+                MinimalWithdrawalAmount = 500,
+                DefaultShopCommission = 0,
+                RuKassaSettings = null!,
+                FinPaySettings = null!,
+                StripeSettings = null!,
+                SquareSettings = null!,
+                PayPalSettings = null!,
+                PaymentMethods = null!
+            },
+            Language = null!,
+            BotSupportedLanguages = null!,
+            Kestrel = null!,
+            Discord = null!
+        };
+
+        _handler = new CreateWithdrawalRequestHandler(
+            mockWithdrawalRepository.Object,
+            _mockShopRepository.Object,
+            _appSettings);
     }
 
     [Fact]
@@ -93,7 +118,7 @@ public class CreateWithdrawalRequestHandlerTests
         var shop = new Shop { Id = new ShopId(1), Balance = 1000, Language = new Language("en") };
         _mockShopRepository.Setup(repo => repo.GetByIdNoTrackingAsync(It.IsAny<ShopId>(), It.IsAny<CancellationToken>()))
             .ReturnsAsync(shop);
-
+        
         // Act
         var result = await _handler.Handle(request, CancellationToken.None);
 
@@ -128,7 +153,10 @@ public class CreateWithdrawalRequestHandlerTests
         _mockShopRepository.Setup(repo => repo.GetByIdNoTrackingAsync(shopId, It.IsAny<CancellationToken>()))
             .ReturnsAsync(shop);
 
-        var handler = new CreateWithdrawalRequestHandler(mockWithdrawalRepository.Object, _mockShopRepository.Object);
+        var handler = new CreateWithdrawalRequestHandler(
+            mockWithdrawalRepository.Object,
+            _mockShopRepository.Object,
+            _appSettings);
 
         // Act
         var result = await handler.Handle(request, CancellationToken.None);

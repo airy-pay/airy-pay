@@ -24,6 +24,7 @@ public static class AppSettingsFactory
             PaymentSettings = new PaymentSettings
             {
                 DefaultShopCommission = defaultShopCommission,
+                MinimalWithdrawalAmount = 500,
                 RuKassaSettings = new RuKassaSettings
                 {
                     MerchantId = 0,

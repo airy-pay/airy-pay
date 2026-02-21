@@ -13,6 +13,15 @@ public class PaymentSettings
     /// </exception>
     [YamlMember(typeof(decimal), Alias = "defaultShopCommission")]
     public required decimal DefaultShopCommission { get; set; }
+    
+    /// <summary>
+    /// Minimal money withdrawal amount
+    /// </summary>
+    /// <exception cref="ArgumentException">
+    /// Thrown is value if below zero
+    /// </exception>
+    [YamlMember(typeof(decimal), Alias = "minimalWithdrawalAmount")]
+    public required decimal MinimalWithdrawalAmount { get; set; }
 
     [YamlMember(typeof(RuKassaSettings), Alias = "ruKassaSettings")]
     public required RuKassaSettings RuKassaSettings { get; set; }
