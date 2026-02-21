@@ -2,6 +2,7 @@
 using AiryPay.Application.Payments;
 using AiryPay.Domain.Common;
 using AiryPay.Infrastructure.Data;
+using AiryPay.Infrastructure.Data.Repositories;
 using AiryPay.Infrastructure.Services.Messaging;
 using AiryPay.Infrastructure.Services.Payment;
 using AiryPay.Infrastructure.Utils;
@@ -33,10 +34,11 @@ public static class DependencyInjection
         #region Add repositories
 
         serviceCollection.Scan(selector => selector
-            .FromAssemblies(typeof(DependencyInjection).Assembly)
-            .AddClasses(filter => filter
-                .InNamespaces(nameof(Data.Repositories))
-                .AssignableTo(typeof(IRepository))
+            .FromAssemblyOf<ApplicationDbContext>()
+            .AddClasses(classes => classes
+                .InNamespaces(typeof(ProductRepository).Namespace!)
+                .AssignableTo<IRepository>(),
+                publicOnly: false
             )
             .UsingRegistrationStrategy(RegistrationStrategy.Throw)
             .AsMatchingInterface()
