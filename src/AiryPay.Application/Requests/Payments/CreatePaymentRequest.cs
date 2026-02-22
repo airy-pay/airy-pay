@@ -76,9 +76,8 @@ public class CreatePaymentRequestHandler(
         
         var paymentUrlResult = await paymentService.CreateAsync(bill, request.PaymentMethodId);
 
-        logger.LogInformation(string.Format(
-            "Successfully created a new payment for bill #{0}",
-            newBill.Id));
+        logger.LogInformation("Created payment for bill {BillId}, shop {ShopId}, buyer {BuyerId}.",
+            newBill.Id, shop.Id.Value, request.BuyerId);
         
         return Result<string, RequestError>.Success(paymentUrlResult.Entity);
     }

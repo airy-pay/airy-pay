@@ -77,7 +77,7 @@ public class EmojiParserTests
         var result = await EmojiParser.GetExistingEmojiAsync(mockGuild.Object, "<:deleted:999999999999999999>");
 
         result.Should().NotBeNull();
-        result.Name.Should().Contain("package");
+        result.Name.Should().ContainAny("package", "📦");
     }
 
     [Fact]

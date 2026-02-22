@@ -2,6 +2,7 @@
 using AiryPay.Domain.Entities.ShopComplaints;
 using AiryPay.Domain.Entities.Shops;
 using MediatR;
+using Microsoft.Extensions.Logging;
 
 namespace AiryPay.Application.Requests.ShopComplaints;
 
@@ -23,7 +24,8 @@ public record CreateShopComplaintRequest(
 
 public class CreateShopComplaintRequestHandler(
     IShopComplaintRepository shopComplaintRepository,
-    IShopRepository shopRepository)
+    IShopRepository shopRepository,
+    ILogger<CreateShopComplaintRequestHandler> logger)
     : IRequestHandler<CreateShopComplaintRequest, Result<Error>>
 {
     public async Task<Result<Error>> Handle(
@@ -45,10 +47,16 @@ public class CreateShopComplaintRequestHandler(
         var userComplaints = await shopRepository.GetShopComplaintsAsync(
             request.ShopId, cancellationToken, request.CreatorDiscordUserId);
         if (userComplaints.Count >= 10)
+        {
+            logger.LogWarning("User {UserId} exceeded complaint limit for shop {ShopId}.",
+                request.CreatorDiscordUserId, request.ShopId.Value);
             return resultBuilder.WithError(Error.TooManyComplaints);
-        
+        }
+
         await shopComplaintRepository.CreateAsync(newShopComplaint, cancellationToken);
-        
+
+        logger.LogInformation("Complaint created for shop {ShopId} by user {UserId}.",
+            request.ShopId.Value, request.CreatorDiscordUserId);
         return resultBuilder.WithSuccess();
     }
 }

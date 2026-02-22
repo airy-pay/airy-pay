@@ -1,6 +1,7 @@
 ﻿using AiryPay.Domain.Entities.Shops;
 using AiryPay.Shared.Settings;
 using MediatR;
+using Microsoft.Extensions.Logging;
 
 namespace AiryPay.Application.Requests.Shops;
 
@@ -8,7 +9,8 @@ public record CreateShopRequest(ShopId ShopId) : IRequest;
 
 public class CreateShopRequestHandler(
     IShopRepository shopRepository,
-    AppSettings appSettings) : IRequestHandler<CreateShopRequest>
+    AppSettings appSettings,
+    ILogger<CreateShopRequestHandler> logger) : IRequestHandler<CreateShopRequest>
 {
     public async Task Handle(CreateShopRequest request, CancellationToken cancellationToken)
     {
@@ -26,5 +28,6 @@ public class CreateShopRequestHandler(
         };
 
         await shopRepository.CreateAsync(shop, cancellationToken);
+        logger.LogInformation("Created shop {ShopId}.", shop.Id.Value);
     }
 }

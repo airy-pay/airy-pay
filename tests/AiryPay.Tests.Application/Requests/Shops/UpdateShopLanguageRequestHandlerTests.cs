@@ -3,6 +3,7 @@ using AiryPay.Domain.Common;
 using AiryPay.Domain.Entities.Shops;
 using AiryPay.Tests.Application.TestHelpers;
 using FluentAssertions;
+using Microsoft.Extensions.Logging;
 using Moq;
 
 namespace AiryPay.Tests.Application.Requests.Shops;
@@ -16,7 +17,8 @@ public class UpdateShopLanguageRequestHandlerTests
     {
         _mockShopRepository = new Mock<IShopRepository>();
         var appSettings = AppSettingsFactory.Create(botSupportedLanguages: [new Language("en"), new Language("ru")]);
-        _handler = new UpdateShopLanguageRequestHandler(_mockShopRepository.Object, appSettings);
+        var mockLogger = new Mock<ILogger<UpdateShopLanguageRequestHandler>>();
+        _handler = new UpdateShopLanguageRequestHandler(_mockShopRepository.Object, appSettings, mockLogger.Object);
     }
 
     [Fact]

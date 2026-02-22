@@ -1,4 +1,3 @@
-using AiryPay.Application.Requests.Payments;
 using AiryPay.Application.Requests.Products;
 using AiryPay.Domain.Common;
 using AiryPay.Domain.Entities.Products;
@@ -15,7 +14,7 @@ public class CreateProductRequestHandlerTests
     private readonly Mock<IProductRepository> _mockProductRepository;
     private readonly Mock<IShopRepository> _mockShopRepository;
     private readonly Mock<IValidator<ProductModel>> _mockValidator;
-    private readonly Mock<ILogger<CreatePaymentRequestHandler>> _mockLogger;
+    private readonly Mock<ILogger<CreateProductRequestHandler>> _mockLogger;
     private readonly CreateProductRequestHandler _handler;
 
     public CreateProductRequestHandlerTests()
@@ -23,7 +22,7 @@ public class CreateProductRequestHandlerTests
         _mockProductRepository = new Mock<IProductRepository>();
         _mockShopRepository = new Mock<IShopRepository>();
         _mockValidator = new Mock<IValidator<ProductModel>>();
-        _mockLogger = new Mock<ILogger<CreatePaymentRequestHandler>>();
+        _mockLogger = new Mock<ILogger<CreateProductRequestHandler>>();
         _handler = new CreateProductRequestHandler(
             _mockProductRepository.Object,
             _mockShopRepository.Object,

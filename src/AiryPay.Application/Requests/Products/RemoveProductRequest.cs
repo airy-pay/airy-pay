@@ -20,10 +20,8 @@ public class RemoveProductRequestHandler(
         if (product.ShopId != request.ShopId)
             return;
         
-        logger.LogInformation(string.Format(
-            "Successfully removed product with id #{0}",
-            product.Id.Value));
-        
         await productRepository.DeleteAsync(request.ProductId, cancellationToken);
+        logger.LogInformation("Removed product {ProductId} from shop {ShopId}.",
+            product.Id.Value, request.ShopId.Value);
     }
 }

@@ -26,7 +26,7 @@ public class CreateProductRequestHandler(
     IProductRepository productRepository,
     IShopRepository shopRepository,
     IValidator<ProductModel> productValidator,
-    ILogger<CreatePaymentRequestHandler> logger)
+    ILogger<CreateProductRequestHandler> logger)
     : IRequestHandler<CreateProductRequest, Result<RequestError>>
 {
     public async Task<Result<RequestError>> Handle(
@@ -56,10 +56,8 @@ public class CreateProductRequestHandler(
         };
         
         newProduct.Id = await productRepository.CreateAsync(newProduct, cancellationToken);
-        logger.LogInformation(string.Format(
-            "Created a new product with id #{0} in shop #{1}",
-            newProduct.Id.Value,
-            shop.Id.Value));
+        logger.LogInformation("Created product {ProductId} '{ProductName}' in shop {ShopId}.",
+            newProduct.Id.Value, newProduct.Name, shop.Id.Value);
         
         return resultBuilder.WithSuccess();
     }

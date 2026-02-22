@@ -29,10 +29,7 @@ public class CompletePaymentRequestHandler(
         var bill = await billRepository.GetByIdNoTrackingAsync(request.BillId, cancellationToken);
         if (bill is null)
         {
-            logger.LogInformation(
-                string.Format("Tried to complete payment, but bill with id {0} was not found.",
-                request.BillId.Value));
-            
+            logger.LogWarning("Tried to complete payment, but bill {BillId} was not found.", request.BillId.Value);
             return Result<CompletePaymentRequest.Error>.Fail(CompletePaymentRequest.Error.BillNotFound);
         }
 
@@ -51,10 +48,8 @@ public class CompletePaymentRequestHandler(
         var shopBalanceChange = bill.Product.Price * commissionMultiplier;
         await shopRepository.UpdateBalanceAsync(bill.ShopId, shopBalanceChange, cancellationToken);
         
-        logger.LogInformation(
-            string.Format("Successfully completed a payment for bill with id {0}. New purchase id: {1}",
-                request.BillId.Value,
-                purchaseId.Value));
+        logger.LogInformation("Completed payment for bill {BillId}. Purchase {PurchaseId} created, shop {ShopId} credited {Amount:F2}.",
+            bill.Id.Value, purchaseId.Value, bill.ShopId.Value, shopBalanceChange);
         
         return Result<CompletePaymentRequest.Error>.Success();
     }

@@ -3,6 +3,7 @@ using AiryPay.Domain.Entities.Products;
 using AiryPay.Domain.Entities.Shops;
 using FluentValidation;
 using MediatR;
+using Microsoft.Extensions.Logging;
 
 namespace AiryPay.Application.Requests.Products;
 
@@ -27,7 +28,8 @@ public record EditProductRequest(
 public class EditProductRequestHandler(
     IShopRepository shopRepository,
     IProductRepository productRepository,
-    IValidator<ProductModel> productValidator)
+    IValidator<ProductModel> productValidator,
+    ILogger<EditProductRequestHandler> logger)
     : IRequestHandler<EditProductRequest, Result<Error>>
 {
     public async Task<Result<Error>> Handle(
@@ -58,7 +60,10 @@ public class EditProductRequestHandler(
             request.ProductModel.Price,
             request.ProductModel.DiscordRoleId,
             cancellationToken);
-        
+
+        logger.LogInformation("Updated product {ProductId} in shop {ShopId}.",
+            request.ProductId.Value, request.ShopId.Value);
+
         return Result<Error>.Success();
     }
 }

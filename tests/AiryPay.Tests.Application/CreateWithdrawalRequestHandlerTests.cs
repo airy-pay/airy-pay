@@ -4,6 +4,7 @@ using AiryPay.Domain.Entities.Shops;
 using AiryPay.Domain.Entities.Withdrawals;
 using AiryPay.Shared.Settings;
 using AiryPay.Shared.Settings.AppSettingsNested;
+using Microsoft.Extensions.Logging;
 using Moq;
 
 namespace AiryPay.Tests.Application;
@@ -43,10 +44,12 @@ public class CreateWithdrawalRequestHandlerTests
             }
         };
 
+        var mockLogger = new Mock<ILogger<CreateWithdrawalRequestHandler>>();
         _handler = new CreateWithdrawalRequestHandler(
             mockWithdrawalRepository.Object,
             _mockShopRepository.Object,
-            _appSettings);
+            _appSettings,
+            mockLogger.Object);
     }
 
     [Fact]
@@ -158,10 +161,12 @@ public class CreateWithdrawalRequestHandlerTests
         _mockShopRepository.Setup(repo => repo.GetByIdNoTrackingAsync(shopId, It.IsAny<CancellationToken>()))
             .ReturnsAsync(shop);
 
+        var mockLogger2 = new Mock<ILogger<CreateWithdrawalRequestHandler>>();
         var handler = new CreateWithdrawalRequestHandler(
             mockWithdrawalRepository.Object,
             _mockShopRepository.Object,
-            _appSettings);
+            _appSettings,
+            mockLogger2.Object);
 
         // Act
         var result = await handler.Handle(request, CancellationToken.None);

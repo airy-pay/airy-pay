@@ -2,6 +2,7 @@ using AiryPay.Application.Requests.ShopComplaints;
 using AiryPay.Domain.Entities.ShopComplaints;
 using AiryPay.Domain.Entities.Shops;
 using FluentAssertions;
+using Microsoft.Extensions.Logging;
 using Moq;
 
 namespace AiryPay.Tests.Application.Requests.ShopComplaints;
@@ -16,9 +17,11 @@ public class CreateShopComplaintRequestHandlerTests
     {
         _mockComplaintRepository = new Mock<IShopComplaintRepository>();
         _mockShopRepository = new Mock<IShopRepository>();
+        var mockLogger = new Mock<ILogger<CreateShopComplaintRequestHandler>>();
         _handler = new CreateShopComplaintRequestHandler(
             _mockComplaintRepository.Object,
-            _mockShopRepository.Object);
+            _mockShopRepository.Object,
+            mockLogger.Object);
     }
 
     [Theory]

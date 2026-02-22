@@ -3,6 +3,7 @@ using AiryPay.Domain.Common.Result;
 using AiryPay.Domain.Entities.Shops;
 using AiryPay.Shared.Settings;
 using MediatR;
+using Microsoft.Extensions.Logging;
 
 namespace AiryPay.Application.Requests.Shops;
 
@@ -20,7 +21,8 @@ public record UpdateShopLanguageRequest(ShopId ShopId, Language Language)
 
 public class UpdateShopLanguageRequestHandler(
     IShopRepository shopRepository,
-    AppSettings appSettings)
+    AppSettings appSettings,
+    ILogger<UpdateShopLanguageRequestHandler> logger)
     : IRequestHandler<UpdateShopLanguageRequest, Result<Error>>
 {
     public async Task<Result<Error>> Handle(UpdateShopLanguageRequest request, CancellationToken cancellationToken)
@@ -33,10 +35,16 @@ public class UpdateShopLanguageRequestHandler(
         
         bool newLanguageIsSupported = appSettings.BotSupportedLanguages.Contains(request.Language);
         if (!newLanguageIsSupported)
+        {
+            logger.LogWarning("Language '{Language}' is not supported. Shop {ShopId} language not changed.",
+                request.Language.Code, request.ShopId.Value);
             return resultBuilder.WithError(Error.LanguageNotSupported);
-        
+        }
+
         await shopRepository.UpdateLanguageAsync(request.ShopId, request.Language, cancellationToken);
 
+        logger.LogInformation("Updated shop {ShopId} language to '{Language}'.",
+            request.ShopId.Value, request.Language.Code);
         return resultBuilder.WithSuccess();
     }
 }

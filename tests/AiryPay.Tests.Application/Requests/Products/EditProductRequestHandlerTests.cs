@@ -4,6 +4,7 @@ using AiryPay.Domain.Entities.Products;
 using AiryPay.Domain.Entities.Shops;
 using FluentAssertions;
 using FluentValidation;
+using Microsoft.Extensions.Logging;
 using Moq;
 
 namespace AiryPay.Tests.Application.Requests.Products;
@@ -20,10 +21,12 @@ public class EditProductRequestHandlerTests
         _mockShopRepository = new Mock<IShopRepository>();
         _mockProductRepository = new Mock<IProductRepository>();
         _mockValidator = new Mock<IValidator<ProductModel>>();
+        var mockLogger = new Mock<ILogger<EditProductRequestHandler>>();
         _handler = new EditProductRequestHandler(
             _mockShopRepository.Object,
             _mockProductRepository.Object,
-            _mockValidator.Object);
+            _mockValidator.Object,
+            mockLogger.Object);
     }
 
     [Fact]
