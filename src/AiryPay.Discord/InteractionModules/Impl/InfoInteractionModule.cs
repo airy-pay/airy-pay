@@ -91,12 +91,12 @@ public class InfoInteractionModule : ShopInteractionModuleBase
 
         var supportButton = new ButtonBuilder()
             .WithLabel(localizer.Support)
-            .WithUrl("https://discord.gg/Arn9RsRqD9")
+            .WithUrl(_appSettings.Links.SupportUrl)
             .WithEmote(new Emoji("💬"))
             .WithStyle(ButtonStyle.Link);
 
         var termsButton = new ButtonBuilder()
-            .WithUrl("https://airypay.ru/terms")
+            .WithUrl(_appSettings.Links.TermsUrl)
             .WithLabel(localizer.Terms)
             .WithEmote(new Emoji("📃"))
             .WithStyle(ButtonStyle.Link);

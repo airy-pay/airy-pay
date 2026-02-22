@@ -10,4 +10,5 @@ public class AppSettings
     public required Kestrel Kestrel { get; set; }
     public required Discord Discord { get; set; }
     public required PaymentSettings PaymentSettings { get; set; }
+    public required BotLinks Links { get; set; }
 }

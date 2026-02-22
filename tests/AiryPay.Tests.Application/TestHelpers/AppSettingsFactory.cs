@@ -15,11 +15,19 @@ public static class AppSettingsFactory
         return new AppSettings
         {
             Language = "en",
-            BotSupportedLanguages = botSupportedLanguages ?? [new Language("en")],
+            BotSupportedLanguages = botSupportedLanguages ??
+            [
+                new Language("en")
+            ],
             Kestrel = new Kestrel(),
             Discord = new Discord
             {
-                EmbedMessageColor = new Color { R = 0, G = 0, B = 0 }
+                EmbedMessageColor = new Color
+                {
+                    R = 0,
+                    G = 0,
+                    B = 0
+                }
             },
             PaymentSettings = new PaymentSettings
             {
@@ -41,7 +49,14 @@ public static class AppSettingsFactory
                 StripeSettings = new StripeSettings(),
                 SquareSettings = new SquareSettings(),
                 PayPalSettings = new PayPalSettings(),
-                PaymentMethods = []
+                PaymentMethods =
+                [
+                ]
+            },
+            Links = new BotLinks()
+            {
+                SupportUrl = "",
+                TermsUrl = "",
             }
         };
     }

@@ -65,12 +65,12 @@ public class SetupInteractionModule : ShopInteractionModuleBase
 
         var supportButton = new ButtonBuilder()
             .WithLabel(localizer.Support)
-            .WithUrl("https://discord.gg/Arn9RsRqD9") // TODO: Move to config
+            .WithUrl(_appSettings.Links.SupportUrl)
             .WithEmote(new Emoji("💬"))
             .WithStyle(ButtonStyle.Link);
 
         var termsButton = new ButtonBuilder()
-            .WithUrl("https://airypay.ru/terms") // TODO: Move to config
+            .WithUrl(_appSettings.Links.TermsUrl)
             .WithLabel(localizer.Terms)
             .WithEmote(new Emoji("📃"))
             .WithStyle(ButtonStyle.Link);

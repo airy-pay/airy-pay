@@ -35,7 +35,12 @@ public class CreateWithdrawalRequestHandlerTests
             Language = null!,
             BotSupportedLanguages = null!,
             Kestrel = null!,
-            Discord = null!
+            Discord = null!,
+            Links = new BotLinks()
+            {
+                SupportUrl = "",
+                TermsUrl = "",
+            }
         };
 
         _handler = new CreateWithdrawalRequestHandler(
