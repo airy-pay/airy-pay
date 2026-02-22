@@ -29,8 +29,7 @@ public class WithdrawalInteractionModule : ShopInteractionModuleBase
         [Summary("Amount", "The amount of money to withdraw")] decimal withdrawalSum,
         [Summary("Card", "Card number to which the money will be sent")] long withdrawalAccount)
     {
-        var shop = await GetShopOrRespondAsync();
-        var localizer = new Localizer(shop.Language);
+        var (_, localizer) = await GetShopAndLocalizerAsync();
 
         if (withdrawalAccount.ToString().Length != 16)
         {

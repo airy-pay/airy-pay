@@ -35,8 +35,7 @@ public class SetupInteractionModule : ShopInteractionModuleBase
     [SlashCommand("setup", "✨ Change message for selling products")]
     public async Task Setup()
     {
-        var shop = await GetShopOrRespondAsync();
-        var localizer = new Localizer(shop.Language);
+        var (shop, localizer) = await GetShopAndLocalizerAsync();
 
         var selectMenuOptionsTasks = shop.Products
             .Select(async x => new SelectMenuOptionBuilder()
@@ -95,8 +94,7 @@ public class SetupInteractionModule : ShopInteractionModuleBase
     [ComponentInteraction("SetupInteractionModule.ChooseProduct")]
     public async Task ChooseProduct(string selectedProductId)
     {
-        var shop = await GetShopOrRespondAsync();
-        var localizer = new Localizer(shop.Language);
+        var (_, localizer) = await GetShopAndLocalizerAsync();
 
         var product = await GetProductFromIdAsync(selectedProductId);
         if (product is null)
@@ -130,8 +128,7 @@ public class SetupInteractionModule : ShopInteractionModuleBase
     [ComponentInteraction("SetupInteractionModule.ChoosePaymentMethod:*")]
     public async Task ChoosePaymentMethod(string selectedProductId, string paymentMethodKey)
     {
-        var shop = await GetShopOrRespondAsync();
-        var localizer = new Localizer(shop.Language);
+        var (_, localizer) = await GetShopAndLocalizerAsync();
 
         var paymentMethod = _appSettings.PaymentSettings.PaymentMethods
             .FirstOrDefault(x => x.MethodId == paymentMethodKey);
@@ -220,8 +217,7 @@ public class SetupInteractionModule : ShopInteractionModuleBase
     [ComponentInteraction("SetupInteractionModule.OpenComplaintModal")]
     public async Task OpenComplaintModal()
     {
-        var shop = await GetShopOrRespondAsync();
-        var localizer = new Localizer(shop.Language);
+        var (_, localizer) = await GetShopAndLocalizerAsync();
 
         await Context.Interaction.RespondWithModalAsync(
             "SetupInteractionModule.ComplaintModal",
@@ -234,8 +230,7 @@ public class SetupInteractionModule : ShopInteractionModuleBase
     [ModalInteraction("SetupInteractionModule.ComplaintModal")]
     public async Task UpdateBanner(ComplaintModal complaintModal)
     {
-        var shop = await GetShopOrRespondAsync();
-        var localizer = new Localizer(shop.Language);
+        var (shop, localizer) = await GetShopAndLocalizerAsync();
 
         var createShopComplaintRequest = new CreateShopComplaintRequest(
             shop.Id, Context.Interaction.User.Id, complaintModal.Reason, complaintModal.Details);

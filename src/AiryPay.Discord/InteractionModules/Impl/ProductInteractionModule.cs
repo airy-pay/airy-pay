@@ -35,8 +35,7 @@ public class ProductInteractionModule : ShopInteractionModuleBase
         [Summary("Price", "The price of the product")] decimal price,
         [Summary("Role", "The role that will be granted to the buyer")] IRole discordRole)
     {
-        var shop = await GetShopOrRespondAsync();
-        var localizer = new Localizer(shop.Language);
+        var (shop, localizer) = await GetShopAndLocalizerAsync();
 
         var validEmojiText = await EmojiParser.GetEmojiText(emojiText);
         if (validEmojiText is null)
@@ -95,14 +94,11 @@ public class ProductInteractionModule : ShopInteractionModuleBase
         [Summary("Product", "The product that will be deleted"),
          Autocomplete(typeof(ProductAutocompleteHandler))] string productHashId)
     {
-        var shop = await GetShopOrRespondAsync();
-        var localizer = new Localizer(shop.Language);
+        var (_, localizer) = await GetShopAndLocalizerAsync();
 
         var productId = new ProductId(_sqidsEncoder.Decode(productHashId).Single());
 
-        var removeProductRequest = new RemoveProductRequest(
-            new ShopId(Context.Guild.Id),
-            productId);
+        var removeProductRequest = new RemoveProductRequest(new ShopId(Context.Guild.Id), productId);
         await _mediator.Send(removeProductRequest);
 
         await RespondAsync(
@@ -119,8 +115,7 @@ public class ProductInteractionModule : ShopInteractionModuleBase
         [Summary("Price", "The price of the product")] decimal price,
         [Summary("Role", "The role that will be granted to the buyer")] IRole discordRole)
     {
-        var shop = await GetShopOrRespondAsync();
-        var localizer = new Localizer(shop.Language);
+        var (shop, localizer) = await GetShopAndLocalizerAsync();
 
         var validEmojiText = await EmojiParser.GetEmojiText(emojiText);
         if (validEmojiText is null)

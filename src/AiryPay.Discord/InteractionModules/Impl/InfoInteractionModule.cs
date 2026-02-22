@@ -32,8 +32,7 @@ public class InfoInteractionModule : ShopInteractionModuleBase
     [SlashCommand("info", "🌐 Shop information")]
     public async Task Info()
     {
-        var shop = await GetShopOrRespondAsync();
-        var localizer = new Localizer(shop.Language);
+        var (shop, localizer) = await GetShopAndLocalizerAsync();
 
         var shopInfoEmbed = new EmbedBuilder()
             .WithTitle($"🌐 {localizer.ShopInformation}")
@@ -121,8 +120,7 @@ public class InfoInteractionModule : ShopInteractionModuleBase
     [ComponentInteraction("InfoInteractionModule.GetProducts")]
     public async Task GetProducts()
     {
-        var shop = await GetShopOrRespondAsync();
-        var localizer = new Localizer(shop.Language);
+        var (shop, localizer) = await GetShopAndLocalizerAsync();
 
         var fieldsTasks = shop.Products.Select(async x =>
         {
@@ -156,8 +154,7 @@ public class InfoInteractionModule : ShopInteractionModuleBase
     [ComponentInteraction("InfoInteractionModule.GetWithdrawals")]
     public async Task GetWithdrawals()
     {
-        var shop = await GetShopOrRespondAsync();
-        var localizer = new Localizer(shop.Language);
+        var (_, localizer) = await GetShopAndLocalizerAsync();
 
         var getShopWithdrawalsRequest = new GetShopWithdrawalsRequest(ShopId);
         var withdrawals = await _mediator.Send(getShopWithdrawalsRequest);
@@ -192,8 +189,7 @@ public class InfoInteractionModule : ShopInteractionModuleBase
     [ComponentInteraction("InfoInteractionModule.GetPurchases")]
     public async Task GetPurchases()
     {
-        var shop = await GetShopOrRespondAsync();
-        var localizer = new Localizer(shop.Language);
+        var (_, localizer) = await GetShopAndLocalizerAsync();
 
         var getShopPurchasesRequest = new GetShopPurchasesRequest(ShopId);
         var purchases = await _mediator.Send(getShopPurchasesRequest);
@@ -230,8 +226,7 @@ public class InfoInteractionModule : ShopInteractionModuleBase
     [ComponentInteraction("InfoInteractionModule.OpenSettings")]
     public async Task OpenSettings()
     {
-        var shop = await GetShopOrRespondAsync();
-        var localizer = new Localizer(shop.Language);
+        var (_, localizer) = await GetShopAndLocalizerAsync();
 
         var purchasesEmbed = new EmbedBuilder()
             .WithTitle($"⚙️ {localizer.SettingsButton}")
@@ -272,8 +267,7 @@ public class InfoInteractionModule : ShopInteractionModuleBase
     [ComponentInteraction("InfoInteractionModule.OpenSettings.LanguageSelector")]
     public async Task ChooseNewStoreLanguage(string selectedLanguageString)
     {
-        var shop = await GetShopOrRespondAsync();
-        var localizer = new Localizer(shop.Language);
+        var (shop, localizer) = await GetShopAndLocalizerAsync();
 
         if (!Language.TryParse(selectedLanguageString, out var selectedLanguage))
         {
