@@ -1,4 +1,4 @@
-﻿using System.Globalization;
+using System.Globalization;
 using AiryPay.Application.Requests.Payments;
 using AiryPay.Application.Requests.Products;
 using AiryPay.Application.Requests.ShopComplaints;
@@ -27,7 +27,7 @@ public class SetupInteractionModule : ShopInteractionModuleBase
     {
         _appSettings = appSettings;
         _mediator = mediator;
-        
+
         _embedsColor = ColorMapper.Map(appSettings.Discord.EmbedMessageColor);
     }
 
@@ -49,30 +49,30 @@ public class SetupInteractionModule : ShopInteractionModuleBase
         if (selectMenuOptions.Length == 0)
         {
             await RespondAsync(
-                localizer.GetString("setup.createProductsFirst"), ephemeral: true);
+                localizer.Setup_CreateProductsFirst, ephemeral: true);
             return;
         }
-        
+
         var selectMenu = new SelectMenuBuilder()
             .WithCustomId("SetupInteractionModule.ChooseProduct")
-            .WithPlaceholder(localizer.GetString("setup.selectProduct.placeholder"))
+            .WithPlaceholder(localizer.Setup_SelectProduct_Placeholder)
             .WithOptions(selectMenuOptions.ToList());
 
         var openComplaintModalButton = new ButtonBuilder()
             .WithCustomId("SetupInteractionModule.OpenComplaintModal")
-            .WithLabel(localizer.GetString("complaint"))
+            .WithLabel(localizer.Complaint)
             .WithEmote(new Emoji("\ud83d\udea8"))
             .WithStyle(ButtonStyle.Secondary);
-        
+
         var supportButton = new ButtonBuilder()
-            .WithLabel(localizer.GetString("support"))
+            .WithLabel(localizer.Support)
             .WithUrl("https://discord.gg/Arn9RsRqD9") // TODO: Move to config
             .WithEmote(new Emoji("💬"))
             .WithStyle(ButtonStyle.Link);
 
         var termsButton = new ButtonBuilder()
             .WithUrl("https://airypay.ru/terms") // TODO: Move to config
-            .WithLabel(localizer.GetString("terms"))
+            .WithLabel(localizer.Terms)
             .WithEmote(new Emoji("📃"))
             .WithStyle(ButtonStyle.Link);
 
@@ -86,10 +86,10 @@ public class SetupInteractionModule : ShopInteractionModuleBase
                     .WithButton(openComplaintModalButton)
             ])
             .Build();
-        
+
         await Context.Channel.SendMessageAsync(" ", components: messageComponents);
 
-        await RespondAsync(localizer.GetString("setup.selectProduct.warning"), ephemeral: true);
+        await RespondAsync(localizer.Setup_SelectProduct_Warning, ephemeral: true);
     }
 
     [ComponentInteraction("SetupInteractionModule.ChooseProduct")]
@@ -102,7 +102,7 @@ public class SetupInteractionModule : ShopInteractionModuleBase
         if (product is null)
         {
             await RespondAsync(
-                ":no_entry_sign: " + localizer.GetString("setup.invalidProduct"),
+                ":no_entry_sign: " + localizer.Setup_InvalidProduct,
                 ephemeral: true);
             return;
         }
@@ -112,7 +112,7 @@ public class SetupInteractionModule : ShopInteractionModuleBase
 
         var selectMenu = new SelectMenuBuilder()
             .WithCustomId($"SetupInteractionModule.ChoosePaymentMethod:{selectedProductId}")
-            .WithPlaceholder(localizer.GetString("setup.selectPayment.placeholder"))
+            .WithPlaceholder(localizer.Setup_SelectPayment_Placeholder)
             .WithOptions(affordablePaymentMethods.Select(x => new SelectMenuOptionBuilder()
                     .WithLabel(x.Name)
                     .WithDescription(x.Description)
@@ -137,7 +137,7 @@ public class SetupInteractionModule : ShopInteractionModuleBase
             .FirstOrDefault(x => x.MethodId == paymentMethodKey);
         if (paymentMethod is null)
         {
-            await RespondAsync(":no_entry_sign: " + localizer.GetString("setup.invalidPaymentMethod"),
+            await RespondAsync(":no_entry_sign: " + localizer.Setup_InvalidPaymentMethod,
                 ephemeral: true);
             return;
         }
@@ -145,7 +145,7 @@ public class SetupInteractionModule : ShopInteractionModuleBase
         var product = await GetProductFromIdAsync(selectedProductId);
         if (product is null)
         {
-            await RespondAsync(":no_entry_sign: " + localizer.GetString("setup.invalidProduct"),
+            await RespondAsync(":no_entry_sign: " + localizer.Setup_InvalidProduct,
                 ephemeral: true);
             return;
         }
@@ -170,19 +170,19 @@ public class SetupInteractionModule : ShopInteractionModuleBase
                 CreatePaymentRequest.Error.FailedToCreate => "failedToCreate",
                 _ => "validationFailed",
             };
-            
+
             var error = string.Format(
-                localizer.GetString("setup.paymentError"),
+                localizer.Setup_PaymentError,
                 localizer.GetString(localizedMessageCode));
             await RespondAsync(":no_entry_sign: " + error, ephemeral: true);
             return;
         }
 
         var payEmbed = new EmbedBuilder()
-            .WithTitle(localizer.GetString("setup.paymentEmbed.title"))
+            .WithTitle(localizer.Setup_PaymentEmbed_Title)
             .WithDescription(
                 string.Format(
-                    localizer.GetString("setup.paymentEmbed.description"),
+                    localizer.Setup_PaymentEmbed_Description,
                     createPaymentOperationResult.Entity))
             .WithFields([
                 new EmbedFieldBuilder()
@@ -195,16 +195,16 @@ public class SetupInteractionModule : ShopInteractionModuleBase
                     .WithIsInline(true)])
             .WithFooter(
                 string.Format(
-                        localizer.GetString("setup.paymentEmbed.footer"),
-                        DateTime.UtcNow.Year),
-                    Context.Client.CurrentUser.GetAvatarUrl())
+                    localizer.Setup_PaymentEmbed_Footer,
+                    DateTime.UtcNow.Year),
+                Context.Client.CurrentUser.GetAvatarUrl())
             .WithColor(_embedsColor)
             .Build();
 
         var payButton = new ButtonBuilder()
             .WithLabel(
                 string.Format(
-                    localizer.GetString("setup.paymentButton.label"),
+                    localizer.Setup_PaymentButton_Label,
                     product.Price))
             .WithUrl(createPaymentOperationResult.Entity)
             .WithEmote(new Emoji("💳"))
@@ -216,19 +216,19 @@ public class SetupInteractionModule : ShopInteractionModuleBase
 
         await RespondAsync(embed: payEmbed, components: messageComponents, ephemeral: true);
     }
-    
+
     [ComponentInteraction("SetupInteractionModule.OpenComplaintModal")]
     public async Task OpenComplaintModal()
     {
         var shop = await GetShopOrRespondAsync();
         var localizer = new Localizer(shop.Language);
-        
+
         await Context.Interaction.RespondWithModalAsync(
             "SetupInteractionModule.ComplaintModal",
             new ComplaintModal(
-                "\ud83d\udea8 " + localizer.GetString("complaintRegistered"),
-                localizer.GetString("complaintReason"), 
-                localizer.GetString("complaintDetails")));
+                "\ud83d\udea8 " + localizer.ComplaintRegistered,
+                localizer.ComplaintReason,
+                localizer.ComplaintDetails));
     }
 
     [ModalInteraction("SetupInteractionModule.ComplaintModal")]
@@ -236,10 +236,10 @@ public class SetupInteractionModule : ShopInteractionModuleBase
     {
         var shop = await GetShopOrRespondAsync();
         var localizer = new Localizer(shop.Language);
-    
+
         var createShopComplaintRequest = new CreateShopComplaintRequest(
             shop.Id, Context.Interaction.User.Id, complaintModal.Reason, complaintModal.Details);
-    
+
         var result = await _mediator.Send(createShopComplaintRequest);
         if (!result.Successful)
         {
@@ -249,18 +249,18 @@ public class SetupInteractionModule : ShopInteractionModuleBase
                 CreateShopComplaintRequest.Error.TooManyComplaints => "tooManyComplaints",
                 _ => "validationFailed",
             };
-            
+
             await RespondAsync(
                 ":no_entry_sign: " + localizer.GetString(localizedMessageCode),
                 ephemeral: true);
             return;
         }
-        
+
         await RespondAsync(
-            ":white_check_mark: " + localizer.GetString("complaintRegistered"),
+            ":white_check_mark: " + localizer.ComplaintRegistered,
             ephemeral: true);
     }
-    
+
     private async Task<Product?> GetProductFromIdAsync(string id)
     {
         if (!long.TryParse(id, out var productId))

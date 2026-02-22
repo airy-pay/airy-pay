@@ -47,16 +47,20 @@
       <Compile Update="Localization\Localization.Designer.cs">
         <DesignTime>True</DesignTime>
         <AutoGen>True</AutoGen>
-        <DependentUpon>Localization.resx</DependentUpon>
+        <DependentUpon>Localization.tt</DependentUpon>
       </Compile>
     </ItemGroup>
 
     <ItemGroup>
       <EmbeddedResource Remove="logs\**" />
-      <EmbeddedResource Update="Localization\Localization.resx">
-        <Generator>ResXFileCodeGenerator</Generator>
+      <EmbeddedResource Update="Localization\Localization.resx" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <None Update="Localization\Localization.tt">
+        <Generator>TextTemplatingFileGenerator</Generator>
         <LastGenOutput>Localization.Designer.cs</LastGenOutput>
-      </EmbeddedResource>
+      </None>
     </ItemGroup>
 
 </Project>

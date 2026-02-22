@@ -1,4 +1,4 @@
-﻿using AiryPay.Application.Requests.Shops;
+using AiryPay.Application.Requests.Shops;
 using AiryPay.Discord.Localization;
 using AiryPay.Discord.Utils;
 using AiryPay.Domain.Common;
@@ -18,7 +18,7 @@ public class InfoInteractionModule : ShopInteractionModuleBase
     private readonly IMediator _mediator;
     private readonly Color _embedsColor;
     private readonly AppSettings _appSettings;
-    
+
     public InfoInteractionModule(
         IMediator mediator,
         AppSettings appSettings) : base(mediator)
@@ -36,31 +36,29 @@ public class InfoInteractionModule : ShopInteractionModuleBase
         var localizer = new Localizer(shop.Language);
 
         var shopInfoEmbed = new EmbedBuilder()
-            .WithTitle($"🌐 {localizer.GetString("shopInformation")}")
+            .WithTitle($"🌐 {localizer.ShopInformation}")
             .WithFields(
                 new EmbedFieldBuilder()
-                    .WithName($"💰 {localizer.GetString("balance")}")
+                    .WithName($"💰 {localizer.Balance}")
                     .WithValue($"{shop.Balance} ₽")
                     .WithIsInline(true),
                 new EmbedFieldBuilder()
-                    .WithName($"🔄 {localizer.GetString("status")}")
+                    .WithName($"🔄 {localizer.Status}")
                     .WithValue(shop.Blocked
-                        ? localizer.GetString("blocked")
-                        : localizer.GetString("active"))
+                        ? localizer.Blocked
+                        : localizer.Active)
                     .WithIsInline(true),
                 new EmbedFieldBuilder()
-                    .WithName($"🛍️ {localizer.GetString("products")}")
+                    .WithName($"🛍️ {localizer.Products}")
                     .WithValue(shop.Products.Count)
                     .WithIsInline(true),
                 new EmbedFieldBuilder()
-                    .WithName($"🏷️ {localizer.GetString("shopId")}")
+                    .WithName($"🏷️ {localizer.ShopId}")
                     .WithValue($"`{Context.Guild.Id}`")
                     .WithIsInline(true),
                 new EmbedFieldBuilder()
-                    .WithName(
-                        $"{localizer.GetString("_languageEmoji")} " +
-                        $"{localizer.GetString("language")}")
-                    .WithValue(localizer.GetString("_languageName"))
+                    .WithName($"{localizer.LanguageEmoji} {localizer.Language}")
+                    .WithValue(localizer.LanguageName)
                     .WithIsInline(true))
             .WithFooter(
                 $"AiryPay © {DateTime.UtcNow.Year}",
@@ -70,37 +68,37 @@ public class InfoInteractionModule : ShopInteractionModuleBase
 
         var productsButton = new ButtonBuilder()
             .WithCustomId("InfoInteractionModule.GetProducts")
-            .WithLabel(localizer.GetString("products"))
+            .WithLabel(localizer.Products)
             .WithEmote(new Emoji("🛍️"))
             .WithStyle(ButtonStyle.Primary);
 
         var withdrawalsButton = new ButtonBuilder()
             .WithCustomId("InfoInteractionModule.GetWithdrawals")
-            .WithLabel(localizer.GetString("withdrawals"))
+            .WithLabel(localizer.Withdrawals)
             .WithEmote(new Emoji("💸"))
             .WithStyle(ButtonStyle.Primary);
 
         var lastPurchasesButton = new ButtonBuilder()
             .WithCustomId("InfoInteractionModule.GetPurchases")
-            .WithLabel(localizer.GetString("purchases"))
+            .WithLabel(localizer.Purchases)
             .WithEmote(new Emoji("📦"))
             .WithStyle(ButtonStyle.Primary);
 
         var settingsButton = new ButtonBuilder()
             .WithCustomId("InfoInteractionModule.OpenSettings")
-            .WithLabel(localizer.GetString("settingsButton"))
+            .WithLabel(localizer.SettingsButton)
             .WithEmote(new Emoji("⚙️"))
             .WithStyle(ButtonStyle.Secondary);
-        
+
         var supportButton = new ButtonBuilder()
-            .WithLabel(localizer.GetString("support"))
+            .WithLabel(localizer.Support)
             .WithUrl("https://discord.gg/Arn9RsRqD9")
             .WithEmote(new Emoji("💬"))
             .WithStyle(ButtonStyle.Link);
 
         var termsButton = new ButtonBuilder()
             .WithUrl("https://airypay.ru/terms")
-            .WithLabel(localizer.GetString("terms"))
+            .WithLabel(localizer.Terms)
             .WithEmote(new Emoji("📃"))
             .WithStyle(ButtonStyle.Link);
 
@@ -132,8 +130,8 @@ public class InfoInteractionModule : ShopInteractionModuleBase
             return new EmbedFieldBuilder()
                 .WithName($"{emoji} {x.Name}")
                 .WithValue($"""
-                            {localizer.GetString("amount")}: **{x.Price} ₽**
-                            {localizer.GetString("role")}: <@&{x.DiscordRoleId}>
+                            {localizer.Amount}: **{x.Price} ₽**
+                            {localizer.Role}: <@&{x.DiscordRoleId}>
                             """)
                 .WithIsInline(true);
         });
@@ -141,9 +139,9 @@ public class InfoInteractionModule : ShopInteractionModuleBase
         var fields = await Task.WhenAll(fieldsTasks);
 
         var productsEmbed = new EmbedBuilder()
-            .WithTitle($"📦 {localizer.GetString("products")}")
+            .WithTitle($"📦 {localizer.Products}")
             .WithDescription(shop.Products.Count == 0
-                ? localizer.GetString("noProducts")
+                ? localizer.NoProducts
                 : null)
             .WithFields(fields)
             .WithFooter(
@@ -160,31 +158,28 @@ public class InfoInteractionModule : ShopInteractionModuleBase
     {
         var shop = await GetShopOrRespondAsync();
         var localizer = new Localizer(shop.Language);
-        
+
         var getShopWithdrawalsRequest = new GetShopWithdrawalsRequest(ShopId);
         var withdrawals = await _mediator.Send(getShopWithdrawalsRequest);
 
         var withdrawalStatusesGetter = new Dictionary<WithdrawalStatus, string>()
         {
-            { WithdrawalStatus.InProcess, $"🟡 {localizer.GetString("inProcess")}" },
-            { WithdrawalStatus.Paid, $"🟢 {localizer.GetString("paid")}" },
-            { WithdrawalStatus.Canceled, $"🔴 {localizer.GetString("canceled")}" },
+            { WithdrawalStatus.InProcess, $"🟡 {localizer.InProcess}" },
+            { WithdrawalStatus.Paid, $"🟢 {localizer.Paid}" },
+            { WithdrawalStatus.Canceled, $"🔴 {localizer.Canceled}" },
         };
 
         var withdrawalsEmbed = new EmbedBuilder()
-            .WithTitle($"💸 {localizer.GetString("withdrawals")}")
+            .WithTitle($"💸 {localizer.Withdrawals}")
             .WithDescription(withdrawals.Count == 0
-                ? localizer.GetString("noWithdrawals")
+                ? localizer.NoWithdrawals
                 : null)
             .WithFields(withdrawals.Select(x => new EmbedFieldBuilder()
                 .WithName($"💳 {x.DateTime:dd/MM/yyyy H:mm} Card")
                 .WithValue($"""
-                            {localizer.GetString(
-                                "cardNumber")}: ||{CardFormatter.Format(x.ReceivingAccountNumber)}||
-                            {localizer.GetString(
-                                "amount")}: **{x.Amount} ₽**
-                            {localizer.GetString(
-                                "statusField")}: **{withdrawalStatusesGetter[x.WithdrawalStatus]}**
+                            {localizer.CardNumber}: ||{CardFormatter.Format(x.ReceivingAccountNumber)}||
+                            {localizer.Amount}: **{x.Amount} ₽**
+                            {localizer.StatusField}: **{withdrawalStatusesGetter[x.WithdrawalStatus]}**
                             """)
                 .WithIsInline(false)))
             .WithFooter($"AiryPay © {DateTime.UtcNow.Year}", Context.Client.CurrentUser.GetAvatarUrl())
@@ -199,7 +194,7 @@ public class InfoInteractionModule : ShopInteractionModuleBase
     {
         var shop = await GetShopOrRespondAsync();
         var localizer = new Localizer(shop.Language);
-        
+
         var getShopPurchasesRequest = new GetShopPurchasesRequest(ShopId);
         var purchases = await _mediator.Send(getShopPurchasesRequest);
 
@@ -209,10 +204,10 @@ public class InfoInteractionModule : ShopInteractionModuleBase
             return new EmbedFieldBuilder()
                 .WithName($"{productEmoji} {x.Product.Name}")
                 .WithValue($"""
-                            {localizer.GetString("buyer")}: <@{x.Bill.BuyerDiscordId}>
-                            {localizer.GetString("role")}: <@&{x.Product.DiscordRoleId}>
-                            {localizer.GetString("profit")}: **{x.Product.Price} ₽**
-                            {localizer.GetString("date")}: `{x.DateTime} (UTC)`
+                            {localizer.Buyer}: <@{x.Bill.BuyerDiscordId}>
+                            {localizer.Role}: <@&{x.Product.DiscordRoleId}>
+                            {localizer.Profit}: **{x.Product.Price} ₽**
+                            {localizer.Date}: `{x.DateTime} (UTC)`
                             """)
                 .WithIsInline(true);
         });
@@ -220,9 +215,9 @@ public class InfoInteractionModule : ShopInteractionModuleBase
         var fields = await Task.WhenAll(fieldsTasks);
 
         var purchasesEmbed = new EmbedBuilder()
-            .WithTitle($"📦 {localizer.GetString("purchases")}")
+            .WithTitle($"📦 {localizer.Purchases}")
             .WithDescription(purchases.Count == 0
-                ? localizer.GetString("noPurchases")
+                ? localizer.NoPurchases
                 : null)
             .WithFields(fields)
             .WithFooter($"AiryPay © {DateTime.UtcNow.Year}", Context.Client.CurrentUser.GetAvatarUrl())
@@ -231,41 +226,41 @@ public class InfoInteractionModule : ShopInteractionModuleBase
 
         await RespondAsync(embed: purchasesEmbed, ephemeral: true);
     }
-    
+
     [ComponentInteraction("InfoInteractionModule.OpenSettings")]
     public async Task OpenSettings()
     {
         var shop = await GetShopOrRespondAsync();
         var localizer = new Localizer(shop.Language);
-        
+
         var purchasesEmbed = new EmbedBuilder()
-            .WithTitle($"⚙️ {localizer.GetString("settingsButton")}")
-            .WithDescription($"{localizer.GetString("settingsCurrent")}")
+            .WithTitle($"⚙️ {localizer.SettingsButton}")
+            .WithDescription($"{localizer.SettingsCurrent}")
             .WithFooter($"AiryPay © {DateTime.UtcNow.Year}", Context.Client.CurrentUser.GetAvatarUrl())
             .WithColor(_embedsColor)
             .Build();
-        
+
         var selectMenuBuilder = new SelectMenuBuilder()
             .WithCustomId("InfoInteractionModule.OpenSettings.LanguageSelector")
             .WithType(ComponentType.SelectMenu)
-            .WithPlaceholder($"\ud83c\udf10 {localizer.GetString("settingsLanguageDescription")}");
-        
+            .WithPlaceholder($"\ud83c\udf10 {localizer.SettingsLanguageDescription}");
+
         foreach (var lang in _appSettings.BotSupportedLanguages)
         {
             var currentLanguage = new Language(lang.Code);
-            
+
             localizer = new Localizer(currentLanguage);
-            var emote = new Emoji(localizer.GetString("_languageEmoji"));
-            
+            var emote = new Emoji(localizer.LanguageEmoji);
+
             selectMenuBuilder.AddOption(new SelectMenuOptionBuilder()
-                .WithLabel(localizer.GetString("_languageName"))
+                .WithLabel(localizer.LanguageName)
                 .WithValue(lang.Code)
                 .WithEmote(emote));
         }
 
         // localizer needs to be reset after iteration is complete so localization after uses shop language
         // localizer = new Localizer(shop.Language);
-        
+
         var messageComponents = new ComponentBuilder()
             .WithRows([
                 new ActionRowBuilder().WithSelectMenu(selectMenuBuilder)])
@@ -279,17 +274,17 @@ public class InfoInteractionModule : ShopInteractionModuleBase
     {
         var shop = await GetShopOrRespondAsync();
         var localizer = new Localizer(shop.Language);
-        
+
         if (!Language.TryParse(selectedLanguageString, out var selectedLanguage))
         {
             await RespondAsync(
-                ":no_entry_sign: " + localizer.GetString("languageNotValid"),
+                ":no_entry_sign: " + localizer.LanguageNotValid,
                 ephemeral: true);
             return;
         }
-        
+
         var updateShopLanguageRequest = new UpdateShopLanguageRequest(shop.Id, selectedLanguage);
-        
+
         var operationResult = await _mediator.Send(updateShopLanguageRequest);
         if (operationResult.Failed)
         {
@@ -305,9 +300,9 @@ public class InfoInteractionModule : ShopInteractionModuleBase
                 ephemeral: true);
             return;
         }
-        
+
         await RespondAsync(
-            ":white_check_mark: " + localizer.GetString("settingsNewLanguageSelected"),
+            ":white_check_mark: " + localizer.SettingsNewLanguageSelected,
             ephemeral: true);
     }
 }

@@ -1,12 +1,11 @@
-﻿using AiryPay.Discord.Utils;
+using System.Globalization;
 using AiryPay.Domain.Common;
 
 namespace AiryPay.Discord.Localization;
 
-public class Localizer(Language language)
+public class Localizer : Localization
 {
-    public string GetString(string localizationRow)
-    {
-        return LocalizationManager.GetLocalized(localizationRow, language);
-    }
+    public Localizer(Language language) : base(new CultureInfo(language.Code)) { }
+
+    public string GetString(string key) => _resourceManager.GetString(key, _culture) ?? key;
 }

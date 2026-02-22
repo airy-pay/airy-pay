@@ -1,4 +1,4 @@
-﻿using AiryPay.Application.Requests.Withdrawals;
+using AiryPay.Application.Requests.Withdrawals;
 using AiryPay.Discord.Localization;
 using AiryPay.Discord.Utils;
 using AiryPay.Shared.Settings;
@@ -34,7 +34,7 @@ public class WithdrawalInteractionModule : ShopInteractionModuleBase
 
         if (withdrawalAccount.ToString().Length != 16)
         {
-            await RespondAsync(localizer.GetString("withdrawal.cardInvalid"), ephemeral: true);
+            await RespondAsync(localizer.Withdrawal_CardInvalid, ephemeral: true);
             return;
         }
 
@@ -54,37 +54,37 @@ public class WithdrawalInteractionModule : ShopInteractionModuleBase
                 CreateWithdrawalRequest.Error.InsufficientFunds => "insufficientFunds",
                 _ => "validationFailed",
             };
-            
+
             await RespondAsync(
                 string.Format(
-                    localizer.GetString("withdrawal.create.error"),
+                    localizer.Withdrawal_Create_Error,
                     localizer.GetString(localizedMessageCode)), ephemeral: true);
             return;
         }
 
         var verifyWithdrawalEmbed = new EmbedBuilder()
-            .WithTitle(localizer.GetString("withdrawal.created.title"))
-            .WithDescription(localizer.GetString("withdrawal.created.description"))
+            .WithTitle(localizer.Withdrawal_Created_Title)
+            .WithDescription(localizer.Withdrawal_Created_Description)
             .WithFields(
                 new EmbedFieldBuilder()
-                    .WithName(localizer.GetString("withdrawal.created.amountField"))
+                    .WithName(localizer.Withdrawal_Created_AmountField)
                     .WithValue($"{withdrawalSum} \u20bd")
                     .WithIsInline(true),
                 new EmbedFieldBuilder()
-                    .WithName(localizer.GetString("withdrawal.created.cardField"))
+                    .WithName(localizer.Withdrawal_Created_CardField)
                     .WithValue($"`{CardFormatter.Format(withdrawalAccount.ToString())}`")
                     .WithIsInline(true)
             )
             .WithFooter(
                 string.Format(
-                    localizer.GetString("withdrawal.created.footer"),
+                    localizer.Withdrawal_Created_Footer,
                     DateTime.UtcNow.Year),
                 Context.Client.CurrentUser.GetAvatarUrl())
             .WithColor(_embedsColor)
             .Build();
 
         await RespondAsync(
-            localizer.GetString("withdrawal.created.warning"),
+            localizer.Withdrawal_Created_Warning,
             embed: verifyWithdrawalEmbed,
             ephemeral: true);
     }

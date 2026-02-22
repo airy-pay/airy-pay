@@ -1,4 +1,4 @@
-﻿using AiryPay.Application.Requests.Products;
+using AiryPay.Application.Requests.Products;
 using AiryPay.Discord.AutocompleteHandlers;
 using AiryPay.Discord.Localization;
 using AiryPay.Discord.Utils;
@@ -42,7 +42,7 @@ public class ProductInteractionModule : ShopInteractionModuleBase
         if (validEmojiText is null)
         {
             await RespondAsync(
-                $":no_entry_sign: {localizer.GetString("invalidEmoji")}",
+                $":no_entry_sign: {localizer.InvalidEmoji}",
                 ephemeral: true);
             return;
         }
@@ -56,12 +56,12 @@ public class ProductInteractionModule : ShopInteractionModuleBase
         }
 
         var botRoleName = botMaxPositionRole is null ? "AiryPay" : $"<@&{botMaxPositionRole.Id}>";
-        var responseMessage = ":white_check_mark: " + localizer.GetString("productCreated");
+        var responseMessage = ":white_check_mark: " + localizer.ProductCreated;
 
         if (giveHigherRoleWarning)
         {
             responseMessage += "\n\n:warning: " + string.Format(
-                localizer.GetString("botRoleTooLow"),
+                localizer.BotRoleTooLow,
                 botRoleName,
                 $"<@&{discordRole.Id}>");
         }
@@ -84,7 +84,7 @@ public class ProductInteractionModule : ShopInteractionModuleBase
             CreateProductRequest.Error.ShopIsBlocked => "shopIsBlocked",
             _ => "validationFailed",
         };
-        
+
         await RespondAsync(
             ":no_entry_sign: " + localizer.GetString(localizedMessageCode),
             ephemeral: true);
@@ -106,7 +106,7 @@ public class ProductInteractionModule : ShopInteractionModuleBase
         await _mediator.Send(removeProductRequest);
 
         await RespondAsync(
-            $":wastebasket: {localizer.GetString("productDeleted")}",
+            $":wastebasket: {localizer.ProductDeleted}",
             ephemeral: true);
     }
 
@@ -126,7 +126,7 @@ public class ProductInteractionModule : ShopInteractionModuleBase
         if (validEmojiText is null)
         {
             await RespondAsync(
-                $":no_entry_sign: {localizer.GetString("invalidEmoji")}",
+                $":no_entry_sign: {localizer.InvalidEmoji}",
                 ephemeral: true);
             return;
         }
@@ -141,7 +141,7 @@ public class ProductInteractionModule : ShopInteractionModuleBase
         if (operationResult.Successful)
         {
             await RespondAsync(
-                $":recycle: {localizer.GetString("productEdited")}",
+                $":recycle: {localizer.ProductEdited}",
                 ephemeral: true);
             return;
         }
@@ -155,7 +155,7 @@ public class ProductInteractionModule : ShopInteractionModuleBase
             EditProductRequest.Error.InvalidShopId => "invalidShopId",
             _ => "validationFailed",
         };
-        
+
         await RespondAsync(
             ":no_entry_sign: " + localizer.GetString(localizedMessageCode), ephemeral: true);
     }
